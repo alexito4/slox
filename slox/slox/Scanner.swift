@@ -235,7 +235,6 @@ class Scanner {
         return isAlpha(c) || isDigit(c)
     }
     
-    // This returns a Character in the book
     private func advance() -> Character {
         let prev = current
         current = source.index(after: current)
