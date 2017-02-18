@@ -59,6 +59,13 @@ struct Token: CustomStringConvertible {
     let literal: Any?
     let line: Int
     
+    init(type: TokenType, lexeme: String, literal: Any? = nil, line: Int) {
+        self.type = type
+        self.lexeme = lexeme
+        self.literal = literal
+        self.line = line
+    }
+    
     var description: String {
         let literalText: String
         if let literal = literal {

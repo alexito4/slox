@@ -8,6 +8,8 @@
 
 import Foundation
 
+#if false
+
 let args = CommandLine.arguments
 print("Arguments: \(args)")
 
@@ -22,7 +24,21 @@ if args.count == 2 {
     runPrompt()
 }
 
+#else
 
+// TEST AstPrinter
+let expression = Expr.Binary(
+    left: Expr.Unary(
+        op: Token(type: .minus, lexeme: "-", line: 1),
+        right: Expr.Literal(value: 123)
+    ),
+    op: Token(type: .star, lexeme: "*", line: 1),
+    right: Expr.Grouping(
+        expression: Expr.Literal(value: 45.67)
+    )
+)
 
-
-
+print(AstPrinter().print(expr: expression))
+print(AstRPNPrinter().print(expr: expression))
+    
+#endif
