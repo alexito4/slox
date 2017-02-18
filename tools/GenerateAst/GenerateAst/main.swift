@@ -18,57 +18,108 @@ guard args.count == 2 else {
 
 let outputDir = args[1]
 
+// PRINTING HELPER
+var p: Printer!
+//
 
-func defineType(output: inout String, baseName: String, className: String, fields fieldsList: String) {
-    print("    class \(className): \(baseName) {", to: &output)
+func defineType(baseName: String, className: String, fields fieldsList: String) {
+    p.print("class \(className): \(baseName) {")
 
     let fields = fieldsList.components(separatedBy: ", ")
 
     // Properties
+    p.push()
     for field in fields {
-        print("        let \(field)", to: &output)
+        p.print("let \(field)")
     }
     
-    print("", to: &output)
-
-    // Initializer
-    print("        init(\(fieldsList)) {", to: &output)
+    p.emptyline()
     
+    // Initializer
+    p.print("init(\(fieldsList)) {")
+    p.push()
     for field in fields {
         let name = field.components(separatedBy: ": ")[0].trimmingCharacters(in: .whitespaces)
         
-        print("            self.\(name) = \(name)", to: &output)
+        p.print("self.\(name) = \(name)")
     }
+    p.pop()
+    p.print("}")
     
-    print("        }", to: &output)
+    // Visitor pattern.
+    p.emptyline()
+    p.print("override func accept<V: Visitor, R>(visitor: V) -> R where R == V.Return {")
+    p.push()
+    p.print("return visitor.visit" +
+        className + baseName + "(self)")
+    p.pop()
+    p.print("}")
+    p.pop()
+
+    p.print("}")
+}
+
+func defineVisitor(baseName: String, types: [String]) {
+    p.print("protocol Visitor {")
     
-    print("    }", to: &output)
+    p.emptyline()
+    p.push()
+    p.print("associatedtype Return")
+    p.pop()
+    p.emptyline()
+
+    p.push()
+    for type in types {
+        let typeName = type.components(separatedBy: "/")[0].trimmingCharacters(in: .whitespaces)
+        p.print("func visit\(typeName)\(baseName)(_ \(baseName.lowercased()): \(baseName).\(typeName)) -> Return")
+        
+    }
+    p.pop()
+    
+    p.print("}")
 }
 
 func defineAst(outputDir: String, baseName: String, types: [String]) throws {
 
-    var output = ""
-    print("", to: &output)
+    p.emptyline()
 
-    print("class \(baseName) {", to: &output)
-    
+    // The Visitor protocol.
+    defineVisitor(baseName: baseName, types: types);
+    p.emptyline()
+
+    // The Base class.
+    p.print("class \(baseName) {")
+    p.push()
+
+    // The base accept() method.
+    p.emptyline()
+    p.print("func accept<V: Visitor, R>(visitor: V) -> R where R == V.Return {")
+    p.push()
+    p.print("fatalError()")
+    p.pop()
+    p.print("}")
+
     // The AST classes.
-    print("", to: &output)
+    p.emptyline()
     for type in types {
         let components = type.components(separatedBy: "/")
         let className = components[0].trimmingCharacters(in: .whitespaces)
         let fields = components[1].trimmingCharacters(in: .whitespaces)
-        defineType(output: &output, baseName: baseName, className: className, fields: fields)
+        defineType(baseName: baseName, className: className, fields: fields)
         
-        print("", to: &output)
+        p.emptyline()
     }
     
-    print("}", to: &output)
+    p.pop()
+    p.print("}")
+    
+
     
     let path = URL(fileURLWithPath: "\(baseName).swift", relativeTo: URL(fileURLWithPath: outputDir))
-    try output.write(to: path, atomically: true, encoding: .utf8)
+    try p.write(to: path)
 }
 
+p = Printer()
 try defineAst(outputDir: outputDir, baseName: "Expr", types: [
     "Binary   / left: Expr, op: Token, right: Expr",
     "Grouping / expression: Expr",
