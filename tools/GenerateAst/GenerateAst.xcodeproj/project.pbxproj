@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		FB9500EB1E56DC66006C2A81 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB9500EA1E56DC66006C2A81 /* main.swift */; };
-		FB9500FF1E56DD60006C2A81 /* example.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB9500FE1E56DD60006C2A81 /* example.swift */; };
 		FB9501051E5709C7006C2A81 /* Printer.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB9501041E5709C7006C2A81 /* Printer.swift */; };
 /* End PBXBuildFile section */
 
@@ -27,7 +26,6 @@
 /* Begin PBXFileReference section */
 		FB9500E71E56DC66006C2A81 /* GenerateAst */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = GenerateAst; sourceTree = BUILT_PRODUCTS_DIR; };
 		FB9500EA1E56DC66006C2A81 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
-		FB9500FE1E56DD60006C2A81 /* example.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = example.swift; sourceTree = "<group>"; };
 		FB9501041E5709C7006C2A81 /* Printer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Printer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -63,7 +61,6 @@
 			children = (
 				FB9500EA1E56DC66006C2A81 /* main.swift */,
 				FB9501041E5709C7006C2A81 /* Printer.swift */,
-				FB9500FE1E56DD60006C2A81 /* example.swift */,
 			);
 			path = GenerateAst;
 			sourceTree = "<group>";
@@ -127,7 +124,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				FB9501051E5709C7006C2A81 /* Printer.swift in Sources */,
-				FB9500FF1E56DD60006C2A81 /* example.swift in Sources */,
 				FB9500EB1E56DC66006C2A81 /* main.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
