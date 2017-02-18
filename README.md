@@ -24,7 +24,8 @@ One thing to note is that I'm trying to write a mix between idiomatic Swift (wha
 
       - Things to explore:
         - Is there a better way to metaprogram the expression classes? Or is there even a need to metaprogram them with Swift cleaner syntax?
-        - Does Swift offer a better model for defining the expressions? Enums with methods and pattern matching? Protocols and/or extensions? 
+        - Does Swift offer a better model for defining the expressions? 
+          - Implemented Enums with methods and pattern matching in [another branch](https://github.com/alexito4/slox/blob/Expr_enum/slox/slox/Expr.swift#L11).
 
 # Author
 
