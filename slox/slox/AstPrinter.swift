@@ -9,26 +9,19 @@
 import Foundation
 
 // Creates an unambiguous, if ugly, string representation of AST nodes.
-class AstPrinter: Visitor {
+class AstPrinter {
     
     func print(expr: Expr) -> String {
-        return expr.accept(visitor: self)
-    }
-   
-    func visitBinaryExpr(_ expr: Expr.Binary) -> String {
-        return parenthesize(name: expr.op.lexeme, exprs: expr.left, expr.right);
-    }
-    
-    func visitGroupingExpr(_ expr: Expr.Grouping) -> String {
-        return parenthesize(name: "group", exprs: expr.expression)
-    }
-    
-    func visitLiteralExpr(_ expr: Expr.Literal) -> String {
-        return String(describing: expr.value)
-    }
-    
-    func visitUnaryExpr(_ expr: Expr.Unary) -> String {
-        return parenthesize(name: expr.op.lexeme, exprs: expr.right)
+        switch expr {
+        case let .binary(left, op, right):
+            return parenthesize(name: op.lexeme, exprs: left, right)
+        case let .grouping(grouped):
+            return parenthesize(name: "group", exprs: grouped)
+        case let .literal(value):
+            return String(describing: value)
+        case let .unary(op, right):
+            return parenthesize(name: op.lexeme, exprs: right)
+        }
     }
     
     private func parenthesize(name: String, exprs: Expr...) -> String {
@@ -38,7 +31,7 @@ class AstPrinter: Visitor {
         
         for expr in exprs {
             output.append(" ")
-            output.append(expr.accept(visitor: self))
+            output.append(print(expr: expr))
         }
         
         output.append(")")
@@ -48,26 +41,19 @@ class AstPrinter: Visitor {
 }
 
 // Chapter 5. Extra 3. In Reverse Polish Notation
-class AstRPNPrinter: Visitor {
+class AstRPNPrinter {
     
     func print(expr: Expr) -> String {
-        return expr.accept(visitor: self)
-    }
-    
-    func visitBinaryExpr(_ expr: Expr.Binary) -> String {
-        return "\(print(expr: expr.left)) \(print(expr: expr.right)) \(expr.op.lexeme)"
-    }
-    
-    func visitGroupingExpr(_ expr: Expr.Grouping) -> String {
-        return print(expr: expr.expression)
-    }
-    
-    func visitLiteralExpr(_ expr: Expr.Literal) -> String {
-        return String(describing: expr.value)
-    }
-    
-    func visitUnaryExpr(_ expr: Expr.Unary) -> String {
-        return "\(print(expr: expr.right)) \(expr.op.lexeme)"
+        switch expr {
+        case let .binary(left, op, right):
+            return "\(print(expr: left)) \(print(expr: right)) \(op.lexeme)"
+        case let .grouping(grouped):
+            return print(expr: grouped)
+        case let .literal(value):
+            return String(describing: value)
+        case let .unary(op, right):
+            return "\(print(expr: right)) \(op.lexeme)"
+        }
     }
     
 }

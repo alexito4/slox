@@ -27,18 +27,19 @@ if args.count == 2 {
 #else
 
 // TEST AstPrinter
-let expression = Expr.Binary(
-    left: Expr.Unary(
+
+let expression = Expr.binary(
+    left: .unary(
         op: Token(type: .minus, lexeme: "-", line: 1),
-        right: Expr.Literal(value: 123)
+        right: .literal(123)
     ),
     op: Token(type: .star, lexeme: "*", line: 1),
-    right: Expr.Grouping(
-        expression: Expr.Literal(value: 45.67)
+    right: .grouping(
+        .literal(45.67)
     )
 )
 
 print(AstPrinter().print(expr: expression))
 print(AstRPNPrinter().print(expr: expression))
-    
+
 #endif
