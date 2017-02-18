@@ -19,6 +19,7 @@ One thing to note is that I'm trying to write a mix between idiomatic Swift (wha
 - [x] 5. Representing Code
 
       - Including AST Printer In Reverse Polish Notation. (Challenge 3)
+      - Including GenerateAst tool
 
 
       - Things to explore:
