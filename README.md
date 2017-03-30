@@ -16,22 +16,21 @@ One thing to note is that I'm trying to write a mix between idiomatic Swift (wha
 ## A TREE-WALK INTERPRETER
 
 - [x] 4.  [**Scanning**](http://www.craftinginterpreters.com/scanning.html) - [Lox Interpreter in Swift](http://alejandromp.com/blog/2017/1/30/lox-interpreter-in-swift/)
-      - Including C-style /* ... */ block comments. (Challenge 4)
+  - Including C-style /* ... */ block comments. (Challenge 4)
 
 - [x] 5.  [**Representing Code**](http://www.craftinginterpreters.com/representing-code.html)
-      - Including AST Printer In Reverse Polish Notation. (Challenge 3)
-      - Including GenerateAst tool
-      - Things to explore:
-        - Is there a better way to metaprogram the expression classes? Or is there even a need to metaprogram them with Swift cleaner syntax?
-        - Does Swift offer a better model for defining the expressions? 
-          - Implemented Enums with methods and pattern matching in [another branch](https://github.com/alexito4/slox/blob/Expr_enum/slox/slox/Expr.swift#L11).
+  - Including AST Printer In Reverse Polish Notation. (Challenge 3)
+  - Including GenerateAst tool
+  - Things to explore:
+    - Is there a better way to metaprogram the expression classes? Or is there even a need to metaprogram them with Swift cleaner syntax?
+    - Does Swift offer a better model for defining the expressions? 
+    - Implemented Enums with methods and pattern matching in [another branch](https://github.com/alexito4/slox/blob/Expr_enum/slox/slox/Expr.swift#L11).
 
 - [x] 6. [**Parsing Expressions**](http://www.craftinginterpreters.com/parsing-expressions.html) 
-      - [x] Helper method for parsing left-associative series of binary operators
-            *Swift can't pass variadic arguments between functions (no array splatting), so it's a little bit hugly.*
-      - [ ] Challenge 1: Add prefix and postfix ++ and -- operators.
-      - [ ] Challenge 2: Add support for the C-style conditional or “ternary” operator `?:`
-      - [ ] Challenge 3: Add error productions to handle each binary operator appearing without a left-hand operand.
+  - [x] Helper method for parsing left-associative series of binary operators. *Swift can't pass variadic arguments between functions (no array splatting), so it's a little bit hugly.*
+  - [ ] Challenge 1: Add prefix and postfix ++ and -- operators.
+  - [ ] Challenge 2: Add support for the C-style conditional or “ternary” operator `?:`
+  - [ ] Challenge 3: Add error productions to handle each binary operator appearing without a left-hand operand.
 - [ ] 7. [**Evaluating Expressions**](http://www.craftinginterpreters.com/evaluating-expressions.html) (COMING SOON)
 - [ ] 8. [**Statements and State**](http://www.craftinginterpreters.com/statements-and-state.html) (COMING SOON)
 - [ ] 9. [**Control Flow**](http://www.craftinginterpreters.com/control-flow.html) (COMING SOON)
