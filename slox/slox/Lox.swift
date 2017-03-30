@@ -32,13 +32,26 @@ func run(_ code: String) {
     let scanner = Scanner(source: code)
     let tokens = scanner.scanTokens()
 
-    for token in tokens {
-        print(token)
+    let parser = Parser(tokens: tokens)
+    let expr = parser.parse()
+
+    if !hadError {
+        precondition(expr != nil, "Parser didn't return an Expression but there was no error reported")
+
+        print(AstPrinter().print(expr: expr!))
     }
 }
 
 func error(line: Int, message: String) {
     report(line: line, where: "", message: message)
+}
+
+func error(token: Token, message: String) {
+    if token.type == .eof {
+        report(line: token.line, where: " at end", message: message)
+    } else {
+        report(line: token.line, where: " at '\(token.lexeme)'", message: message)
+    }
 }
 
 var hadError = false
