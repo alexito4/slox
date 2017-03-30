@@ -27,7 +27,8 @@ One thing to note is that I'm trying to write a mix between idiomatic Swift (wha
           - Implemented Enums with methods and pattern matching in [another branch](https://github.com/alexito4/slox/blob/Expr_enum/slox/slox/Expr.swift#L11).
 
 - [x] 6. [**Parsing Expressions**](http://www.craftinginterpreters.com/parsing-expressions.html) 
-      - [ ] Helper method for parsing left-associative series of binary operators
+      - [x] Helper method for parsing left-associative series of binary operators
+            *Swift can't pass variadic arguments between functions (no array splatting), so it's a little bit hugly.*
       - [ ] Challenge 1: Add prefix and postfix ++ and -- operators.
       - [ ] Challenge 2: Add support for the C-style conditional or “ternary” operator `?:`
       - [ ] Challenge 3: Add error productions to handle each binary operator appearing without a left-hand operand.

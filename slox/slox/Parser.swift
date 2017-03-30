@@ -36,51 +36,19 @@ final class Parser {
     }
 
     private func equiality() throws -> Expr {
-        var expr = try comparison()
-
-        while match(.bangEqual, .equalEqual) {
-            let op = previous()
-            let right = try comparison()
-            expr = Expr.Binary(left: expr, op: op, right: right)
-        }
-
-        return expr
+        return try leftAssociativeBinary(expression: comparison, types: .bangEqual, .equalEqual)
     }
 
     private func comparison() throws -> Expr {
-        var expr = try term()
-
-        while match(.greater, .greaterEqual, .less, .lessEqual) {
-            let op = previous()
-            let right = try term()
-            expr = Expr.Binary(left: expr, op: op, right: right)
-        }
-
-        return expr
+        return try leftAssociativeBinary(expression: term, types: .greater, .greaterEqual, .less, .lessEqual)
     }
 
     private func term() throws -> Expr {
-        var expr = try factor()
-
-        while match(.minus, .plus) {
-            let op = previous()
-            let right = try factor()
-            expr = Expr.Binary(left: expr, op: op, right: right)
-        }
-
-        return expr
+        return try leftAssociativeBinary(expression: factor, types: .minus, .plus)
     }
 
     private func factor() throws -> Expr {
-        var expr = try unary()
-
-        while match(.slash, .star) {
-            let op = previous()
-            let right = try unary()
-            expr = Expr.Binary(left: expr, op: op, right: right)
-        }
-
-        return expr
+        return try leftAssociativeBinary(expression: unary, types: .slash, .star)
     }
 
     private func unary() throws -> Expr {
@@ -116,12 +84,27 @@ final class Parser {
 
         throw error(token: peek(), message: "Expect expression.")
     }
+    
+    // MARK: Helper
+    
+    private func leftAssociativeBinary(expression side: () throws -> Expr, types: TokenType...) rethrows -> Expr {
+        var expr = try side()
+        
+        while match(types) {
+            let op = previous()
+            let right = try side()
+            expr = Expr.Binary(left: expr, op: op, right: right)
+        }
+        
+        return expr
+    }
 }
 
 // MARK: Parsing infrastructure
 extension Parser {
 
-    func match(_ types: TokenType...) -> Bool {
+    // Can't pass variadics around so this overload with array is needed :(
+    func match(_ types: [TokenType]) -> Bool {
         for type in types {
             if check(type) {
                 _ = advance()
@@ -130,6 +113,10 @@ extension Parser {
         }
 
         return false
+    }
+
+    func match(_ types: TokenType...) -> Bool {
+        return match(types)
     }
 
     func check(_ tokenType: TokenType) -> Bool {
