@@ -44,9 +44,9 @@ class Expr {
     }
 
     class Literal: Expr {
-        let value: Any
+        let value: Any?
 
-        init(value: Any) {
+        init(value: Any?) {
             self.value = value
         }
 

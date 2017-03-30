@@ -8,7 +8,7 @@
 
 import Foundation
 
-#if false
+#if true
 
     let args = CommandLine.arguments
     print("Arguments: \(args)")
