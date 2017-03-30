@@ -12,7 +12,7 @@ func runFile(path: String) throws {
     let url = URL(fileURLWithPath: path)
     let code = try String(contentsOf: url)
     run(code)
-    
+
     if hadError {
         exit(65)
     }
@@ -23,7 +23,7 @@ func runPrompt() {
         print("> ")
         guard let code = readLine() else { continue }
         run(code)
-        
+
         hadError = false
     }
 }
@@ -31,7 +31,7 @@ func runPrompt() {
 func run(_ code: String) {
     let scanner = Scanner(source: code)
     let tokens = scanner.scanTokens()
-    
+
     for token in tokens {
         print(token)
     }

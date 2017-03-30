@@ -10,35 +10,35 @@ import Foundation
 
 #if false
 
-let args = CommandLine.arguments
-print("Arguments: \(args)")
+    let args = CommandLine.arguments
+    print("Arguments: \(args)")
 
-guard args.count <= 2 else {
-    print("Usage: slox [script]")
-    exit(1)
-}
+    guard args.count <= 2 else {
+        print("Usage: slox [script]")
+        exit(1)
+    }
 
-if args.count == 2 {
-    try runFile(path: args[1])
-} else {
-    runPrompt()
-}
+    if args.count == 2 {
+        try runFile(path: args[1])
+    } else {
+        runPrompt()
+    }
 
 #else
 
-// TEST AstPrinter
-let expression = Expr.Binary(
-    left: Expr.Unary(
-        op: Token(type: .minus, lexeme: "-", line: 1),
-        right: Expr.Literal(value: 123)
-    ),
-    op: Token(type: .star, lexeme: "*", line: 1),
-    right: Expr.Grouping(
-        expression: Expr.Literal(value: 45.67)
+    // TEST AstPrinter
+    let expression = Expr.Binary(
+        left: Expr.Unary(
+            op: Token(type: .minus, lexeme: "-", line: 1),
+            right: Expr.Literal(value: 123)
+        ),
+        op: Token(type: .star, lexeme: "*", line: 1),
+        right: Expr.Grouping(
+            expression: Expr.Literal(value: 45.67)
+        )
     )
-)
 
-print(AstPrinter().print(expr: expression))
-print(AstRPNPrinter().print(expr: expression))
-    
+    print(AstPrinter().print(expr: expression))
+    print(AstRPNPrinter().print(expr: expression))
+
 #endif

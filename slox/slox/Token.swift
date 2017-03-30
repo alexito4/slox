@@ -19,18 +19,18 @@ enum TokenType {
     case semicolon
     case slash
     case star
-    
+
     // One or two character tokens
     case bang, bangEqual
     case equal, equalEqual
     case greater, greaterEqual
     case less, lessEqual
-    
+
     // Literals
     case identifier
     case string
     case number
-    
+
     // Keywords
     case and
     case Class
@@ -48,24 +48,24 @@ enum TokenType {
     case True
     case Var
     case While
-    
+
     case eof
 }
 
 struct Token: CustomStringConvertible {
-    
+
     let type: TokenType
     let lexeme: String
     let literal: Any?
     let line: Int
-    
+
     init(type: TokenType, lexeme: String, literal: Any? = nil, line: Int) {
         self.type = type
         self.lexeme = lexeme
         self.literal = literal
         self.line = line
     }
-    
+
     var description: String {
         let literalText: String
         if let literal = literal {
@@ -76,4 +76,3 @@ struct Token: CustomStringConvertible {
         return "\(type): '\(lexeme)'\(literalText)"
     }
 }
-

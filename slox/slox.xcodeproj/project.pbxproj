@@ -84,6 +84,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = FB55B8951E3E7C94002D7372 /* Build configuration list for PBXNativeTarget "slox" */;
 			buildPhases = (
+				FB7796401E8CDC90001599C1 /* Swiftformat */,
 				FB55B88A1E3E7C94002D7372 /* Sources */,
 				FB55B88B1E3E7C94002D7372 /* Frameworks */,
 				FB55B88C1E3E7C94002D7372 /* CopyFiles */,
@@ -129,6 +130,23 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		FB7796401E8CDC90001599C1 /* Swiftformat */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = Swiftformat;
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/../swiftformat\" \"${SRCROOT}/slox/\" --disable \"unusedArguments,hoistPatternLet,redundantReturn,redundantRawValues,numberFormatting\"";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		FB55B88A1E3E7C94002D7372 /* Sources */ = {
