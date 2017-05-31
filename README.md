@@ -11,16 +11,16 @@ One thing to note is that I'm trying to write a mix between idiomatic Swift (wha
 
 # Implementation
 
-*as of 30/03/2017*
+*as of 31/05/2017*
 
 ## A TREE-WALK INTERPRETER
 
 - [x] 4.  [**Scanning**](http://www.craftinginterpreters.com/scanning.html) - [Lox Interpreter in Swift](http://alejandromp.com/blog/2017/1/30/lox-interpreter-in-swift/)
-  - Including C-style /* ... */ block comments. (Challenge 4)
+  - [x] Challenge 4: C-style /* ... */ block comments.
 
 - [x] 5.  [**Representing Code**](http://www.craftinginterpreters.com/representing-code.html)
-  - Including AST Printer In Reverse Polish Notation. (Challenge 3)
-  - Including GenerateAst tool
+  - [x] Challenge 3: AST Printer In Reverse Polish Notation.
+  - [x] GenerateAst tool
   - Things to explore:
     - Is there a better way to metaprogram the expression classes? Or is there even a need to metaprogram them with Swift cleaner syntax?
     - Does Swift offer a better model for defining the expressions? 
@@ -31,7 +31,12 @@ One thing to note is that I'm trying to write a mix between idiomatic Swift (wha
   - [ ] Challenge 1: Add prefix and postfix ++ and -- operators.
   - [ ] Challenge 2: Add support for the C-style conditional or “ternary” operator `?:`
   - [ ] Challenge 3: Add error productions to handle each binary operator appearing without a left-hand operand.
-- [ ] 7. [**Evaluating Expressions**](http://www.craftinginterpreters.com/evaluating-expressions.html) (COMING SOON)
+
+- [x] 7. [**Evaluating Expressions**](http://www.craftinginterpreters.com/evaluating-expressions.html)
+  - [ ] Challenge 1: Allowing comparisons on types other than numbers could be useful.
+  - [ ] Challenge 2: Many languages define + such that if either operand is a string, the other is converted to a string and the results are then concatenated.
+  - [ ] Challenge 3: Change the implementation in visitBinary() to detect and report a runtime error when dividing by 0. 
+
 - [ ] 8. [**Statements and State**](http://www.craftinginterpreters.com/statements-and-state.html) (COMING SOON)
 - [ ] 9. [**Control Flow**](http://www.craftinginterpreters.com/control-flow.html) (COMING SOON)
 - [ ] 10. [**Functions**](http://www.craftinginterpreters.com/functions.html) (COMING SOON)
