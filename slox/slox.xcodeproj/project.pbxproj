@@ -12,6 +12,10 @@
 		FB55B8991E3E7E0F002D7372 /* Lox.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB55B8981E3E7E0F002D7372 /* Lox.swift */; };
 		FB55B89B1E3E7F84002D7372 /* Scanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB55B89A1E3E7F84002D7372 /* Scanner.swift */; };
 		FB55B89D1E3F1F31002D7372 /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB55B89C1E3F1F31002D7372 /* Token.swift */; };
+		FB6C0F8A1EDF4C4F0098C3DF /* AnyError.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB6C0F841EDF4C4F0098C3DF /* AnyError.swift */; };
+		FB6C0F8B1EDF4C4F0098C3DF /* NoError.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB6C0F861EDF4C4F0098C3DF /* NoError.swift */; };
+		FB6C0F8C1EDF4C4F0098C3DF /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB6C0F881EDF4C4F0098C3DF /* Result.swift */; };
+		FB6C0F8D1EDF4C4F0098C3DF /* ResultProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB6C0F891EDF4C4F0098C3DF /* ResultProtocol.swift */; };
 		FB77963F1E8CD8BC001599C1 /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB77963E1E8CD8BC001599C1 /* Parser.swift */; };
 		FB9501011E56E132006C2A81 /* Expr.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB9501001E56E132006C2A81 /* Expr.swift */; };
 		FB9501031E5700FD006C2A81 /* AstPrinter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB9501021E5700FD006C2A81 /* AstPrinter.swift */; };
@@ -36,6 +40,10 @@
 		FB55B8981E3E7E0F002D7372 /* Lox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Lox.swift; sourceTree = "<group>"; };
 		FB55B89A1E3E7F84002D7372 /* Scanner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Scanner.swift; sourceTree = "<group>"; };
 		FB55B89C1E3F1F31002D7372 /* Token.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Token.swift; sourceTree = "<group>"; };
+		FB6C0F841EDF4C4F0098C3DF /* AnyError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnyError.swift; sourceTree = "<group>"; };
+		FB6C0F861EDF4C4F0098C3DF /* NoError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoError.swift; sourceTree = "<group>"; };
+		FB6C0F881EDF4C4F0098C3DF /* Result.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
+		FB6C0F891EDF4C4F0098C3DF /* ResultProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResultProtocol.swift; sourceTree = "<group>"; };
 		FB77963E1E8CD8BC001599C1 /* Parser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
 		FB9501001E56E132006C2A81 /* Expr.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Expr.swift; sourceTree = "<group>"; };
 		FB9501021E5700FD006C2A81 /* AstPrinter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AstPrinter.swift; sourceTree = "<group>"; };
@@ -71,6 +79,7 @@
 		FB55B8901E3E7C94002D7372 /* slox */ = {
 			isa = PBXGroup;
 			children = (
+				FB6C0F831EDF4C4F0098C3DF /* Result */,
 				FB55B8911E3E7C94002D7372 /* main.swift */,
 				FB55B8981E3E7E0F002D7372 /* Lox.swift */,
 				FB55B89A1E3E7F84002D7372 /* Scanner.swift */,
@@ -81,6 +90,17 @@
 				FB9501021E5700FD006C2A81 /* AstPrinter.swift */,
 			);
 			path = slox;
+			sourceTree = "<group>";
+		};
+		FB6C0F831EDF4C4F0098C3DF /* Result */ = {
+			isa = PBXGroup;
+			children = (
+				FB6C0F841EDF4C4F0098C3DF /* AnyError.swift */,
+				FB6C0F861EDF4C4F0098C3DF /* NoError.swift */,
+				FB6C0F881EDF4C4F0098C3DF /* Result.swift */,
+				FB6C0F891EDF4C4F0098C3DF /* ResultProtocol.swift */,
+			);
+			path = Result;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -162,11 +182,15 @@
 				FB5387B41EDD824A003DE00B /* Interpreter.swift in Sources */,
 				FB9501011E56E132006C2A81 /* Expr.swift in Sources */,
 				FB55B8921E3E7C94002D7372 /* main.swift in Sources */,
+				FB6C0F8A1EDF4C4F0098C3DF /* AnyError.swift in Sources */,
 				FB55B89B1E3E7F84002D7372 /* Scanner.swift in Sources */,
 				FB55B8991E3E7E0F002D7372 /* Lox.swift in Sources */,
 				FB55B89D1E3F1F31002D7372 /* Token.swift in Sources */,
+				FB6C0F8B1EDF4C4F0098C3DF /* NoError.swift in Sources */,
+				FB6C0F8D1EDF4C4F0098C3DF /* ResultProtocol.swift in Sources */,
 				FB9501031E5700FD006C2A81 /* AstPrinter.swift in Sources */,
 				FB77963F1E8CD8BC001599C1 /* Parser.swift in Sources */,
+				FB6C0F8C1EDF4C4F0098C3DF /* Result.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
