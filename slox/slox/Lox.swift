@@ -16,6 +16,9 @@ func runFile(path: String) throws {
     if hadError {
         exit(65)
     }
+    if hadRuntimeError {
+        exit(70)
+    }
 }
 
 func runPrompt() {
@@ -28,18 +31,23 @@ func runPrompt() {
     }
 }
 
+let interpreter = Interpreter()
+
 func run(_ code: String) {
     let scanner = Scanner(source: code)
     let tokens = scanner.scanTokens()
 
     let parser = Parser(tokens: tokens)
-    let expr = parser.parse()
-
-    if !hadError {
-        precondition(expr != nil, "Parser didn't return an Expression but there was no error reported")
-
-        print(AstPrinter().print(expr: expr!))
+    if let expr = parser.parse() {
+        interpreter.interpret(expr)
     }
+
+    /*
+     if !hadError {
+     precondition(expr != nil, "Parser didn't return an Expression but there was no error reported")
+
+     print(AstPrinter().print(expr: expr!))
+     }*/
 }
 
 func error(line: Int, message: String) {
@@ -58,4 +66,16 @@ var hadError = false
 func report(line: Int, where location: String, message: String) {
     print("[line \(line)] Error \(location): \(message)")
     hadError = true
+}
+
+var hadRuntimeError = false
+func runtimeError(error: Error) {
+    guard let interError = error as? InterpreterError else {
+        fatalError()
+    }
+    guard case let InterpreterError.runtime(token, message) = interError else {
+        fatalError()
+    }
+    print("\(message)\n[line \(token.line)]")
+    hadRuntimeError = true
 }

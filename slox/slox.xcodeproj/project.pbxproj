@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FB5387B41EDD824A003DE00B /* Interpreter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB5387B31EDD824A003DE00B /* Interpreter.swift */; };
 		FB55B8921E3E7C94002D7372 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB55B8911E3E7C94002D7372 /* main.swift */; };
 		FB55B8991E3E7E0F002D7372 /* Lox.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB55B8981E3E7E0F002D7372 /* Lox.swift */; };
 		FB55B89B1E3E7F84002D7372 /* Scanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB55B89A1E3E7F84002D7372 /* Scanner.swift */; };
@@ -29,6 +30,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		FB5387B31EDD824A003DE00B /* Interpreter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Interpreter.swift; sourceTree = "<group>"; };
 		FB55B88E1E3E7C94002D7372 /* slox */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = slox; sourceTree = BUILT_PRODUCTS_DIR; };
 		FB55B8911E3E7C94002D7372 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		FB55B8981E3E7E0F002D7372 /* Lox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Lox.swift; sourceTree = "<group>"; };
@@ -73,6 +75,7 @@
 				FB55B8981E3E7E0F002D7372 /* Lox.swift */,
 				FB55B89A1E3E7F84002D7372 /* Scanner.swift */,
 				FB77963E1E8CD8BC001599C1 /* Parser.swift */,
+				FB5387B31EDD824A003DE00B /* Interpreter.swift */,
 				FB55B89C1E3F1F31002D7372 /* Token.swift */,
 				FB9501001E56E132006C2A81 /* Expr.swift */,
 				FB9501021E5700FD006C2A81 /* AstPrinter.swift */,
@@ -156,6 +159,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FB5387B41EDD824A003DE00B /* Interpreter.swift in Sources */,
 				FB9501011E56E132006C2A81 /* Expr.swift in Sources */,
 				FB55B8921E3E7C94002D7372 /* main.swift in Sources */,
 				FB55B89B1E3E7F84002D7372 /* Scanner.swift in Sources */,

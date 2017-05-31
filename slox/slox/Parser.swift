@@ -84,18 +84,18 @@ final class Parser {
 
         throw error(token: peek(), message: "Expect expression.")
     }
-    
+
     // MARK: Helper
-    
+
     private func leftAssociativeBinary(expression side: () throws -> Expr, types: TokenType...) rethrows -> Expr {
         var expr = try side()
-        
+
         while match(types) {
             let op = previous()
             let right = try side()
             expr = Expr.Binary(left: expr, op: op, right: right)
         }
-        
+
         return expr
     }
 }
