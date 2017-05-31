@@ -12,22 +12,8 @@ enum InterpreterError: Error {
     case runtime(Token, String) // TODO: Instead of string we could have different cases for each error.
 }
 
-enum Result<T> {
-    case success(T)
-    case error(Error)
-
-    func map<R>(_ f: ((T) -> R)) -> Result<R> {
-        switch self {
-        case .error(let e):
-            return .error(e)
-        case .success(let r):
-            return .success(f(r))
-        }
-    }
-}
-
 final class Interpreter: Visitor {
-    typealias Return = Result<Any>?
+    typealias Return = Result<Any, InterpreterError>?
 
     func interpret(_ expression: Expr) {
         guard let value = evaluate(expr: expression) else {
@@ -37,32 +23,41 @@ final class Interpreter: Visitor {
         switch value {
         case .success(let v):
             print(stringify(value: v))
-        case .error(let error):
+        case .failure(let error):
             runtimeError(error: error)
         }
     }
 
     private func stringify(value: Any?) -> String {
-        guard let v = value else { return "nil" }
+        guard let value = value else { return "nil" }
 
-        // TODO: Consider number formatting
-        return String(describing: v)
+        // Hack. Work around Swift adding ".0" to integer-valued doubles.
+        if value is Double {
+            var text = String(describing: value)
+            if text.hasSuffix(".0") {
+                text = text.substring(to: text.index(text.endIndex, offsetBy: -2))
+            }
+            return text
+        }
+
+        return String(describing: value)
     }
 
     // MARK: Visitor
 
-    func visitLiteralExpr(_ expr: Expr.Literal) -> Result<Any>? {
+    func visitLiteralExpr(_ expr: Expr.Literal) -> Return {
         guard let value = expr.value else {
             return nil
         }
         return .success(value)
     }
 
-    func visitGroupingExpr(_ expr: Expr.Grouping) -> Result<Any>? {
-        return .success(evaluate(expr: expr.expression))
+    func visitGroupingExpr(_ expr: Expr.Grouping) -> Return {
+        let res = evaluate(expr: expr.expression)
+        return res
     }
 
-    func visitUnaryExpr(_ expr: Expr.Unary) -> Result<Any>? {
+    func visitUnaryExpr(_ expr: Expr.Unary) -> Return {
         let right = evaluate(expr: expr.right)
 
         switch expr.op.type {
@@ -110,25 +105,29 @@ final class Interpreter: Visitor {
         }
     }
 
-    func visitBinaryExpr(_ expr: Expr.Binary) -> Result<Any>? {
+    func visitBinaryExpr(_ expr: Expr.Binary) -> Return {
         let left = evaluate(expr: expr.left)
         let right = evaluate(expr: expr.right)
 
         switch expr.op.type {
         case .minus:
-            return castNumberOperands(op: expr.op, left: expr.left, right: expr.right).map({ $0.0 - $0.1 })
+            return castNumberOperands(op: expr.op, left: left, right: right).map({ $0.0 - $0.1 })
         case .slash:
-            return castNumberOperands(op: expr.op, left: expr.left, right: expr.right).map({ $0.0 / $0.1 })
+            return castNumberOperands(op: expr.op, left: left, right: right).map({ $0.0 / $0.1 })
         case .star:
-            return castNumberOperands(op: expr.op, left: expr.left, right: expr.right).map({ $0.0 * $0.1 })
+            return castNumberOperands(op: expr.op, left: left, right: right).map({ $0.0 * $0.1 })
         case .plus:
 
             guard let left = left, let right = right else {
-                return .error(InterpreterError.runtime(expr.op, "Operands must be two numbers or two strings."))
+                return .failure(InterpreterError.runtime(expr.op, "Operands must not be nil."))
             }
 
-            guard case let .success(ls) = left, case let .success(rs) = right else {
-                return .error(InterpreterError.runtime(expr.op, "Operands must be two numbers or two strings."))
+            guard case let .success(ls) = left else {
+                return left // returns the error
+            }
+
+            guard case let .success(rs) = right else {
+                return right // returns the error
             }
 
             if let lDouble = ls as? Double, let rDouble = rs as? Double {
@@ -139,16 +138,16 @@ final class Interpreter: Visitor {
                 return .success(lString + rString)
             }
 
-            return .error(InterpreterError.runtime(expr.op, "Operands must be two numbers or two strings."))
+            return .failure(InterpreterError.runtime(expr.op, "Operands must be two numbers or two strings."))
 
         case .greater:
-            return castNumberOperands(op: expr.op, left: expr.left, right: expr.right).map({ $0.0 > $0.1 })
+            return castNumberOperands(op: expr.op, left: left, right: right).map({ $0.0 > $0.1 })
         case .greaterEqual:
-            return castNumberOperands(op: expr.op, left: expr.left, right: expr.right).map({ $0.0 >= $0.1 })
+            return castNumberOperands(op: expr.op, left: left, right: right).map({ $0.0 >= $0.1 })
         case .less:
-            return castNumberOperands(op: expr.op, left: expr.left, right: expr.right).map({ $0.0 < $0.1 })
+            return castNumberOperands(op: expr.op, left: left, right: right).map({ $0.0 < $0.1 })
         case .lessEqual:
-            return castNumberOperands(op: expr.op, left: expr.left, right: expr.right).map({ $0.0 <= $0.1 })
+            return castNumberOperands(op: expr.op, left: left, right: right).map({ $0.0 <= $0.1 })
 
         case .bangEqual:
             return .success(!isEqualAny(left: left, right: right))
@@ -187,7 +186,7 @@ final class Interpreter: Visitor {
         }
     }
 
-    private func evaluate(expr: Expr) -> Result<Any>? {
+    private func evaluate(expr: Expr) -> Return {
         return expr.accept(visitor: self)
     }
 
@@ -236,19 +235,31 @@ final class Interpreter: Visitor {
 
     // MARK: Runtime checks
 
-    private func castNumberOperands(op: Token, left: Any?, right: Any?) -> Result<(Double, Double)> {
-        if let l = left as? Double, let r = right as? Double {
+    private func castNumberOperands(op: Token, left: Return, right: Return) -> Result<(Double, Double), InterpreterError> {
+        guard let left = left, let right = right else {
+            return .failure(InterpreterError.runtime(op, "Operands must not be nil."))
+        }
+
+        guard case let .success(ls) = left else {
+            return .failure(left.error!)
+        }
+
+        guard case let .success(rs) = right else {
+            return .failure(right.error!)
+        }
+
+        if let l = ls as? Double, let r = rs as? Double {
             return .success(l, r)
         }
 
-        return .error(InterpreterError.runtime(op, "Operands must be numbers."))
+        return .failure(InterpreterError.runtime(op, "Operands must be numbers."))
     }
 
-    private func castNumberOperand(op: Token, operand: Any?) -> Result<Double> {
+    private func castNumberOperand(op: Token, operand: Any?) -> Result<Double, InterpreterError> {
         if let res = operand as? Double {
             return .success(res)
         }
 
-        return .error(InterpreterError.runtime(op, "Operand must be a number."))
+        return .failure(InterpreterError.runtime(op, "Operand must be a number."))
     }
 }
