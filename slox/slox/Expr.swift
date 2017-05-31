@@ -4,7 +4,7 @@ protocol Visitor {
     associatedtype Return
 
     // Decided to make the Visitor methods non-throwing to avoid polluting with throws
-    // the visitors that don't return errors. Instead if an error has to be returnen
+    // the visitors that don't return errors. Instead if an error has to be returned
     // the specific visitor implementation will return a Result type.
     func visitBinaryExpr(_ expr: Expr.Binary) -> Return
     func visitGroupingExpr(_ expr: Expr.Grouping) -> Return
