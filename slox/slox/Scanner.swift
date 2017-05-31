@@ -132,7 +132,7 @@ final class Scanner {
             identifier()
 
         default:
-            error(line: line, message: "Unexpected character.")
+            error(line: line, message: "Unexpected character. '\(c)'")
         }
     }
 
