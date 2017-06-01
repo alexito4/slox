@@ -10,7 +10,7 @@ import Foundation
 
 // Creates an unambiguous, if ugly, string representation of AST nodes.
 class AstPrinter: ExprVisitor {
-
+    
     func print(expr: Expr) -> String {
         return expr.accept(visitor: self)
     }
@@ -29,6 +29,10 @@ class AstPrinter: ExprVisitor {
 
     func visitUnaryExpr(_ expr: Expr.Unary) -> String {
         return parenthesize(name: expr.op.lexeme, exprs: expr.right)
+    }
+    
+    func visitVariableExpr(_ expr: Expr.Variable) -> String {
+        fatalError("unimplemented")
     }
 
     private func parenthesize(name: String, exprs: Expr...) -> String {
@@ -68,5 +72,9 @@ class AstRPNPrinter: ExprVisitor {
 
     func visitUnaryExpr(_ expr: Expr.Unary) -> String {
         return "\(print(expr: expr.right)) \(expr.op.lexeme)"
+    }
+    
+    func visitVariableExpr(_ expr: Expr.Variable) -> String {
+        fatalError("unimplemented")
     }
 }

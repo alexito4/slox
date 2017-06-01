@@ -18,6 +18,8 @@ final class Interpreter: ExprVisitor, StmtVisitor {
     typealias ExprVisitorReturn = Result<Any, InterpreterError>?
     typealias StmtVisitorReturn = Result<Void, InterpreterError>
     
+    private let environment = Environment()
+    
     func interpret(_ statements: Array<Stmt>) {
         do {
             for statement in statements {
@@ -108,6 +110,15 @@ final class Interpreter: ExprVisitor, StmtVisitor {
         case .eof:
             // Unreachable.
             fatalError()
+        }
+    }
+    
+    func visitVariableExpr(_ expr: Expr.Variable) -> ExprVisitorReturn {
+        do {
+            let value = try environment.valueFor(name: expr.name)
+            return .success(value as Any)
+        } catch {
+            return .failure(error as! InterpreterError) // Compiler doesn't know but it should always be InterpreterError
         }
     }
 
@@ -298,4 +309,23 @@ final class Interpreter: ExprVisitor, StmtVisitor {
             fatalError()
         }
     }
+    
+    func visitVarStmt(_ stmt: Stmt.Var) -> StmtVisitorReturn {
+        var value: Any?
+        if let initializer = stmt.initializer {
+            switch evaluate(expr: initializer) {
+            case .success(let res)?:
+                value = res
+            case .failure(let error)?:
+                return .failure(error)
+            default:
+                fatalError()
+            }
+        }
+        
+        environment.define(name: stmt.name.lexeme, value: value)
+        
+        return .success()
+    }
+    
 }

@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Result
 
 final class Environment {
     
@@ -14,6 +15,8 @@ final class Environment {
     private var values = Dictionary<String, Any?>()
     
     func define(name: String, value: Any?) {
+//        assert(value is Result) // compiler segmentation fault
+        assert((value is Optional<Result<Any, InterpreterError>>) == false, "Trying to store a Result instead of the value?")
         values[name] = value
     }
     
