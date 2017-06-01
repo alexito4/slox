@@ -40,8 +40,8 @@ public final class Lox {
         let tokens = scanner.scanTokens()
         
         let parser = Parser(tokens: tokens)
-        if let expr = parser.parse() {
-            interpreter.interpret(expr)
+        if let statements = parser.parse() {
+            interpreter.interpret(statements)
         }
         
         /*

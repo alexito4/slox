@@ -48,7 +48,7 @@ func defineType(baseName: String, className: String, fields fieldsList: String) 
     
     // Visitor pattern.
     p.emptyline()
-    p.print("override func accept<V: \(visitorName(baseName)), R>(visitor: V) -> R where R == V.Return {")
+    p.print("override func accept<V: \(visitorName(baseName)), R>(visitor: V) -> R where R == V.\(returnName(baseName)) {")
     p.push()
     p.print("return visitor.visit" +
         className + baseName + "(self)")
@@ -63,19 +63,23 @@ func visitorName(_ baseName: String) -> String {
     return "\(baseName)Visitor"
 }
 
+func returnName(_ baseName: String) -> String {
+    return "\(visitorName(baseName))Return"
+}
+
 func defineVisitor(baseName: String, types: [String]) {
     p.print("protocol \(visitorName(baseName)) {")
     
     p.emptyline()
     p.push()
-    p.print("associatedtype Return")
+    p.print("associatedtype \(returnName(baseName))")
     p.pop()
     p.emptyline()
 
     p.push()
     for type in types {
         let typeName = type.components(separatedBy: "/")[0].trimmingCharacters(in: .whitespaces)
-        p.print("func visit\(typeName)\(baseName)(_ \(baseName.lowercased()): \(baseName).\(typeName)) -> Return")
+        p.print("func visit\(typeName)\(baseName)(_ \(baseName.lowercased()): \(baseName).\(typeName)) -> \(returnName(baseName))")
         
     }
     p.pop()
@@ -97,7 +101,7 @@ func defineAst(outputDir: String, baseName: String, types: [String]) throws {
 
     // The base accept() method.
     p.emptyline()
-    p.print("func accept<V: \(visitorName(baseName)), R>(visitor: V) -> R where R == V.Return {")
+    p.print("func accept<V: \(visitorName(baseName)), R>(visitor: V) -> R where R == V.\(returnName(baseName)) {")
     p.push()
     p.print("fatalError()")
     p.pop()

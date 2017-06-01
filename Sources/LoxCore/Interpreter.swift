@@ -13,22 +13,27 @@ enum InterpreterError: Error {
     case runtime(Token, String) // TODO: Instead of string we could have different cases for each error.
 }
 
-final class Interpreter: ExprVisitor {
-    typealias Return = Result<Any, InterpreterError>?
-
-    func interpret(_ expression: Expr) {
-        guard let value = evaluate(expr: expression) else {
-            print(stringify(value: nil))
-            return
-        }
-        switch value {
-        case .success(let v):
-            print(stringify(value: v))
-        case .failure(let error):
+final class Interpreter: ExprVisitor, StmtVisitor {
+    
+    typealias ExprVisitorReturn = Result<Any, InterpreterError>?
+    typealias StmtVisitorReturn = Result<Void, InterpreterError>
+    
+    func interpret(_ statements: Array<Stmt>) {
+        do {
+            for statement in statements {
+                try execute(statement)
+            }
+        } catch {
             Lox.runtimeError(error: error)
         }
     }
-
+    
+    private func execute(_ statement: Stmt) throws {
+        if case let .failure(error) = statement.accept(visitor: self) {
+            throw error
+        }
+    }
+    
     private func stringify(value: Any?) -> String {
         guard let value = value else { return "nil" }
 
@@ -44,21 +49,21 @@ final class Interpreter: ExprVisitor {
         return String(describing: value)
     }
 
-    // MARK: Visitor
-
-    func visitLiteralExpr(_ expr: Expr.Literal) -> Return {
+    // MARK: ExprVisitor
+    
+    func visitLiteralExpr(_ expr: Expr.Literal) -> ExprVisitorReturn {
         guard let value = expr.value else {
             return nil
         }
         return .success(value)
     }
 
-    func visitGroupingExpr(_ expr: Expr.Grouping) -> Return {
+    func visitGroupingExpr(_ expr: Expr.Grouping) -> ExprVisitorReturn {
         let res = evaluate(expr: expr.expression)
         return res
     }
 
-    func visitUnaryExpr(_ expr: Expr.Unary) -> Return {
+    func visitUnaryExpr(_ expr: Expr.Unary) -> ExprVisitorReturn {
         let right = evaluate(expr: expr.right)
 
         switch expr.op.type {
@@ -106,7 +111,7 @@ final class Interpreter: ExprVisitor {
         }
     }
 
-    func visitBinaryExpr(_ expr: Expr.Binary) -> Return {
+    func visitBinaryExpr(_ expr: Expr.Binary) -> ExprVisitorReturn {
         let left = evaluate(expr: expr.left)
         let right = evaluate(expr: expr.right)
 
@@ -187,7 +192,7 @@ final class Interpreter: ExprVisitor {
         }
     }
 
-    private func evaluate(expr: Expr) -> Return {
+    private func evaluate(expr: Expr) -> ExprVisitorReturn {
         return expr.accept(visitor: self)
     }
 
@@ -236,7 +241,7 @@ final class Interpreter: ExprVisitor {
 
     // MARK: Runtime checks
 
-    private func castNumberOperands(op: Token, left: Return, right: Return) -> Result<(Double, Double), InterpreterError> {
+    private func castNumberOperands(op: Token, left: ExprVisitorReturn, right: ExprVisitorReturn) -> Result<(Double, Double), InterpreterError> {
         guard let left = left, let right = right else {
             return .failure(InterpreterError.runtime(op, "Operands must not be nil."))
         }
@@ -256,7 +261,7 @@ final class Interpreter: ExprVisitor {
         return .failure(InterpreterError.runtime(op, "Operands must be numbers."))
     }
 
-    private func castNumberOperand(op: Token, operand: Return) -> Result<Double, InterpreterError> {
+    private func castNumberOperand(op: Token, operand: ExprVisitorReturn) -> Result<Double, InterpreterError> {
         guard let operand = operand else {
             return .failure(InterpreterError.runtime(op, "Operand must not be nil."))
         }
@@ -270,5 +275,27 @@ final class Interpreter: ExprVisitor {
         }
 
         return .failure(InterpreterError.runtime(op, "Operand must be a number."))
+    }
+
+    // MARK: StmtVisitor
+    
+    func visitExpressionStmt(_ stmt: Stmt.Expression) -> StmtVisitorReturn {
+        if case let .failure(error)? = evaluate(expr: stmt.expression) {
+            return .failure(error)
+        }
+        
+        return .success()
+    }
+    
+    func visitPrintStmt(_ stmt: Stmt.Print) -> StmtVisitorReturn {
+        switch evaluate(expr: stmt.expression) {
+        case .success(let value)?:
+            print(stringify(value: value))
+            return .success()
+        case .failure(let error)?:
+            return .failure(error)
+        default:
+            fatalError()
+        }
     }
 }
