@@ -13,7 +13,7 @@ enum InterpreterError: Error {
     case runtime(Token, String) // TODO: Instead of string we could have different cases for each error.
 }
 
-final class Interpreter: Visitor {
+final class Interpreter: ExprVisitor {
     typealias Return = Result<Any, InterpreterError>?
 
     func interpret(_ expression: Expr) {

@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "OBJ_34"
+               BlueprintIdentifier = "OBJ_37"
                BuildableName = "Result.framework"
                BlueprintName = "Result"
                ReferencedContainer = "container:slox.xcodeproj">
@@ -28,7 +28,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "OBJ_42"
+               BlueprintIdentifier = "OBJ_45"
                BuildableName = "slox"
                BlueprintName = "slox"
                ReferencedContainer = "container:slox.xcodeproj">
@@ -42,7 +42,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "OBJ_53"
+               BlueprintIdentifier = "OBJ_56"
                BuildableName = "LoxCore.framework"
                BlueprintName = "LoxCore"
                ReferencedContainer = "container:slox.xcodeproj">
@@ -56,7 +56,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "OBJ_68"
+               BlueprintIdentifier = "OBJ_72"
                BuildableName = "GenerateAst"
                BlueprintName = "GenerateAst"
                ReferencedContainer = "container:slox.xcodeproj">
@@ -87,7 +87,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "OBJ_34"
+            BlueprintIdentifier = "OBJ_37"
             BuildableName = "Result.framework"
             BlueprintName = "Result"
             ReferencedContainer = "container:slox.xcodeproj">

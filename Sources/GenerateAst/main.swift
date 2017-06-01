@@ -48,7 +48,7 @@ func defineType(baseName: String, className: String, fields fieldsList: String) 
     
     // Visitor pattern.
     p.emptyline()
-    p.print("override func accept<V: Visitor, R>(visitor: V) -> R where R == V.Return {")
+    p.print("override func accept<V: \(visitorName(baseName)), R>(visitor: V) -> R where R == V.Return {")
     p.push()
     p.print("return visitor.visit" +
         className + baseName + "(self)")
@@ -59,8 +59,12 @@ func defineType(baseName: String, className: String, fields fieldsList: String) 
     p.print("}")
 }
 
+func visitorName(_ baseName: String) -> String {
+    return "\(baseName)Visitor"
+}
+
 func defineVisitor(baseName: String, types: [String]) {
-    p.print("protocol Visitor {")
+    p.print("protocol \(visitorName(baseName)) {")
     
     p.emptyline()
     p.push()
@@ -93,7 +97,7 @@ func defineAst(outputDir: String, baseName: String, types: [String]) throws {
 
     // The base accept() method.
     p.emptyline()
-    p.print("func accept<V: Visitor, R>(visitor: V) -> R where R == V.Return {")
+    p.print("func accept<V: \(visitorName(baseName)), R>(visitor: V) -> R where R == V.Return {")
     p.push()
     p.print("fatalError()")
     p.pop()
@@ -117,13 +121,21 @@ func defineAst(outputDir: String, baseName: String, types: [String]) throws {
     
     let path = URL(fileURLWithPath: "\(baseName).swift", relativeTo: URL(fileURLWithPath: outputDir))
     try p.write(to: path)
+    
+    print("\(baseName) generated in \(path)")
 }
 
 p = Printer()
 try defineAst(outputDir: outputDir, baseName: "Expr", types: [
     "Binary   / left: Expr, op: Token, right: Expr",
     "Grouping / expression: Expr",
-    "Literal  / value: Any",
+    "Literal  / value: Any?",
     "Unary    / op: Token, right: Expr",
+])
+
+p = Printer()
+try defineAst(outputDir: outputDir, baseName: "Stmt", types: [
+    "Expression / expression: Expr",
+    "Print      / expression: Expr",
 ])
 
