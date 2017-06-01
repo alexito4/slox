@@ -256,8 +256,16 @@ final class Interpreter: Visitor {
         return .failure(InterpreterError.runtime(op, "Operands must be numbers."))
     }
 
-    private func castNumberOperand(op: Token, operand: Any?) -> Result<Double, InterpreterError> {
-        if let res = operand as? Double {
+    private func castNumberOperand(op: Token, operand: Return) -> Result<Double, InterpreterError> {
+        guard let operand = operand else {
+            return .failure(InterpreterError.runtime(op, "Operand must not be nil."))
+        }
+        
+        guard case let .success(num) = operand else {
+            return .failure(operand.error!)
+        }
+        
+        if let res = num as? Double {
             return .success(res)
         }
 
