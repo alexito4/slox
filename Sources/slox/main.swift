@@ -12,7 +12,7 @@ import LoxCore
 #if true
 
     let args = CommandLine.arguments
-    print("Arguments: \(args)")
+//    print("Arguments: \(args)")
 
     guard args.count <= 2 else {
         print("Usage: slox [script]")

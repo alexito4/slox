@@ -1,0 +1,24 @@
+diff --git a/tools/test.py b/tools/test.py
+index ec85362..e82e5e9 100755
+--- a/tools/test.py
++++ b/tools/test.py
+@@ -52,13 +52,14 @@ def c_interpreter(name, tests):
+ 
+ 
+ def java_interpreter(name, tests):
+-  if name == 'jlox':
+-    dir = 'build/java'
+-  else:
+-    dir = 'build/gen/' + name
++  # if name == 'jlox':
++  #   dir = 'build/java'
++  # else:
++  #   dir = 'build/gen/' + name
++  dir = './.build/debug/slox'
+ 
+   INTERPRETERS[name] = Interpreter(name, 'java',
+-      ['java', '-cp', dir, 'com.craftinginterpreters.lox.Lox'], tests)
++      [dir], tests)
+   JAVA_SUITES.append(name)
+ 
+ 
