@@ -21,18 +21,45 @@ final class Parser {
         self.tokens = tokens
     }
 
-    func parse() -> Expr? {
+    func parse() -> Array<Stmt>? {
+
+        var statements = Array<Stmt>()
+        
         do {
-            return try expression()
+            while !isAtEnd() {
+                statements.append(try statement())
+            }
         } catch {
             return nil
         }
+        
+        return statements
     }
 
     // MARK: Grammar
 
     private func expression() throws -> Expr {
         return try equiality()
+    }
+    
+    private func statement() throws -> Stmt {
+        if match(.print) {
+            return try printStatement()
+        }
+        
+        return try expressionStatement()
+    }
+    
+    private func printStatement() throws -> Stmt {
+        let value = try expression()
+        try consume(.semicolon, message: "Expect ';' after value.")
+        return Stmt.Print(expression: value)
+    }
+    
+    private func expressionStatement() throws -> Stmt {
+        let value = try expression()
+        try consume(.semicolon, message: "Expect ';' after value.")
+        return Stmt.Expression(expression: value)
     }
 
     private func equiality() throws -> Expr {
@@ -78,7 +105,7 @@ final class Parser {
 
         if match(.leftParen) {
             let expr = try expression()
-            _ = try consume(.rightParen, message: "Expect ')' after expression.")
+            try consume(.rightParen, message: "Expect ')' after expression.")
             return Expr.Grouping(expression: expr)
         }
 
@@ -146,6 +173,7 @@ extension Parser {
     }
 
     // Similar to `match`
+    @discardableResult
     func consume(_ type: TokenType, message: String) throws -> Token {
         if check(type) {
             return advance()
