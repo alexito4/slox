@@ -135,11 +135,13 @@ try defineAst(outputDir: outputDir, baseName: "Expr", types: [
     "Grouping / expression: Expr",
     "Literal  / value: Any?",
     "Unary    / op: Token, right: Expr",
+    "Variable / name: Token"
 ])
 
 p = Printer()
 try defineAst(outputDir: outputDir, baseName: "Stmt", types: [
     "Expression / expression: Expr",
     "Print      / expression: Expr",
+    "Var        / name: Token, initializer: Expr?"
 ])
 

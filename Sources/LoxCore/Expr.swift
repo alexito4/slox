@@ -12,6 +12,7 @@ protocol ExprVisitor {
     func visitGroupingExpr(_ expr: Expr.Grouping) -> ExprVisitorReturn
     func visitLiteralExpr(_ expr: Expr.Literal) -> ExprVisitorReturn
     func visitUnaryExpr(_ expr: Expr.Unary) -> ExprVisitorReturn
+    func visitVariableExpr(_ expr: Expr.Variable) -> ExprVisitorReturn
 }
 
 class Expr {
@@ -71,6 +72,18 @@ class Expr {
         
         override func accept<V: ExprVisitor, R>(visitor: V) -> R where R == V.ExprVisitorReturn {
             return visitor.visitUnaryExpr(self)
+        }
+    }
+    
+    class Variable: Expr {
+        let name: Token
+        
+        init(name: Token) {
+            self.name = name
+        }
+        
+        override func accept<V: ExprVisitor, R>(visitor: V) -> R where R == V.ExprVisitorReturn {
+            return visitor.visitVariableExpr(self)
         }
     }
     
