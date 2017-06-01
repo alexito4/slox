@@ -1,0 +1,1 @@
+${SRCROOT}/swiftformat" "${SRCROOT}/Sources/" --disable "unusedArguments,hoistPatternLet,redundantReturn,redundantRawValues,numberFormatting"

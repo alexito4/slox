@@ -180,7 +180,7 @@ extension Parser {
 extension Parser {
     /// Reports the error and returns it so it can be thrown
     func error(token: Token, message: String) -> Error {
-        slox.error(token: token, message: message)
+        Lox.error(token: token, message: message)
         return Error.parseFailure
     }
 }

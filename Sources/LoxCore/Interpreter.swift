@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Result
 
 enum InterpreterError: Error {
     case runtime(Token, String) // TODO: Instead of string we could have different cases for each error.
@@ -24,7 +25,7 @@ final class Interpreter: Visitor {
         case .success(let v):
             print(stringify(value: v))
         case .failure(let error):
-            runtimeError(error: error)
+            Lox.runtimeError(error: error)
         }
     }
 

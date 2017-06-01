@@ -101,13 +101,13 @@ final class Scanner {
                 _ = advance()
             }
             guard peek() == "*" else {
-                error(line: line, message: "Multiline comment not closed with '*/'")
+                Lox.error(line: line, message: "Multiline comment not closed with '*/'")
                 break
             }
             _ = advance()
 
             guard peek() == "/" else {
-                error(line: line, message: "Multiline comment not closed, missing '/'")
+                Lox.error(line: line, message: "Multiline comment not closed, missing '/'")
                 break
             }
             _ = advance()
@@ -132,7 +132,7 @@ final class Scanner {
             identifier()
 
         default:
-            error(line: line, message: "Unexpected character. '\(c)'")
+            Lox.error(line: line, message: "Unexpected character. '\(c)'")
         }
     }
 
@@ -179,7 +179,7 @@ final class Scanner {
 
         // Unterminated string
         if isAtEnd() {
-            error(line: line, message: "Unterminated string.")
+            Lox.error(line: line, message: "Unterminated string.")
             return
         }
 

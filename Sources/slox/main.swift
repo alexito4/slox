@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import LoxCore
 
 #if true
 
@@ -17,11 +18,11 @@ import Foundation
         print("Usage: slox [script]")
         exit(1)
     }
-
+    
     if args.count == 2 {
-        try runFile(path: args[1])
+        try Lox.runFile(path: args[1])
     } else {
-        runPrompt()
+        Lox.runPrompt()
     }
 
 #else
