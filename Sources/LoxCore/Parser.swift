@@ -27,7 +27,9 @@ final class Parser {
         
         do {
             while !isAtEnd() {
-                statements.append(try statement())
+                if let declaration = try declaration() {
+                    statements.append(declaration)
+                }
             }
         } catch {
             return nil
@@ -42,6 +44,19 @@ final class Parser {
         return try equiality()
     }
     
+    private func declaration() throws -> Stmt? {
+        do {
+            if match(.Var) {
+                return try varDeclaration()
+            }
+            
+            return try statement()
+        } catch Error.parseFailure {
+            synchronize()
+            return nil // Recovered from error mode. Return nil and continue parsing.
+        }
+    }
+    
     private func statement() throws -> Stmt {
         if match(.print) {
             return try printStatement()
@@ -54,6 +69,19 @@ final class Parser {
         let value = try expression()
         try consume(.semicolon, message: "Expect ';' after value.")
         return Stmt.Print(expression: value)
+    }
+    
+    private func varDeclaration() throws -> Stmt {
+        let name = try consume(.identifier, message: "Expect variable name.")
+        
+        var initializer: Expr?
+        if match(.equal) {
+            initializer = try expression()
+        }
+        
+        try consume(.semicolon, message: "Expect ';' after variable declaration.")
+        
+        return Stmt.Var(name: name, initializer: initializer)
     }
     
     private func expressionStatement() throws -> Stmt {
@@ -101,6 +129,10 @@ final class Parser {
 
         if match(.number, .string) {
             return Expr.Literal(value: previous().literal)
+        }
+        
+        if match(.identifier) {
+            return Expr.Variable(name: previous())
         }
 
         if match(.leftParen) {
