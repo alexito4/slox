@@ -353,7 +353,7 @@ final class Interpreter: ExprVisitor, StmtVisitor {
     }
 
     func visitVarStmt(_ stmt: Stmt.Var) -> StmtVisitorReturn {
-        var value: Any?
+        let value: Any
         if let initializer = stmt.initializer {
             switch evaluate(expr: initializer) {
             case .success(let res)?:
@@ -363,6 +363,8 @@ final class Interpreter: ExprVisitor, StmtVisitor {
             default:
                 fatalError()
             }
+        } else {
+            value = NilAny
         }
 
         environment.define(name: stmt.name.lexeme, value: value)

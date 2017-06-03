@@ -1,3 +1,9 @@
+print "literal";
+var a = "in a var";
+print a;
+a = "assigned";
+print a;
+/*
 var aa = 1;
 var bb = 2;
 print aa + bb;
@@ -26,3 +32,4 @@ var c = "global c";
 print a;
 print b;
 print c;
+*/
