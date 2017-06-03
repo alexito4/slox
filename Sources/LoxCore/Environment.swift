@@ -27,4 +27,13 @@ final class Environment {
         
         throw InterpreterError.runtime(name, "Undefined variable '\(name.lexeme)'.")
     }
+    
+    func assign(name: Token, value: Any?) throws {
+        if values.contains(where: { (key, value) in key == name.lexeme }) {
+            values[name.lexeme] = value
+            return
+        }
+        
+        throw InterpreterError.runtime(name, "Undefined variable '\(name.lexeme)'.")
+    }
 }

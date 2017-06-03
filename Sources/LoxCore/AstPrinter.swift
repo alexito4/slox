@@ -14,6 +14,10 @@ class AstPrinter: ExprVisitor {
     func print(expr: Expr) -> String {
         return expr.accept(visitor: self)
     }
+    
+    func visitAssignExpr(_ expr: Expr.Assign) -> String {
+        fatalError("unimplemented")
+    }
 
     func visitBinaryExpr(_ expr: Expr.Binary) -> String {
         return parenthesize(name: expr.op.lexeme, exprs: expr.left, expr.right)
@@ -56,6 +60,10 @@ class AstRPNPrinter: ExprVisitor {
 
     func print(expr: Expr) -> String {
         return expr.accept(visitor: self)
+    }
+    
+    func visitAssignExpr(_ expr: Expr.Assign) -> String {
+        fatalError("unimplemented")
     }
 
     func visitBinaryExpr(_ expr: Expr.Binary) -> String {

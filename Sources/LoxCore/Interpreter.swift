@@ -202,6 +202,25 @@ final class Interpreter: ExprVisitor, StmtVisitor {
             fatalError()
         }
     }
+    
+    func visitAssignExpr(_ expr: Expr.Assign) -> ExprVisitorReturn {
+        switch evaluate(expr: expr.value) {
+        case .success(let value)?:
+            
+            do {
+                try environment.assign(name: expr.name, value: value)
+            } catch {
+                return .failure(error as! InterpreterError) // Compiler doesn't know but it should always be InterpreterError
+            }
+                
+            return .success(value)
+            
+        case .failure(let error)?:
+            return .failure(error)
+        default:
+            fatalError()
+        }
+    }
 
     private func evaluate(expr: Expr) -> ExprVisitorReturn {
         return expr.accept(visitor: self)
