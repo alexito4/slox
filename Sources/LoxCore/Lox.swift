@@ -69,7 +69,8 @@ public final class Lox {
 
     static var hadError = false
     static func report(line: Int, where location: String, message: String) {
-        print("[line \(line)] Error \(location): \(message)")
+        var stderr = FileHandle.standardError
+        print("[line \(line)] Error\(location): \(message)", to: &stderr)
         hadError = true
     }
 
@@ -85,5 +86,12 @@ public final class Lox {
         }
         print("\(message)\n[line \(token.line)]")
         hadRuntimeError = true
+    }
+}
+
+extension FileHandle: TextOutputStream {
+    public func write(_ string: String) {
+        guard let data = string.data(using: .utf8) else { return }
+        write(data)
     }
 }
