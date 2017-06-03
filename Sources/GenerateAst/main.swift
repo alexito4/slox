@@ -32,20 +32,20 @@ func defineType(baseName: String, className: String, fields fieldsList: String) 
     for field in fields {
         p.print("let \(field)")
     }
-    
+
     p.emptyline()
-    
+
     // Initializer
     p.print("init(\(fieldsList)) {")
     p.push()
     for field in fields {
         let name = field.components(separatedBy: ": ")[0].trimmingCharacters(in: .whitespaces)
-        
+
         p.print("self.\(name) = \(name)")
     }
     p.pop()
     p.print("}")
-    
+
     // Visitor pattern.
     p.emptyline()
     p.print("override func accept<V: \(visitorName(baseName)), R>(visitor: V) -> R where R == V.\(returnName(baseName)) {")
@@ -69,7 +69,7 @@ func returnName(_ baseName: String) -> String {
 
 func defineVisitor(baseName: String, types: [String]) {
     p.print("protocol \(visitorName(baseName)) {")
-    
+
     p.emptyline()
     p.push()
     p.print("associatedtype \(returnName(baseName))")
@@ -80,10 +80,9 @@ func defineVisitor(baseName: String, types: [String]) {
     for type in types {
         let typeName = type.components(separatedBy: "/")[0].trimmingCharacters(in: .whitespaces)
         p.print("func visit\(typeName)\(baseName)(_ \(baseName.lowercased()): \(baseName).\(typeName)) -> \(returnName(baseName))")
-        
     }
     p.pop()
-    
+
     p.print("}")
 }
 
@@ -92,7 +91,7 @@ func defineAst(outputDir: String, baseName: String, types: [String]) throws {
     p.emptyline()
 
     // The Visitor protocol.
-    defineVisitor(baseName: baseName, types: types);
+    defineVisitor(baseName: baseName, types: types)
     p.emptyline()
 
     // The Base class.
@@ -114,18 +113,16 @@ func defineAst(outputDir: String, baseName: String, types: [String]) throws {
         let className = components[0].trimmingCharacters(in: .whitespaces)
         let fields = components[1].trimmingCharacters(in: .whitespaces)
         defineType(baseName: baseName, className: className, fields: fields)
-        
+
         p.emptyline()
     }
-    
+
     p.pop()
     p.print("}")
-    
 
-    
     let path = URL(fileURLWithPath: "\(baseName).swift", relativeTo: URL(fileURLWithPath: outputDir))
     try p.write(to: path)
-    
+
     print("\(baseName) generated in \(path)")
 }
 
@@ -136,7 +133,7 @@ try defineAst(outputDir: outputDir, baseName: "Expr", types: [
     "Grouping / expression: Expr",
     "Literal  / value: Any?",
     "Unary    / op: Token, right: Expr",
-    "Variable / name: Token"
+    "Variable / name: Token",
 ])
 
 p = Printer()
@@ -144,6 +141,5 @@ try defineAst(outputDir: outputDir, baseName: "Stmt", types: [
     "Block      / statements: Array<Stmt>",
     "Expression / expression: Expr",
     "Print      / expression: Expr",
-    "Var        / name: Token, initializer: Expr?"
+    "Var        / name: Token, initializer: Expr?",
 ])
-

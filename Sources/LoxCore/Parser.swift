@@ -24,13 +24,13 @@ final class Parser {
     func parse() -> Array<Stmt> {
 
         var statements = Array<Stmt>()
-        
+
         while !isAtEnd() {
             if let declaration = declaration() {
                 statements.append(declaration)
             }
         }
-        
+
         return statements
     }
 
@@ -39,84 +39,84 @@ final class Parser {
     private func expression() throws -> Expr {
         return try assignment()
     }
-    
+
     private func declaration() -> Stmt? {
         do {
             if match(.Var) {
                 return try varDeclaration()
             }
-            
+
             return try statement()
         } catch { // errors should always be Error.parseFailure. If not, we should retrhowit making this func throws.
             synchronize()
             return nil // Recovered from error mode. Return nil and continue parsing.
         }
     }
-    
+
     private func statement() throws -> Stmt {
         if match(.print) {
             return try printStatement()
         }
-        
+
         if match(.leftBrace) {
             return Stmt.Block(statements: try block())
         }
-        
+
         return try expressionStatement()
     }
-    
+
     private func assignment() throws -> Expr {
         let expr = try equiality()
-        
+
         if match(.equal) {
             let equals = previous()
             let value = try assignment()
-        
+
             if let variable = expr as? Expr.Variable {
                 let name = variable.name
                 return Expr.Assign(name: name, value: value)
             }
-        
-            throw error(token: equals, message: "Invalid assignment target.");
+
+            throw error(token: equals, message: "Invalid assignment target.")
         }
-        
-        return expr;
+
+        return expr
     }
-    
+
     private func printStatement() throws -> Stmt {
         let value = try expression()
         try consume(.semicolon, message: "Expect ';' after value.")
         return Stmt.Print(expression: value)
     }
-    
+
     private func varDeclaration() throws -> Stmt {
         let name = try consume(.identifier, message: "Expect variable name.")
-        
+
         var initializer: Expr?
         if match(.equal) {
             initializer = try expression()
         }
-        
+
         try consume(.semicolon, message: "Expect ';' after variable declaration.")
-        
+
         return Stmt.Var(name: name, initializer: initializer)
     }
-    
+
     private func expressionStatement() throws -> Stmt {
         let value = try expression()
         try consume(.semicolon, message: "Expect ';' after value.")
         return Stmt.Expression(expression: value)
     }
-    
+
     private func block() throws -> Array<Stmt> {
         var statements = Array<Stmt>()
-        
+
         while !check(.rightBrace) && !isAtEnd() {
             if let decl = declaration() { // If there is an error `decl` is nil, ignore it and continue parsing
                 statements.append(decl)
             }
         }
-        
+
         try consume(.rightBrace, message: "Expect '}' after block.")
         return statements
     }
@@ -161,7 +161,7 @@ final class Parser {
         if match(.number, .string) {
             return Expr.Literal(value: previous().literal)
         }
-        
+
         if match(.identifier) {
             return Expr.Variable(name: previous())
         }

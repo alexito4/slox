@@ -199,7 +199,7 @@
 			name = Products;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		OBJ_5 /*  */ = {
+		OBJ_5 = {
 			isa = PBXGroup;
 			children = (
 				OBJ_6 /* Package.swift */,
@@ -211,7 +211,6 @@
 				OBJ_27 /* Dependencies */,
 				OBJ_32 /* Products */,
 			);
-			name = "";
 			sourceTree = "<group>";
 		};
 		OBJ_7 /* Configs */ = {
@@ -255,6 +254,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = OBJ_46 /* Build configuration list for PBXNativeTarget "slox" */;
 			buildPhases = (
+				FB57ADC21EE2BB9F00E52974 /* ShellScript */,
 				OBJ_49 /* Sources */,
 				OBJ_51 /* Frameworks */,
 			);
@@ -318,7 +318,7 @@
 			knownRegions = (
 				en,
 			);
-			mainGroup = OBJ_5 /*  */;
+			mainGroup = OBJ_5;
 			productRefGroup = OBJ_32 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -330,6 +330,22 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		FB57ADC21EE2BB9F00E52974 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "sh format.sh";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		OBJ_41 /* Sources */ = {

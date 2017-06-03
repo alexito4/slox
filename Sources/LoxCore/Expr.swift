@@ -17,89 +17,88 @@ protocol ExprVisitor {
 }
 
 class Expr {
-    
+
     func accept<V: ExprVisitor, R>(visitor: V) -> R where R == V.ExprVisitorReturn {
         fatalError()
     }
-    
+
     class Assign: Expr {
         let name: Token
         let value: Expr
-        
+
         init(name: Token, value: Expr) {
             self.name = name
             self.value = value
         }
-        
+
         override func accept<V: ExprVisitor, R>(visitor: V) -> R where R == V.ExprVisitorReturn {
             return visitor.visitAssignExpr(self)
         }
     }
-    
+
     class Binary: Expr {
         let left: Expr
         let op: Token
         let right: Expr
-        
+
         init(left: Expr, op: Token, right: Expr) {
             self.left = left
             self.op = op
             self.right = right
         }
-        
+
         override func accept<V: ExprVisitor, R>(visitor: V) -> R where R == V.ExprVisitorReturn {
             return visitor.visitBinaryExpr(self)
         }
     }
-    
+
     class Grouping: Expr {
         let expression: Expr
-        
+
         init(expression: Expr) {
             self.expression = expression
         }
-        
+
         override func accept<V: ExprVisitor, R>(visitor: V) -> R where R == V.ExprVisitorReturn {
             return visitor.visitGroupingExpr(self)
         }
     }
-    
+
     class Literal: Expr {
         let value: Any?
-        
+
         init(value: Any?) {
             self.value = value
         }
-        
+
         override func accept<V: ExprVisitor, R>(visitor: V) -> R where R == V.ExprVisitorReturn {
             return visitor.visitLiteralExpr(self)
         }
     }
-    
+
     class Unary: Expr {
         let op: Token
         let right: Expr
-        
+
         init(op: Token, right: Expr) {
             self.op = op
             self.right = right
         }
-        
+
         override func accept<V: ExprVisitor, R>(visitor: V) -> R where R == V.ExprVisitorReturn {
             return visitor.visitUnaryExpr(self)
         }
     }
-    
+
     class Variable: Expr {
         let name: Token
-        
+
         init(name: Token) {
             self.name = name
         }
-        
+
         override func accept<V: ExprVisitor, R>(visitor: V) -> R where R == V.ExprVisitorReturn {
             return visitor.visitVariableExpr(self)
         }
     }
-    
 }

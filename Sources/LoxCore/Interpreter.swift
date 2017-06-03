@@ -14,12 +14,12 @@ enum InterpreterError: Error {
 }
 
 final class Interpreter: ExprVisitor, StmtVisitor {
-    
+
     typealias ExprVisitorReturn = Result<Any, InterpreterError>?
     typealias StmtVisitorReturn = Result<Void, InterpreterError>
-    
+
     private var environment = Environment()
-    
+
     func interpret(_ statements: Array<Stmt>) {
         do {
             for statement in statements {
@@ -29,25 +29,25 @@ final class Interpreter: ExprVisitor, StmtVisitor {
             Lox.runtimeError(error: error)
         }
     }
-    
+
     private func execute(_ statement: Stmt) throws {
         if case let .failure(error) = statement.accept(visitor: self) {
             throw error
         }
     }
-    
+
     private func executeBlock(_ statements: Array<Stmt>, newEnvironment: Environment) throws {
         let previous = environment
         environment = newEnvironment
         defer {
             environment = previous
         }
-        
+
         for statement in statements {
             try execute(statement)
         }
     }
-    
+
     private func stringify(value: Any?) -> String {
         guard let value = value else { return "nil" }
 
@@ -64,7 +64,7 @@ final class Interpreter: ExprVisitor, StmtVisitor {
     }
 
     // MARK: ExprVisitor
-    
+
     func visitLiteralExpr(_ expr: Expr.Literal) -> ExprVisitorReturn {
         guard let value = expr.value else {
             return nil
@@ -124,7 +124,7 @@ final class Interpreter: ExprVisitor, StmtVisitor {
             fatalError()
         }
     }
-    
+
     func visitVariableExpr(_ expr: Expr.Variable) -> ExprVisitorReturn {
         do {
             let value = try environment.valueFor(name: expr.name)
@@ -214,19 +214,19 @@ final class Interpreter: ExprVisitor, StmtVisitor {
             fatalError()
         }
     }
-    
+
     func visitAssignExpr(_ expr: Expr.Assign) -> ExprVisitorReturn {
         switch evaluate(expr: expr.value) {
         case .success(let value)?:
-            
+
             do {
                 try environment.assign(name: expr.name, value: value)
             } catch {
                 return .failure(error as! InterpreterError) // Compiler doesn't know but it should always be InterpreterError
             }
-                
+
             return .success(value)
-            
+
         case .failure(let error)?:
             return .failure(error)
         default:
@@ -307,11 +307,11 @@ final class Interpreter: ExprVisitor, StmtVisitor {
         guard let operand = operand else {
             return .failure(InterpreterError.runtime(op, "Operand must not be nil."))
         }
-        
+
         guard case let .success(num) = operand else {
             return .failure(operand.error!)
         }
-        
+
         if let res = num as? Double {
             return .success(res)
         }
@@ -320,26 +320,26 @@ final class Interpreter: ExprVisitor, StmtVisitor {
     }
 
     // MARK: StmtVisitor
-    
+
     func visitBlockStmt(_ stmt: Stmt.Block) -> StmtVisitorReturn {
-        
+
         do {
             try executeBlock(stmt.statements, newEnvironment: Environment(enclosing: environment))
         } catch {
             return .failure(error as! InterpreterError) // Compiler doesn't know but it should always be InterpreterError
         }
-        
+
         return .success()
     }
-    
+
     func visitExpressionStmt(_ stmt: Stmt.Expression) -> StmtVisitorReturn {
         if case let .failure(error)? = evaluate(expr: stmt.expression) {
             return .failure(error)
         }
-        
+
         return .success()
     }
-    
+
     func visitPrintStmt(_ stmt: Stmt.Print) -> StmtVisitorReturn {
         switch evaluate(expr: stmt.expression) {
         case .success(let value)?:
@@ -351,7 +351,7 @@ final class Interpreter: ExprVisitor, StmtVisitor {
             fatalError()
         }
     }
-    
+
     func visitVarStmt(_ stmt: Stmt.Var) -> StmtVisitorReturn {
         var value: Any?
         if let initializer = stmt.initializer {
@@ -364,10 +364,9 @@ final class Interpreter: ExprVisitor, StmtVisitor {
                 fatalError()
             }
         }
-        
+
         environment.define(name: stmt.name.lexeme, value: value)
-        
+
         return .success()
     }
-    
 }
