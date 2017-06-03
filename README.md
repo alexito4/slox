@@ -1,7 +1,7 @@
 # slox
 Swift implementation of a **Lox** interpreter
 
-This project contains a Swift implementation of the **Lox** language following the book [Crafting Interpreters](http://www.craftinginterpreters.com) written by [Bob Nystrom](https://twitter.com/munificentbob).
+This project contains a Swift implementation of the **Lox** language following the book [Crafting Interpreters](http://www.craftinginterpreters.com) written by [Bob Nystrom](https://twitter.com/munificentbob). [Crafting Interpreters in GitHub](https://github.com/munificent/craftinginterpreters)
 
 Programming languages and compilers are one of my biggest interests, following the Swift evolution list and watching Jonathan Blow develop his new language are two of my hobbies. I've played with parsers in the past, and tried to mess around with the missing metaprogramming features in Swift but I've never tried to implement a complete language. Although I understand the theory behind it I was missing the motivation to get my hands dirty, motivation that Bob's book seems to have given me!
 
@@ -47,6 +47,10 @@ One thing to note is that I'm trying to write a mix between idiomatic Swift (wha
 - [ ] 11. [**Resolving and Binding**](http://www.craftinginterpreters.com/resolving-and-binding.html) (COMING SOON)
 - [ ] 12. [**Classes**](http://www.craftinginterpreters.com/classes.html) (COMING SOON)
 - [ ] 13. [**Inheritance**](http://www.craftinginterpreters.com/inheritance.html) (COMING SOON)
+
+# Tests
+
+I integrated Bob tests in order to be able to make sure this implementation behaves in the same way as the original implementation. You can find the [test](https://github.com/alexito4/slox/tree/master/test) in this project with the `test.py` [script modified](https://github.com/alexito4/slox/blob/master/tools/test.py) to work with this project. You can also find a [diff](https://github.com/alexito4/slox/blob/master/tools/test_patch.diff) with the main modifications.
 
 # Author
 
