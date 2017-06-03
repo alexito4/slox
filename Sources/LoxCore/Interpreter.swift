@@ -148,7 +148,7 @@ final class Interpreter: ExprVisitor, StmtVisitor {
         case .plus:
 
             guard let left = left, let right = right else {
-                return .failure(InterpreterError.runtime(expr.op, "Operands must not be nil."))
+                return .failure(InterpreterError.runtime(expr.op, "Operands must be two numbers or two strings.")) // Operands must not be nil.
             }
 
             guard case let .success(ls) = left else {
@@ -311,7 +311,7 @@ final class Interpreter: ExprVisitor, StmtVisitor {
 
     private func castNumberOperands(op: Token, left: ExprVisitorReturn, right: ExprVisitorReturn) -> Result<(Double, Double), InterpreterError> {
         guard let left = left, let right = right else {
-            return .failure(InterpreterError.runtime(op, "Operands must not be nil."))
+            return .failure(InterpreterError.runtime(op, "Operands must be numbers.")) // Operands must not be nil.
         }
 
         guard case let .success(ls) = left else {
