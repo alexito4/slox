@@ -13,19 +13,38 @@ enum InterpreterError: Error {
     case runtime(Token, String) // TODO: Instead of string we could have different cases for each error.
 }
 
-final class Interpreter: Visitor {
-    typealias Return = Result<Any, InterpreterError>?
+final class Interpreter: ExprVisitor, StmtVisitor {
 
-    func interpret(_ expression: Expr) {
-        guard let value = evaluate(expr: expression) else {
-            print(stringify(value: nil))
-            return
-        }
-        switch value {
-        case .success(let v):
-            print(stringify(value: v))
-        case .failure(let error):
+    typealias ExprVisitorReturn = Result<Any, InterpreterError>?
+    typealias StmtVisitorReturn = Result<Void, InterpreterError>
+
+    private var environment = Environment()
+
+    func interpret(_ statements: Array<Stmt>) {
+        do {
+            for statement in statements {
+                try execute(statement)
+            }
+        } catch {
             Lox.runtimeError(error: error)
+        }
+    }
+
+    private func execute(_ statement: Stmt) throws {
+        if case let .failure(error) = statement.accept(visitor: self) {
+            throw error
+        }
+    }
+
+    private func executeBlock(_ statements: Array<Stmt>, newEnvironment: Environment) throws {
+        let previous = environment
+        environment = newEnvironment
+        defer {
+            environment = previous
+        }
+
+        for statement in statements {
+            try execute(statement)
         }
     }
 
@@ -44,26 +63,26 @@ final class Interpreter: Visitor {
         return String(describing: value)
     }
 
-    // MARK: Visitor
+    // MARK: ExprVisitor
 
-    func visitLiteralExpr(_ expr: Expr.Literal) -> Return {
+    func visitLiteralExpr(_ expr: Expr.Literal) -> ExprVisitorReturn {
         guard let value = expr.value else {
             return nil
         }
         return .success(value)
     }
 
-    func visitGroupingExpr(_ expr: Expr.Grouping) -> Return {
+    func visitGroupingExpr(_ expr: Expr.Grouping) -> ExprVisitorReturn {
         let res = evaluate(expr: expr.expression)
         return res
     }
 
-    func visitUnaryExpr(_ expr: Expr.Unary) -> Return {
+    func visitUnaryExpr(_ expr: Expr.Unary) -> ExprVisitorReturn {
         let right = evaluate(expr: expr.right)
 
         switch expr.op.type {
         case .bang:
-            return .success(!isTrue(object: right))
+            return .success(!isTrue(right))
         case .minus:
             let casted = castNumberOperand(op: expr.op, operand: right)
             return casted.map(-)
@@ -106,7 +125,16 @@ final class Interpreter: Visitor {
         }
     }
 
-    func visitBinaryExpr(_ expr: Expr.Binary) -> Return {
+    func visitVariableExpr(_ expr: Expr.Variable) -> ExprVisitorReturn {
+        do {
+            let value = try environment.valueFor(name: expr.name)
+            return .success(value as Any)
+        } catch {
+            return .failure(error as! InterpreterError) // Compiler doesn't know but it should always be InterpreterError
+        }
+    }
+
+    func visitBinaryExpr(_ expr: Expr.Binary) -> ExprVisitorReturn {
         let left = evaluate(expr: expr.left)
         let right = evaluate(expr: expr.right)
 
@@ -120,7 +148,7 @@ final class Interpreter: Visitor {
         case .plus:
 
             guard let left = left, let right = right else {
-                return .failure(InterpreterError.runtime(expr.op, "Operands must not be nil."))
+                return .failure(InterpreterError.runtime(expr.op, "Operands must be two numbers or two strings.")) // Operands must not be nil.
             }
 
             guard case let .success(ls) = left else {
@@ -187,12 +215,45 @@ final class Interpreter: Visitor {
         }
     }
 
-    private func evaluate(expr: Expr) -> Return {
+    func visitAssignExpr(_ expr: Expr.Assign) -> ExprVisitorReturn {
+        switch evaluate(expr: expr.value) {
+        case .success(let value)?:
+
+            do {
+                try environment.assign(name: expr.name, value: value)
+            } catch {
+                return .failure(error as! InterpreterError) // Compiler doesn't know but it should always be InterpreterError
+            }
+
+            return .success(value)
+
+        case .failure(let error)?:
+            return .failure(error)
+        default:
+            fatalError()
+        }
+    }
+
+    private func evaluate(expr: Expr) -> ExprVisitorReturn {
         return expr.accept(visitor: self)
     }
 
-    private func isTrue(object: Any?) -> Bool {
-        if object == nil {
+    // ugh, again, unnecessary code just to make Result, Any and Optional play together.
+    private func isTrue(_ result: ExprVisitorReturn) -> Bool {
+        guard let result = result else {
+            return false
+        }
+
+        switch result {
+        case .success(let object):
+            return isTrue(object)
+        case .failure:
+            return false
+        }
+    }
+
+    private func isTrue(_ object: Any?) -> Bool {
+        guard let object = object else {
             return false
         }
 
@@ -201,6 +262,19 @@ final class Interpreter: Visitor {
         }
 
         return true
+    }
+
+    private func isEqualAny(left: ExprVisitorReturn, right: ExprVisitorReturn) -> Bool {
+        // nil is only equal to nil.
+        if left == nil && right == nil {
+            return true
+        }
+
+        guard let left = left?.value, let right = right?.value else {
+            return false
+        }
+
+        return isEqualAny(left: left, right: right)
     }
 
     private func isEqualAny(left: Any?, right: Any?) -> Bool {
@@ -213,11 +287,10 @@ final class Interpreter: Visitor {
             return false
         }
 
-        /*
-         guard left.self == right.self else {
-         // Types are different.
-         return false
-         }*/
+        guard type(of: left!) == type(of: right!) else {
+            // Types are different.
+            return false
+        }
 
         if let l = left as? String, let r = right as? String {
             return l == r
@@ -231,14 +304,14 @@ final class Interpreter: Visitor {
             return l == r
         }
 
-        fatalError("Unsupported equatable type. /n \(String(describing: left)) or \(String(describing: right))/nOR TYPES ARE JUST DIFFERET")
+        fatalError("Unsupported equatable type. /n \(String(describing: left)) or \(String(describing: right))")
     }
 
     // MARK: Runtime checks
 
-    private func castNumberOperands(op: Token, left: Return, right: Return) -> Result<(Double, Double), InterpreterError> {
+    private func castNumberOperands(op: Token, left: ExprVisitorReturn, right: ExprVisitorReturn) -> Result<(Double, Double), InterpreterError> {
         guard let left = left, let right = right else {
-            return .failure(InterpreterError.runtime(op, "Operands must not be nil."))
+            return .failure(InterpreterError.runtime(op, "Operands must be numbers.")) // Operands must not be nil.
         }
 
         guard case let .success(ls) = left else {
@@ -256,19 +329,73 @@ final class Interpreter: Visitor {
         return .failure(InterpreterError.runtime(op, "Operands must be numbers."))
     }
 
-    private func castNumberOperand(op: Token, operand: Return) -> Result<Double, InterpreterError> {
+    private func castNumberOperand(op: Token, operand: ExprVisitorReturn) -> Result<Double, InterpreterError> {
         guard let operand = operand else {
             return .failure(InterpreterError.runtime(op, "Operand must not be nil."))
         }
-        
+
         guard case let .success(num) = operand else {
             return .failure(operand.error!)
         }
-        
+
         if let res = num as? Double {
             return .success(res)
         }
 
         return .failure(InterpreterError.runtime(op, "Operand must be a number."))
+    }
+
+    // MARK: StmtVisitor
+
+    func visitBlockStmt(_ stmt: Stmt.Block) -> StmtVisitorReturn {
+
+        do {
+            try executeBlock(stmt.statements, newEnvironment: Environment(enclosing: environment))
+        } catch {
+            return .failure(error as! InterpreterError) // Compiler doesn't know but it should always be InterpreterError
+        }
+
+        return .success()
+    }
+
+    func visitExpressionStmt(_ stmt: Stmt.Expression) -> StmtVisitorReturn {
+        if case let .failure(error)? = evaluate(expr: stmt.expression) {
+            return .failure(error)
+        }
+
+        return .success()
+    }
+
+    func visitPrintStmt(_ stmt: Stmt.Print) -> StmtVisitorReturn {
+        switch evaluate(expr: stmt.expression) {
+        case .success(let value)?:
+            print(stringify(value: value))
+            return .success()
+        case .failure(let error)?:
+            return .failure(error)
+        case nil:
+            print(stringify(value: nil))
+            return .success()
+        }
+    }
+
+    func visitVarStmt(_ stmt: Stmt.Var) -> StmtVisitorReturn {
+        let value: Any
+        if let initializer = stmt.initializer {
+            switch evaluate(expr: initializer) {
+            case .success(let res)?:
+                value = res
+            case .failure(let error)?:
+                return .failure(error)
+            default:
+                fatalError()
+            }
+        } else {
+            value = NilAny
+        }
+
+        environment.define(name: stmt.name.lexeme, value: value)
+
+        return .success()
     }
 }

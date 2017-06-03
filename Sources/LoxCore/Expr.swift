@@ -1,21 +1,39 @@
 
-protocol Visitor {
+protocol ExprVisitor {
 
-    associatedtype Return
+    // Different protocols with the same associatedtype name make it immposible to be conformed by the same type.
+    // So I can't use just `Return` here or the Interpreter won't be able to implement Expr and Stmt visitors.
+    associatedtype ExprVisitorReturn
 
     // Decided to make the Visitor methods non-throwing to avoid polluting with throws
     // the visitors that don't return errors. Instead if an error has to be returned
     // the specific visitor implementation will return a Result type.
-    func visitBinaryExpr(_ expr: Expr.Binary) -> Return
-    func visitGroupingExpr(_ expr: Expr.Grouping) -> Return
-    func visitLiteralExpr(_ expr: Expr.Literal) -> Return
-    func visitUnaryExpr(_ expr: Expr.Unary) -> Return
+    func visitAssignExpr(_ expr: Expr.Assign) -> ExprVisitorReturn
+    func visitBinaryExpr(_ expr: Expr.Binary) -> ExprVisitorReturn
+    func visitGroupingExpr(_ expr: Expr.Grouping) -> ExprVisitorReturn
+    func visitLiteralExpr(_ expr: Expr.Literal) -> ExprVisitorReturn
+    func visitUnaryExpr(_ expr: Expr.Unary) -> ExprVisitorReturn
+    func visitVariableExpr(_ expr: Expr.Variable) -> ExprVisitorReturn
 }
 
 class Expr {
 
-    func accept<V: Visitor, R>(visitor: V) -> R where R == V.Return {
+    func accept<V: ExprVisitor, R>(visitor: V) -> R where R == V.ExprVisitorReturn {
         fatalError()
+    }
+
+    class Assign: Expr {
+        let name: Token
+        let value: Expr
+
+        init(name: Token, value: Expr) {
+            self.name = name
+            self.value = value
+        }
+
+        override func accept<V: ExprVisitor, R>(visitor: V) -> R where R == V.ExprVisitorReturn {
+            return visitor.visitAssignExpr(self)
+        }
     }
 
     class Binary: Expr {
@@ -29,7 +47,7 @@ class Expr {
             self.right = right
         }
 
-        override func accept<V: Visitor, R>(visitor: V) -> R where R == V.Return {
+        override func accept<V: ExprVisitor, R>(visitor: V) -> R where R == V.ExprVisitorReturn {
             return visitor.visitBinaryExpr(self)
         }
     }
@@ -41,7 +59,7 @@ class Expr {
             self.expression = expression
         }
 
-        override func accept<V: Visitor, R>(visitor: V) -> R where R == V.Return {
+        override func accept<V: ExprVisitor, R>(visitor: V) -> R where R == V.ExprVisitorReturn {
             return visitor.visitGroupingExpr(self)
         }
     }
@@ -53,7 +71,7 @@ class Expr {
             self.value = value
         }
 
-        override func accept<V: Visitor, R>(visitor: V) -> R where R == V.Return {
+        override func accept<V: ExprVisitor, R>(visitor: V) -> R where R == V.ExprVisitorReturn {
             return visitor.visitLiteralExpr(self)
         }
     }
@@ -67,8 +85,20 @@ class Expr {
             self.right = right
         }
 
-        override func accept<V: Visitor, R>(visitor: V) -> R where R == V.Return {
+        override func accept<V: ExprVisitor, R>(visitor: V) -> R where R == V.ExprVisitorReturn {
             return visitor.visitUnaryExpr(self)
+        }
+    }
+
+    class Variable: Expr {
+        let name: Token
+
+        init(name: Token) {
+            self.name = name
+        }
+
+        override func accept<V: ExprVisitor, R>(visitor: V) -> R where R == V.ExprVisitorReturn {
+            return visitor.visitVariableExpr(self)
         }
     }
 }

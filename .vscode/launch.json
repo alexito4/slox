@@ -9,7 +9,7 @@
             "pythonPath": "${config:python.pythonPath}",
             "program": "${file}",
             "args": [
-                "chap07_evaluating"
+                "chap08_statements"
             ],
             "cwd": "${workspaceRoot}",
             "env": {},

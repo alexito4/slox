@@ -11,7 +11,7 @@ One thing to note is that I'm trying to write a mix between idiomatic Swift (wha
 
 # Implementation
 
-*as of 31/05/2017*
+*as of 03/06/2017*
 
 ## A TREE-WALK INTERPRETER
 
@@ -37,7 +37,11 @@ One thing to note is that I'm trying to write a mix between idiomatic Swift (wha
   - [ ] Challenge 2: Many languages define + such that if either operand is a string, the other is converted to a string and the results are then concatenated.
   - [ ] Challenge 3: Change the implementation in visitBinary() to detect and report a runtime error when dividing by 0. 
 
-- [ ] 8. [**Statements and State**](http://www.craftinginterpreters.com/statements-and-state.html) (COMING SOON)
+- [x] 8. [**Statements and State**](http://www.craftinginterpreters.com/statements-and-state.html) (COMING SOON)
+  - [ ] Challenge 1: Add support to the REPL to let users type in both statements and expressions.
+  - [ ] Challenge 2: Make it a runtime error to access a variable that has not been initialized or assigned to
+  - Challenge 3: Nothing to do.
+
 - [ ] 9. [**Control Flow**](http://www.craftinginterpreters.com/control-flow.html) (COMING SOON)
 - [ ] 10. [**Functions**](http://www.craftinginterpreters.com/functions.html) (COMING SOON)
 - [ ] 11. [**Resolving and Binding**](http://www.craftinginterpreters.com/resolving-and-binding.html) (COMING SOON)

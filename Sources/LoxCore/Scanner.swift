@@ -69,7 +69,7 @@ final class Scanner {
         case "!" where match("="):
             addToken(type: .bangEqual)
         case "!":
-            addToken(type: .bangEqual)
+            addToken(type: .bang)
 
         case "=" where match("="):
             addToken(type: .equalEqual)
