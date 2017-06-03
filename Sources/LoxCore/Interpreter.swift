@@ -82,7 +82,7 @@ final class Interpreter: ExprVisitor, StmtVisitor {
 
         switch expr.op.type {
         case .bang:
-            return .success(!isTrue(object: right))
+            return .success(!isTrue(right))
         case .minus:
             let casted = castNumberOperand(op: expr.op, operand: right)
             return casted.map(-)
@@ -238,8 +238,22 @@ final class Interpreter: ExprVisitor, StmtVisitor {
         return expr.accept(visitor: self)
     }
 
-    private func isTrue(object: Any?) -> Bool {
-        if object == nil {
+    // ugh, again, unnecessary code just to make Result, Any and Optional play together.
+    private func isTrue(_ result: ExprVisitorReturn) -> Bool {
+        guard let result = result else {
+            return false
+        }
+
+        switch result {
+        case .success(let object):
+            return isTrue(object)
+        case .failure:
+            return false
+        }
+    }
+
+    private func isTrue(_ object: Any?) -> Bool {
+        guard let object = object else {
             return false
         }
 
