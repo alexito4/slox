@@ -1,2 +1,1 @@
-var a = "a";
-!a = "value"; // Error at '=': Invalid assignment target.
+unknown = "what"; // expect runtime error: Undefined variable 'unknown'.

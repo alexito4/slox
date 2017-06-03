@@ -84,7 +84,8 @@ public final class Lox {
         guard case let InterpreterError.runtime(token, message) = interError else {
             fatalError()
         }
-        print("\(message)\n[line \(token.line)]")
+        var stderr = FileHandle.standardError
+        print("\(message)\n[line \(token.line)]", to: &stderr)
         hadRuntimeError = true
     }
 }
