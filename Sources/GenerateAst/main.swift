@@ -131,6 +131,7 @@ func defineAst(outputDir: String, baseName: String, types: [String]) throws {
 
 p = Printer()
 try defineAst(outputDir: outputDir, baseName: "Expr", types: [
+    "Assign   / name: Token, value: Expr",
     "Binary   / left: Expr, op: Token, right: Expr",
     "Grouping / expression: Expr",
     "Literal  / value: Any?",

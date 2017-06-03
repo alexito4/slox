@@ -8,6 +8,7 @@ protocol ExprVisitor {
     // Decided to make the Visitor methods non-throwing to avoid polluting with throws
     // the visitors that don't return errors. Instead if an error has to be returned
     // the specific visitor implementation will return a Result type.
+    func visitAssignExpr(_ expr: Expr.Assign) -> ExprVisitorReturn
     func visitBinaryExpr(_ expr: Expr.Binary) -> ExprVisitorReturn
     func visitGroupingExpr(_ expr: Expr.Grouping) -> ExprVisitorReturn
     func visitLiteralExpr(_ expr: Expr.Literal) -> ExprVisitorReturn
@@ -19,6 +20,20 @@ class Expr {
     
     func accept<V: ExprVisitor, R>(visitor: V) -> R where R == V.ExprVisitorReturn {
         fatalError()
+    }
+    
+    class Assign: Expr {
+        let name: Token
+        let value: Expr
+        
+        init(name: Token, value: Expr) {
+            self.name = name
+            self.value = value
+        }
+        
+        override func accept<V: ExprVisitor, R>(visitor: V) -> R where R == V.ExprVisitorReturn {
+            return visitor.visitAssignExpr(self)
+        }
     }
     
     class Binary: Expr {

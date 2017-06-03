@@ -41,7 +41,7 @@ final class Parser {
     // MARK: Grammar
 
     private func expression() throws -> Expr {
-        return try equiality()
+        return try assignment()
     }
     
     private func declaration() throws -> Stmt? {
@@ -63,6 +63,24 @@ final class Parser {
         }
         
         return try expressionStatement()
+    }
+    
+    private func assignment() throws -> Expr {
+        let expr = try equiality()
+        
+        if match(.equal) {
+            let equals = previous()
+            let value = try assignment()
+        
+            if let variable = expr as? Expr.Variable {
+                let name = variable.name
+                return Expr.Assign(name: name, value: value)
+            }
+        
+            throw error(token: equals, message: "Invalid assignment target.");
+        }
+        
+        return expr;
     }
     
     private func printStatement() throws -> Stmt {
