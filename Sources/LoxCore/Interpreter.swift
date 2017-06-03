@@ -373,8 +373,9 @@ final class Interpreter: ExprVisitor, StmtVisitor {
             return .success()
         case .failure(let error)?:
             return .failure(error)
-        default:
-            fatalError()
+        case nil:
+            print(stringify(value: nil))
+            return .success()
         }
     }
 
