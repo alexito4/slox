@@ -52,6 +52,18 @@ One thing to note is that I'm trying to write a mix between idiomatic Swift (wha
 
 I integrated Bob tests in order to be able to make sure this implementation behaves in the same way as the original implementation. You can find the [test](https://github.com/alexito4/slox/tree/master/test) in this project with the `test.py` [script modified](https://github.com/alexito4/slox/blob/master/tools/test.py) to work with this project. You can also find a [diff](https://github.com/alexito4/slox/blob/master/tools/test_patch.diff) with the main modifications.
 
+Example of usage: `sh build.sh; ./tools/test.py chap08_statements`
+
+# Project structure
+
+This project now uses [SPM](https://github.com/apple/swift-package-manager/) to manage the executables, framework and dependencies.
+
+The bulk of the interpreter is implemented in a framework and the executable is just a small CLI program that uses that framework.
+
+- slox: The executable. Can be used as a CLI to run the interpreter.
+- LoxCore: The main framework that contains the implementation of the Lox language in Swift.
+- GenerateAst: A small executable that generates the AST for LoxCore.
+
 # Author
 
 Alejandro Martinez | http://alejandromp.com | [@alexito4](https://twitter.com/alexito4)
