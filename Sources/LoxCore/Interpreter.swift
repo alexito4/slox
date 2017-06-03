@@ -264,6 +264,19 @@ final class Interpreter: ExprVisitor, StmtVisitor {
         return true
     }
 
+    private func isEqualAny(left: ExprVisitorReturn, right: ExprVisitorReturn) -> Bool {
+        // nil is only equal to nil.
+        if left == nil && right == nil {
+            return true
+        }
+
+        guard let left = left?.value, let right = right?.value else {
+            return false
+        }
+
+        return isEqualAny(left: left, right: right)
+    }
+
     private func isEqualAny(left: Any?, right: Any?) -> Bool {
         // nil is only equal to nil.
         if left == nil && right == nil {
@@ -274,11 +287,10 @@ final class Interpreter: ExprVisitor, StmtVisitor {
             return false
         }
 
-        /*
-         guard left.self == right.self else {
-         // Types are different.
-         return false
-         }*/
+        guard type(of: left!) == type(of: right!) else {
+            // Types are different.
+            return false
+        }
 
         if let l = left as? String, let r = right as? String {
             return l == r
@@ -292,7 +304,7 @@ final class Interpreter: ExprVisitor, StmtVisitor {
             return l == r
         }
 
-        fatalError("Unsupported equatable type. /n \(String(describing: left)) or \(String(describing: right))/nOR TYPES ARE JUST DIFFERET")
+        fatalError("Unsupported equatable type. /n \(String(describing: left)) or \(String(describing: right))")
     }
 
     // MARK: Runtime checks
