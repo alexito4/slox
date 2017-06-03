@@ -21,18 +21,14 @@ final class Parser {
         self.tokens = tokens
     }
 
-    func parse() -> Array<Stmt>? {
+    func parse() -> Array<Stmt> {
 
         var statements = Array<Stmt>()
         
-        do {
-            while !isAtEnd() {
-                if let declaration = try declaration() {
-                    statements.append(declaration)
-                }
+        while !isAtEnd() {
+            if let declaration = declaration() {
+                statements.append(declaration)
             }
-        } catch {
-            return nil
         }
         
         return statements
@@ -44,14 +40,14 @@ final class Parser {
         return try assignment()
     }
     
-    private func declaration() throws -> Stmt? {
+    private func declaration() -> Stmt? {
         do {
             if match(.Var) {
                 return try varDeclaration()
             }
             
             return try statement()
-        } catch Error.parseFailure {
+        } catch { // errors should always be Error.parseFailure. If not, we should retrhowit making this func throws.
             synchronize()
             return nil // Recovered from error mode. Return nil and continue parsing.
         }
@@ -60,6 +56,10 @@ final class Parser {
     private func statement() throws -> Stmt {
         if match(.print) {
             return try printStatement()
+        }
+        
+        if match(.leftBrace) {
+            return Stmt.Block(statements: try block())
         }
         
         return try expressionStatement()
@@ -106,6 +106,19 @@ final class Parser {
         let value = try expression()
         try consume(.semicolon, message: "Expect ';' after value.")
         return Stmt.Expression(expression: value)
+    }
+    
+    private func block() throws -> Array<Stmt> {
+        var statements = Array<Stmt>()
+        
+        while !check(.rightBrace) && !isAtEnd() {
+            if let decl = declaration() { // If there is an error `decl` is nil, ignore it and continue parsing
+                statements.append(decl)
+            }
+        }
+        
+        try consume(.rightBrace, message: "Expect '}' after block.")
+        return statements
     }
 
     private func equiality() throws -> Expr {

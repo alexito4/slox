@@ -141,6 +141,7 @@ try defineAst(outputDir: outputDir, baseName: "Expr", types: [
 
 p = Printer()
 try defineAst(outputDir: outputDir, baseName: "Stmt", types: [
+    "Block      / statements: Array<Stmt>",
     "Expression / expression: Expr",
     "Print      / expression: Expr",
     "Var        / name: Token, initializer: Expr?"

@@ -18,7 +18,7 @@ final class Interpreter: ExprVisitor, StmtVisitor {
     typealias ExprVisitorReturn = Result<Any, InterpreterError>?
     typealias StmtVisitorReturn = Result<Void, InterpreterError>
     
-    private let environment = Environment()
+    private var environment = Environment()
     
     func interpret(_ statements: Array<Stmt>) {
         do {
@@ -33,6 +33,18 @@ final class Interpreter: ExprVisitor, StmtVisitor {
     private func execute(_ statement: Stmt) throws {
         if case let .failure(error) = statement.accept(visitor: self) {
             throw error
+        }
+    }
+    
+    private func executeBlock(_ statements: Array<Stmt>, newEnvironment: Environment) throws {
+        let previous = environment
+        environment = newEnvironment
+        defer {
+            environment = previous
+        }
+        
+        for statement in statements {
+            try execute(statement)
         }
     }
     
@@ -308,6 +320,17 @@ final class Interpreter: ExprVisitor, StmtVisitor {
     }
 
     // MARK: StmtVisitor
+    
+    func visitBlockStmt(_ stmt: Stmt.Block) -> StmtVisitorReturn {
+        
+        do {
+            try executeBlock(stmt.statements, newEnvironment: Environment(enclosing: environment))
+        } catch {
+            return .failure(error as! InterpreterError) // Compiler doesn't know but it should always be InterpreterError
+        }
+        
+        return .success()
+    }
     
     func visitExpressionStmt(_ stmt: Stmt.Expression) -> StmtVisitorReturn {
         if case let .failure(error)? = evaluate(expr: stmt.expression) {
