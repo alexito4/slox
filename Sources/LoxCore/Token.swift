@@ -49,6 +49,8 @@ enum TokenType {
     case Var
     case While
 
+    case Break
+
     case eof
 }
 

@@ -267,5 +267,6 @@ extension Scanner {
         "true": .True,
         "var": .Var,
         "while": .While,
+        "break": .Break,
     ]
 }
