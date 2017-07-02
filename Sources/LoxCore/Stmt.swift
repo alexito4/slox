@@ -5,6 +5,7 @@ protocol StmtVisitor {
 
     func visitBlockStmt(_ stmt: Stmt.Block) -> StmtVisitorReturn
     func visitExpressionStmt(_ stmt: Stmt.Expression) -> StmtVisitorReturn
+    func visitIfStmt(_ stmt: Stmt.If) -> StmtVisitorReturn
     func visitPrintStmt(_ stmt: Stmt.Print) -> StmtVisitorReturn
     func visitVarStmt(_ stmt: Stmt.Var) -> StmtVisitorReturn
 }
@@ -36,6 +37,22 @@ class Stmt {
 
         override func accept<V: StmtVisitor, R>(visitor: V) -> R where R == V.StmtVisitorReturn {
             return visitor.visitExpressionStmt(self)
+        }
+    }
+
+    class If: Stmt {
+        let condition: Expr
+        let thenBranch: Stmt
+        let elseBranch: Stmt?
+
+        init(condition: Expr, thenBranch: Stmt, elseBranch: Stmt?) {
+            self.condition = condition
+            self.thenBranch = thenBranch
+            self.elseBranch = elseBranch
+        }
+
+        override func accept<V: StmtVisitor, R>(visitor: V) -> R where R == V.StmtVisitorReturn {
+            return visitor.visitIfStmt(self)
         }
     }
 

@@ -81,6 +81,14 @@ class AstPrinter: ExprVisitor, StmtVisitor {
         return parenthesize(name: ";", exprs: stmt.expression)
     }
 
+    func visitIfStmt(_ stmt: Stmt.If) -> String {
+        guard let elseBranch = stmt.elseBranch else {
+            return parenthesize(name: "if", parts: stmt.condition, stmt.thenBranch)
+        }
+
+        return parenthesize(name: "if-else", parts: stmt.condition, stmt.thenBranch, elseBranch)
+    }
+
     func visitPrintStmt(_ stmt: Stmt.Print) -> String {
         return parenthesize(name: "print", exprs: stmt.expression)
     }

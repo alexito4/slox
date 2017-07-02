@@ -140,6 +140,7 @@ p = Printer()
 try defineAst(outputDir: outputDir, baseName: "Stmt", types: [
     "Block      / statements: Array<Stmt>",
     "Expression / expression: Expr",
+    "If         / condition: Expr, thenBranch: Stmt, elseBranch: Stmt?",
     "Print      / expression: Expr",
     "Var        / name: Token, initializer: Expr?",
 ])

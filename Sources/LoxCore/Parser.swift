@@ -54,6 +54,9 @@ final class Parser {
     }
 
     private func statement() throws -> Stmt {
+        if match(.If) {
+            return try ifStatement()
+        }
         if match(.print) {
             return try printStatement()
         }
@@ -63,6 +66,22 @@ final class Parser {
         }
 
         return try expressionStatement()
+    }
+
+    private func ifStatement() throws -> Stmt {
+        try consume(.leftParen, message: "Expect '(' after 'if'.")
+        let condition = try expression()
+        try consume(.rightParen, message: "Expect ')' after if condition.")
+
+        let thenBranch = try statement()
+        let elseBranch: Stmt?
+        if match(.Else) {
+            elseBranch = try statement()
+        } else {
+            elseBranch = nil
+        }
+
+        return Stmt.If(condition: condition, thenBranch: thenBranch, elseBranch: elseBranch)
     }
 
     private func assignment() throws -> Expr {

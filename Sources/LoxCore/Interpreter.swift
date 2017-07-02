@@ -366,6 +366,24 @@ final class Interpreter: ExprVisitor, StmtVisitor {
         return .success()
     }
 
+    func visitIfStmt(_ stmt: Stmt.If) -> Result<Void, InterpreterError> {
+        if isTrue(evaluate(expr: stmt.condition)) {
+            do {
+                try execute(stmt.thenBranch)
+            } catch {
+                return .failure(error as! InterpreterError) // Compiler doesn't know but it should always be InterpreterError
+            }
+        } else if let elseBranch = stmt.elseBranch {
+            do {
+                try execute(elseBranch)
+            } catch {
+                return .failure(error as! InterpreterError) // Compiler doesn't know but it should always be InterpreterError
+            }
+        }
+
+        return .success()
+    }
+
     func visitPrintStmt(_ stmt: Stmt.Print) -> StmtVisitorReturn {
         switch evaluate(expr: stmt.expression) {
         case .success(let value)?:
