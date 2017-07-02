@@ -11,6 +11,7 @@ import Result
 
 enum InterpreterError: Error {
     case runtime(Token, String) // TODO: Instead of string we could have different cases for each error.
+    case breakLoop // Thrown by the Break Stmt to get out of the loop
 }
 
 final class Interpreter: ExprVisitor, StmtVisitor {
@@ -375,7 +376,7 @@ final class Interpreter: ExprVisitor, StmtVisitor {
     }
 
     func visitBreakStmt(_ stmt: Stmt.Break) -> Result<Void, InterpreterError> {
-        fatalError()
+        return .failure(.breakLoop)
     }
 
     func visitExpressionStmt(_ stmt: Stmt.Expression) -> StmtVisitorReturn {
@@ -441,6 +442,8 @@ final class Interpreter: ExprVisitor, StmtVisitor {
         while isTruthy(evaluate(expr: stmt.condition)) {
             do {
                 try execute(stmt.body)
+            } catch InterpreterError.breakLoop {
+                break
             } catch {
                 return .failure(error as! InterpreterError) // Compiler doesn't know but it should always be InterpreterError
             }

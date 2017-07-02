@@ -66,6 +66,9 @@ final class Parser {
         if match(.While) {
             return try whileStatement()
         }
+        if match(.Break) {
+            return try breakStatement()
+        }
 
         if match(.leftBrace) {
             return Stmt.Block(statements: try block())
@@ -208,6 +211,11 @@ final class Parser {
         let body = try statement()
 
         return Stmt.While(condition: condition, body: body)
+    }
+
+    private func breakStatement() throws -> Stmt {
+        try consume(.semicolon, message: "Expect ';' after 'break'.")
+        return Stmt.Break()
     }
 
     private func expressionStatement() throws -> Stmt {

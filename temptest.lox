@@ -1,5 +1,16 @@
 var i = 0;
-while (true) {
+while (i < 10) {
+    i = i + 1;
     print(i);
-    break;
+    var in = 0;
+    while (true) {
+        in = in + 1;
+        print(i);
+        if (in > 5) {
+            break;
+        }
+    }
+    if (i == 5) {
+        break;
+    }
 }
