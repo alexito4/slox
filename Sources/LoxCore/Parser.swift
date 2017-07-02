@@ -17,6 +17,8 @@ final class Parser {
     fileprivate var tokens: Array<Token>
     fileprivate var current = 0
 
+    private var loopLevel = 0 // Level of nested loops for break support. Break outside a loop is an error.
+
     init(tokens: Array<Token>) {
         self.tokens = tokens
     }
@@ -104,6 +106,9 @@ final class Parser {
             increment = nil
         }
         try consume(.rightParen, message: "Expect ')' after for clauses.")
+
+        loopLevel += 1
+        defer { loopLevel -= 1 }
 
         var body = try statement()
 
@@ -208,12 +213,19 @@ final class Parser {
         try consume(.leftParen, message: "Expect '(' after 'while'.")
         let condition = try expression()
         try consume(.rightParen, message: "Expect ')' after condition.")
+
+        loopLevel += 1
+        defer { loopLevel -= 1 }
+
         let body = try statement()
 
         return Stmt.While(condition: condition, body: body)
     }
 
     private func breakStatement() throws -> Stmt {
+        guard loopLevel > 0 else {
+            throw error(token: previous(), message: "'break' can't only be used inside a loop.")
+        }
         try consume(.semicolon, message: "Expect ';' after 'break'.")
         return Stmt.Break()
     }

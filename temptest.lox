@@ -9,9 +9,9 @@ while (i < 10) {
         if (in > 5) {
             break;
         }
+        print("after");
     }
     if (i == 5) {
         break;
     }
 }
-break;
