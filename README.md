@@ -42,10 +42,10 @@ One thing to note is that I'm trying to write a mix between idiomatic Swift (wha
   - [ ] Challenge 2: Make it a runtime error to access a variable that has not been initialized or assigned to
   - Challenge 3: Nothing to implement.
 
-- [ ] 9. [**Control Flow**](http://www.craftinginterpreters.com/control-flow.html)
+- [x] 9. [**Control Flow**](http://www.craftinginterpreters.com/control-flow.html)
   - Challenge 1: Nothing to implement.
   - Challenge 2: Nothing to implement.
-  - [ ] Challenge 3: Add support for break statements.
+  - [x] Challenge 3: Add support for break statements.
 
 - [ ] 10. [**Functions**](http://www.craftinginterpreters.com/functions.html) (COMING SOON)
 - [ ] 11. [**Resolving and Binding**](http://www.craftinginterpreters.com/resolving-and-binding.html) (COMING SOON)
