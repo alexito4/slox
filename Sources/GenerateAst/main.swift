@@ -132,6 +132,7 @@ try defineAst(outputDir: outputDir, baseName: "Expr", types: [
     "Binary   / left: Expr, op: Token, right: Expr",
     "Grouping / expression: Expr",
     "Literal  / value: Any?",
+    "Logical  / left: Expr, op: Token, right: Expr",
     "Unary    / op: Token, right: Expr",
     "Variable / name: Token",
 ])
@@ -140,6 +141,8 @@ p = Printer()
 try defineAst(outputDir: outputDir, baseName: "Stmt", types: [
     "Block      / statements: Array<Stmt>",
     "Expression / expression: Expr",
+    "If         / condition: Expr, thenBranch: Stmt, elseBranch: Stmt?",
     "Print      / expression: Expr",
     "Var        / name: Token, initializer: Expr?",
+    "While      / condition: Expr, body: Stmt",
 ])

@@ -11,7 +11,7 @@ One thing to note is that I'm trying to write a mix between idiomatic Swift (wha
 
 # Implementation
 
-*as of 03/06/2017*
+*as of 02/07/2017*
 
 ## A TREE-WALK INTERPRETER
 
@@ -40,9 +40,13 @@ One thing to note is that I'm trying to write a mix between idiomatic Swift (wha
 - [x] 8. [**Statements and State**](http://www.craftinginterpreters.com/statements-and-state.html)
   - [ ] Challenge 1: Add support to the REPL to let users type in both statements and expressions.
   - [ ] Challenge 2: Make it a runtime error to access a variable that has not been initialized or assigned to
-  - Challenge 3: Nothing to do.
+  - Challenge 3: Nothing to implement.
 
-- [ ] 9. [**Control Flow**](http://www.craftinginterpreters.com/control-flow.html) (COMING SOON)
+- [ ] 9. [**Control Flow**](http://www.craftinginterpreters.com/control-flow.html)
+  - Challenge 1: Nothing to implement.
+  - Challenge 2: Nothing to implement.
+  - [ ] Challenge 3: Add support for break statements.
+
 - [ ] 10. [**Functions**](http://www.craftinginterpreters.com/functions.html) (COMING SOON)
 - [ ] 11. [**Resolving and Binding**](http://www.craftinginterpreters.com/resolving-and-binding.html) (COMING SOON)
 - [ ] 12. [**Classes**](http://www.craftinginterpreters.com/classes.html) (COMING SOON)

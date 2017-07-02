@@ -12,6 +12,7 @@ protocol ExprVisitor {
     func visitBinaryExpr(_ expr: Expr.Binary) -> ExprVisitorReturn
     func visitGroupingExpr(_ expr: Expr.Grouping) -> ExprVisitorReturn
     func visitLiteralExpr(_ expr: Expr.Literal) -> ExprVisitorReturn
+    func visitLogicalExpr(_ expr: Expr.Logical) -> ExprVisitorReturn
     func visitUnaryExpr(_ expr: Expr.Unary) -> ExprVisitorReturn
     func visitVariableExpr(_ expr: Expr.Variable) -> ExprVisitorReturn
 }
@@ -73,6 +74,22 @@ class Expr {
 
         override func accept<V: ExprVisitor, R>(visitor: V) -> R where R == V.ExprVisitorReturn {
             return visitor.visitLiteralExpr(self)
+        }
+    }
+
+    class Logical: Expr {
+        let left: Expr
+        let op: Token
+        let right: Expr
+
+        init(left: Expr, op: Token, right: Expr) {
+            self.left = left
+            self.op = op
+            self.right = right
+        }
+
+        override func accept<V: ExprVisitor, R>(visitor: V) -> R where R == V.ExprVisitorReturn {
+            return visitor.visitLogicalExpr(self)
         }
     }
 

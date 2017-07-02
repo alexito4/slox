@@ -40,12 +40,20 @@ class AstPrinter: ExprVisitor, StmtVisitor {
         return String(describing: value)
     }
 
+    func visitLogicalExpr(_ expr: Expr.Logical) -> String {
+        return parenthesize(name: expr.op.lexeme, exprs: expr.left, expr.right)
+    }
+
     func visitUnaryExpr(_ expr: Expr.Unary) -> String {
         return parenthesize(name: expr.op.lexeme, exprs: expr.right)
     }
 
     func visitVariableExpr(_ expr: Expr.Variable) -> String {
         return expr.name.lexeme
+    }
+
+    func visitWhileStmt(_ stmt: Stmt.While) -> String {
+        return parenthesize(name: "while", parts: stmt.condition, stmt.body)
     }
 
     private func parenthesize(name: String, exprs: Expr...) -> String {
@@ -79,6 +87,14 @@ class AstPrinter: ExprVisitor, StmtVisitor {
 
     func visitExpressionStmt(_ stmt: Stmt.Expression) -> String {
         return parenthesize(name: ";", exprs: stmt.expression)
+    }
+
+    func visitIfStmt(_ stmt: Stmt.If) -> String {
+        guard let elseBranch = stmt.elseBranch else {
+            return parenthesize(name: "if", parts: stmt.condition, stmt.thenBranch)
+        }
+
+        return parenthesize(name: "if-else", parts: stmt.condition, stmt.thenBranch, elseBranch)
     }
 
     func visitPrintStmt(_ stmt: Stmt.Print) -> String {
@@ -141,6 +157,10 @@ class AstRPNPrinter: ExprVisitor {
 
     func visitLiteralExpr(_ expr: Expr.Literal) -> String {
         return String(describing: expr.value)
+    }
+
+    func visitLogicalExpr(_ expr: Expr.Logical) -> String {
+        return "\(print(expr: expr.left)) \(print(expr: expr.right)) \(expr.op.lexeme)"
     }
 
     func visitUnaryExpr(_ expr: Expr.Unary) -> String {

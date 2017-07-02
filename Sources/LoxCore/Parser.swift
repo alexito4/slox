@@ -54,8 +54,17 @@ final class Parser {
     }
 
     private func statement() throws -> Stmt {
+        if match(.For) {
+            return try forStatement()
+        }
+        if match(.If) {
+            return try ifStatement()
+        }
         if match(.print) {
             return try printStatement()
+        }
+        if match(.While) {
+            return try whileStatement()
         }
 
         if match(.leftBrace) {
@@ -65,8 +74,74 @@ final class Parser {
         return try expressionStatement()
     }
 
+    private func forStatement() throws -> Stmt {
+        try consume(.leftParen, message: "Expect '(' after 'for'.")
+
+        let initializer: Stmt?
+        if match(.semicolon) {
+            initializer = nil
+        } else if match(.Var) {
+            initializer = try varDeclaration()
+        } else {
+            initializer = try expressionStatement()
+        }
+
+        let condition: Expr
+        if check(.semicolon) == false {
+            condition = try expression()
+        } else {
+            condition = Expr.Literal(value: true)
+        }
+        try consume(.semicolon, message: "Expect ';' after loop condition.")
+
+        let increment: Expr?
+        if check(.rightParen) == false {
+            increment = try expression()
+        } else {
+            increment = nil
+        }
+        try consume(.rightParen, message: "Expect ')' after for clauses.")
+
+        var body = try statement()
+
+        // Synthesize the desugared for into a while
+        if let increment = increment {
+            body = Stmt.Block(statements: [
+                body,
+                Stmt.Expression(expression: increment),
+            ])
+        }
+
+        body = Stmt.While(condition: condition, body: body)
+
+        if let initializer = initializer {
+            body = Stmt.Block(statements: [
+                initializer,
+                body,
+            ])
+        }
+
+        return body
+    }
+
+    private func ifStatement() throws -> Stmt {
+        try consume(.leftParen, message: "Expect '(' after 'if'.")
+        let condition = try expression()
+        try consume(.rightParen, message: "Expect ')' after if condition.")
+
+        let thenBranch = try statement()
+        let elseBranch: Stmt?
+        if match(.Else) {
+            elseBranch = try statement()
+        } else {
+            elseBranch = nil
+        }
+
+        return Stmt.If(condition: condition, thenBranch: thenBranch, elseBranch: elseBranch)
+    }
+
     private func assignment() throws -> Expr {
-        let expr = try equiality()
+        let expr = try or()
 
         if match(.equal) {
             let equals = previous()
@@ -78,6 +153,30 @@ final class Parser {
             }
 
             throw error(token: equals, message: "Invalid assignment target.")
+        }
+
+        return expr
+    }
+
+    private func or() throws -> Expr {
+        var expr = try and()
+
+        while match(.or) {
+            let op = previous()
+            let right = try and()
+            expr = Expr.Logical(left: expr, op: op, right: right)
+        }
+
+        return expr
+    }
+
+    private func and() throws -> Expr {
+        var expr = try equality()
+
+        while match(.and) {
+            let op = previous()
+            let right = try equality()
+            expr = Expr.Logical(left: expr, op: op, right: right)
         }
 
         return expr
@@ -102,9 +201,18 @@ final class Parser {
         return Stmt.Var(name: name, initializer: initializer)
     }
 
+    private func whileStatement() throws -> Stmt {
+        try consume(.leftParen, message: "Expect '(' after 'while'.")
+        let condition = try expression()
+        try consume(.rightParen, message: "Expect ')' after condition.")
+        let body = try statement()
+
+        return Stmt.While(condition: condition, body: body)
+    }
+
     private func expressionStatement() throws -> Stmt {
         let value = try expression()
-        try consume(.semicolon, message: "Expect ';' after value.")
+        try consume(.semicolon, message: "Expect ';' after expression.")
         return Stmt.Expression(expression: value)
     }
 
@@ -121,7 +229,7 @@ final class Parser {
         return statements
     }
 
-    private func equiality() throws -> Expr {
+    private func equality() throws -> Expr {
         return try leftAssociativeBinary(expression: comparison, types: .bangEqual, .equalEqual)
     }
 
