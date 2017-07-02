@@ -41,6 +41,12 @@ public final class Lox {
 
         let parser = Parser(tokens: tokens)
         let statements = parser.parse()
+
+        // Stop if there was a syntax error.
+        guard !hadError else {
+            return
+        }
+
         interpreter.interpret(statements)
 
         /*
