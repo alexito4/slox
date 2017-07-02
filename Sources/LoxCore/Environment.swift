@@ -61,6 +61,7 @@ final class Environment {
 
         if let enclosing = enclosing {
             try enclosing.assign(name: name, value: value)
+            return
         }
 
         throw InterpreterError.runtime(name, "Undefined variable '\(name.lexeme)'.")
