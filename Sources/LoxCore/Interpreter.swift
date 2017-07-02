@@ -133,6 +133,7 @@ final class Interpreter: ExprVisitor, StmtVisitor {
         case .True: fallthrough
         case .Var: fallthrough
         case .While: fallthrough
+        case .Break: fallthrough
         case .eof:
             // Unreachable.
             fatalError()
@@ -223,6 +224,7 @@ final class Interpreter: ExprVisitor, StmtVisitor {
         case .True: fallthrough
         case .Var: fallthrough
         case .While: fallthrough
+        case .Break: fallthrough
         case .eof:
             // Unreachable.
             fatalError()
@@ -370,6 +372,10 @@ final class Interpreter: ExprVisitor, StmtVisitor {
         }
 
         return .success()
+    }
+
+    func visitBreakStmt(_ stmt: Stmt.Break) -> Result<Void, InterpreterError> {
+        fatalError()
     }
 
     func visitExpressionStmt(_ stmt: Stmt.Expression) -> StmtVisitorReturn {

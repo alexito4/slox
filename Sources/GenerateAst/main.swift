@@ -25,7 +25,7 @@ var p: Printer!
 func defineType(baseName: String, className: String, fields fieldsList: String) {
     p.print("class \(className): \(baseName) {")
 
-    let fields = fieldsList.components(separatedBy: ", ")
+    let fields = fieldsList.components(separatedBy: ", ").filter({ $0.isEmpty == false })
 
     // Properties
     p.push()
@@ -36,15 +36,17 @@ func defineType(baseName: String, className: String, fields fieldsList: String) 
     p.emptyline()
 
     // Initializer
-    p.print("init(\(fieldsList)) {")
-    p.push()
-    for field in fields {
-        let name = field.components(separatedBy: ": ")[0].trimmingCharacters(in: .whitespaces)
+    if fields.isEmpty == false {
+        p.print("init(\(fieldsList)) {")
+        p.push()
+        for field in fields {
+            let name = field.components(separatedBy: ": ")[0].trimmingCharacters(in: .whitespaces)
 
-        p.print("self.\(name) = \(name)")
+            p.print("self.\(name) = \(name)")
+        }
+        p.pop()
+        p.print("}")
     }
-    p.pop()
-    p.print("}")
 
     // Visitor pattern.
     p.emptyline()
@@ -140,6 +142,7 @@ try defineAst(outputDir: outputDir, baseName: "Expr", types: [
 p = Printer()
 try defineAst(outputDir: outputDir, baseName: "Stmt", types: [
     "Block      / statements: Array<Stmt>",
+    "Break      /",
     "Expression / expression: Expr",
     "If         / condition: Expr, thenBranch: Stmt, elseBranch: Stmt?",
     "Print      / expression: Expr",
