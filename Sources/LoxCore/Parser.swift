@@ -54,6 +54,9 @@ final class Parser {
     }
 
     private func statement() throws -> Stmt {
+        if match(.For) {
+            return try forStatement()
+        }
         if match(.If) {
             return try ifStatement()
         }
@@ -69,6 +72,56 @@ final class Parser {
         }
 
         return try expressionStatement()
+    }
+
+    private func forStatement() throws -> Stmt {
+        try consume(.leftParen, message: "Expect '(' after 'for'.")
+
+        let initializer: Stmt?
+        if match(.semicolon) {
+            initializer = nil
+        } else if match(.Var) {
+            initializer = try varDeclaration()
+        } else {
+            initializer = try expressionStatement()
+        }
+
+        let condition: Expr
+        if check(.semicolon) == false {
+            condition = try expression()
+        } else {
+            condition = Expr.Literal(value: true)
+        }
+        try consume(.semicolon, message: "Expect ';' after loop condition.")
+
+        let increment: Expr?
+        if check(.rightParen) == false {
+            increment = try expression()
+        } else {
+            increment = nil
+        }
+        try consume(.rightParen, message: "Expect ')' after for clauses.")
+
+        var body = try statement()
+
+        // Synthesize the desugared for into a while
+        if let increment = increment {
+            body = Stmt.Block(statements: [
+                body,
+                Stmt.Expression(expression: increment),
+            ])
+        }
+
+        body = Stmt.While(condition: condition, body: body)
+
+        if let initializer = initializer {
+            body = Stmt.Block(statements: [
+                initializer,
+                body,
+            ])
+        }
+
+        return body
     }
 
     private func ifStatement() throws -> Stmt {
