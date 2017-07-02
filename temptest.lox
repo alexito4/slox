@@ -1,2 +1,5 @@
-print "hi" or 2/0; // "hi".
-print nil or "yes"; // "yes".
+var n = 0;
+while (n < 100000) {
+    print(n);
+    n = n + 1;
+}

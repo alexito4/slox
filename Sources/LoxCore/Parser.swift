@@ -60,6 +60,9 @@ final class Parser {
         if match(.print) {
             return try printStatement()
         }
+        if match(.While) {
+            return try whileStatement()
+        }
 
         if match(.leftBrace) {
             return Stmt.Block(statements: try block())
@@ -143,6 +146,15 @@ final class Parser {
         try consume(.semicolon, message: "Expect ';' after variable declaration.")
 
         return Stmt.Var(name: name, initializer: initializer)
+    }
+
+    private func whileStatement() throws -> Stmt {
+        try consume(.leftParen, message: "Expect '(' after 'while'.")
+        let condition = try expression()
+        try consume(.rightParen, message: "Expect ')' after condition.")
+        let body = try statement()
+
+        return Stmt.While(condition: condition, body: body)
     }
 
     private func expressionStatement() throws -> Stmt {

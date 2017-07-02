@@ -430,4 +430,15 @@ final class Interpreter: ExprVisitor, StmtVisitor {
 
         return .success()
     }
+
+    func visitWhileStmt(_ stmt: Stmt.While) -> Result<Void, InterpreterError> {
+        while isTruthy(evaluate(expr: stmt.condition)) {
+            do {
+                try execute(stmt.body)
+            } catch {
+                return .failure(error as! InterpreterError) // Compiler doesn't know but it should always be InterpreterError
+            }
+        }
+        return .success()
+    }
 }

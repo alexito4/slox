@@ -8,6 +8,7 @@ protocol StmtVisitor {
     func visitIfStmt(_ stmt: Stmt.If) -> StmtVisitorReturn
     func visitPrintStmt(_ stmt: Stmt.Print) -> StmtVisitorReturn
     func visitVarStmt(_ stmt: Stmt.Var) -> StmtVisitorReturn
+    func visitWhileStmt(_ stmt: Stmt.While) -> StmtVisitorReturn
 }
 
 class Stmt {
@@ -79,6 +80,20 @@ class Stmt {
 
         override func accept<V: StmtVisitor, R>(visitor: V) -> R where R == V.StmtVisitorReturn {
             return visitor.visitVarStmt(self)
+        }
+    }
+
+    class While: Stmt {
+        let condition: Expr
+        let body: Stmt
+
+        init(condition: Expr, body: Stmt) {
+            self.condition = condition
+            self.body = body
+        }
+
+        override func accept<V: StmtVisitor, R>(visitor: V) -> R where R == V.StmtVisitorReturn {
+            return visitor.visitWhileStmt(self)
         }
     }
 }

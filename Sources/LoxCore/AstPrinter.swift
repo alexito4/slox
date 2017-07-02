@@ -52,6 +52,10 @@ class AstPrinter: ExprVisitor, StmtVisitor {
         return expr.name.lexeme
     }
 
+    func visitWhileStmt(_ stmt: Stmt.While) -> String {
+        return parenthesize(name: "while", parts: stmt.condition, stmt.body)
+    }
+
     private func parenthesize(name: String, exprs: Expr...) -> String {
         var output = ""
 
