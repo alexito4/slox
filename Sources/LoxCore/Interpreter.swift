@@ -72,6 +72,20 @@ final class Interpreter: ExprVisitor, StmtVisitor {
         return .success(value)
     }
 
+    func visitLogicalExpr(_ expr: Expr.Logical) -> Result<Any, InterpreterError>? {
+        let left = evaluate(expr: expr.left)
+
+        // Logical operator with shortcircuit
+        switch expr.op.type {
+        case .or where isTruthy(left):
+            return left
+        case .and where isTruthy(left) == false:
+            return left
+        default:
+            return evaluate(expr: expr.right)
+        }
+    }
+
     func visitGroupingExpr(_ expr: Expr.Grouping) -> ExprVisitorReturn {
         let res = evaluate(expr: expr.expression)
         return res
@@ -82,7 +96,7 @@ final class Interpreter: ExprVisitor, StmtVisitor {
 
         switch expr.op.type {
         case .bang:
-            return .success(!isTrue(right))
+            return .success(!isTruthy(right))
         case .minus:
             let casted = castNumberOperand(op: expr.op, operand: right)
             return casted.map(-)
@@ -239,20 +253,20 @@ final class Interpreter: ExprVisitor, StmtVisitor {
     }
 
     // ugh, again, unnecessary code just to make Result, Any and Optional play together.
-    private func isTrue(_ result: ExprVisitorReturn) -> Bool {
+    private func isTruthy(_ result: ExprVisitorReturn) -> Bool {
         guard let result = result else {
             return false
         }
 
         switch result {
         case .success(let object):
-            return isTrue(object)
+            return isTruthy(object)
         case .failure:
             return false
         }
     }
 
-    private func isTrue(_ object: Any?) -> Bool {
+    private func isTruthy(_ object: Any?) -> Bool {
         guard let object = object else {
             return false
         }
@@ -367,7 +381,7 @@ final class Interpreter: ExprVisitor, StmtVisitor {
     }
 
     func visitIfStmt(_ stmt: Stmt.If) -> Result<Void, InterpreterError> {
-        if isTrue(evaluate(expr: stmt.condition)) {
+        if isTruthy(evaluate(expr: stmt.condition)) {
             do {
                 try execute(stmt.thenBranch)
             } catch {

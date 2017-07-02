@@ -40,6 +40,10 @@ class AstPrinter: ExprVisitor, StmtVisitor {
         return String(describing: value)
     }
 
+    func visitLogicalExpr(_ expr: Expr.Logical) -> String {
+        return parenthesize(name: expr.op.lexeme, exprs: expr.left, expr.right)
+    }
+
     func visitUnaryExpr(_ expr: Expr.Unary) -> String {
         return parenthesize(name: expr.op.lexeme, exprs: expr.right)
     }
@@ -149,6 +153,10 @@ class AstRPNPrinter: ExprVisitor {
 
     func visitLiteralExpr(_ expr: Expr.Literal) -> String {
         return String(describing: expr.value)
+    }
+
+    func visitLogicalExpr(_ expr: Expr.Logical) -> String {
+        return "\(print(expr: expr.left)) \(print(expr: expr.right)) \(expr.op.lexeme)"
     }
 
     func visitUnaryExpr(_ expr: Expr.Unary) -> String {

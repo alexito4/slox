@@ -85,7 +85,7 @@ final class Parser {
     }
 
     private func assignment() throws -> Expr {
-        let expr = try equiality()
+        let expr = try or()
 
         if match(.equal) {
             let equals = previous()
@@ -97,6 +97,30 @@ final class Parser {
             }
 
             throw error(token: equals, message: "Invalid assignment target.")
+        }
+
+        return expr
+    }
+
+    private func or() throws -> Expr {
+        var expr = try and()
+
+        while match(.or) {
+            let op = previous()
+            let right = try and()
+            expr = Expr.Logical(left: expr, op: op, right: right)
+        }
+
+        return expr
+    }
+
+    private func and() throws -> Expr {
+        var expr = try equality()
+
+        while match(.and) {
+            let op = previous()
+            let right = try equality()
+            expr = Expr.Logical(left: expr, op: op, right: right)
         }
 
         return expr
@@ -140,7 +164,7 @@ final class Parser {
         return statements
     }
 
-    private func equiality() throws -> Expr {
+    private func equality() throws -> Expr {
         return try leftAssociativeBinary(expression: comparison, types: .bangEqual, .equalEqual)
     }
 

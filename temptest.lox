@@ -1,5 +1,2 @@
-if (false) {
-    print("then");
-} else {
-    print("else");
-}
+print "hi" or 2/0; // "hi".
+print nil or "yes"; // "yes".

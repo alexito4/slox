@@ -132,6 +132,7 @@ try defineAst(outputDir: outputDir, baseName: "Expr", types: [
     "Binary   / left: Expr, op: Token, right: Expr",
     "Grouping / expression: Expr",
     "Literal  / value: Any?",
+    "Logical  / left: Expr, op: Token, right: Expr",
     "Unary    / op: Token, right: Expr",
     "Variable / name: Token",
 ])
