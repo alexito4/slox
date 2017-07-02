@@ -85,6 +85,10 @@ class AstPrinter: ExprVisitor, StmtVisitor {
         return output
     }
 
+    func visitBreakStmt(_ stmt: Stmt.Break) -> String {
+        return "(break)"
+    }
+
     func visitExpressionStmt(_ stmt: Stmt.Expression) -> String {
         return parenthesize(name: ";", exprs: stmt.expression)
     }

@@ -1,11 +1,17 @@
-var a = 0;
-var b = 1;
 var i = 0;
 while (i < 10) {
-    print a;
-    var temp = a;
-    a = b;
-    b = temp + b;
-
     i = i + 1;
+    print(i);
+    var in = 0;
+    while (true) {
+        in = in + 1;
+        print(i);
+        if (in > 5) {
+            break;
+        }
+        print("after");
+    }
+    if (i == 5) {
+        break;
+    }
 }

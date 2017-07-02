@@ -4,6 +4,7 @@ protocol StmtVisitor {
     associatedtype StmtVisitorReturn
 
     func visitBlockStmt(_ stmt: Stmt.Block) -> StmtVisitorReturn
+    func visitBreakStmt(_ stmt: Stmt.Break) -> StmtVisitorReturn
     func visitExpressionStmt(_ stmt: Stmt.Expression) -> StmtVisitorReturn
     func visitIfStmt(_ stmt: Stmt.If) -> StmtVisitorReturn
     func visitPrintStmt(_ stmt: Stmt.Print) -> StmtVisitorReturn
@@ -26,6 +27,13 @@ class Stmt {
 
         override func accept<V: StmtVisitor, R>(visitor: V) -> R where R == V.StmtVisitorReturn {
             return visitor.visitBlockStmt(self)
+        }
+    }
+
+    class Break: Stmt {
+
+        override func accept<V: StmtVisitor, R>(visitor: V) -> R where R == V.StmtVisitorReturn {
+            return visitor.visitBreakStmt(self)
         }
     }
 
