@@ -212,7 +212,7 @@ final class Parser {
 
     private func expressionStatement() throws -> Stmt {
         let value = try expression()
-        try consume(.semicolon, message: "Expect ';' after value.")
+        try consume(.semicolon, message: "Expect ';' after expression.")
         return Stmt.Expression(expression: value)
     }
 
