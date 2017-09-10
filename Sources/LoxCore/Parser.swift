@@ -294,6 +294,9 @@ final class Parser {
         
         if !check(.rightParen) {
             repeat {
+                if (arguments.count >= 8) {
+                    _ = error(token: peek(), message: "Cannot have more than 8 arguments.");
+                }
                 try arguments.append(expression())
             } while match(.comma)
         }
