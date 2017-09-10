@@ -46,7 +46,7 @@ final class Interpreter: ExprVisitor, StmtVisitor {
         }
     }
 
-    private func executeBlock(_ statements: Array<Stmt>, newEnvironment: Environment) throws {
+    func executeBlock(_ statements: Array<Stmt>, newEnvironment: Environment) throws {
         let previous = environment
         environment = newEnvironment
         defer {

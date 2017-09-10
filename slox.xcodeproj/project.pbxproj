@@ -138,6 +138,7 @@
 				OBJ_13 /* AstPrinter.swift */,
 				OBJ_14 /* Expr.swift */,
 				OBJ_15 /* Interpreter.swift */,
+				FB9EDD6E1F654C490046BC56 /* Callable.swift */,
 				OBJ_16 /* Lox.swift */,
 				OBJ_17 /* Parser.swift */,
 				OBJ_18 /* Scanner.swift */,
@@ -145,7 +146,6 @@
 				OBJ_20 /* Token.swift */,
 				FB57ADC01EE0CFF100E52974 /* Environment.swift */,
 				FB57ADC31EE2D3AF00E52974 /* Debug.swift */,
-				FB9EDD6E1F654C490046BC56 /* Callable.swift */,
 			);
 			name = LoxCore;
 			path = Sources/LoxCore;
