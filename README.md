@@ -11,7 +11,7 @@ One thing to note is that I'm trying to write a mix between idiomatic Swift (wha
 
 # Implementation
 
-*as of 02/07/2017*
+*as of 10/09/2017*
 
 ## A TREE-WALK INTERPRETER
 
