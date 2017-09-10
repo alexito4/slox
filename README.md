@@ -49,7 +49,7 @@ One thing to note is that I'm trying to write a mix between idiomatic Swift (wha
 
 - [x] 10. [**Functions**](http://www.craftinginterpreters.com/functions.html)
   - Challenge 1: Nothing to implement.
-  - [ ] Challenge 2: Add anonymous function (lambdas) syntax.
+  - [x] Challenge 2: Add anonymous function (lambdas) syntax.
   - Challenge 3: Nothing to implement.
 
 - [ ] 11. [**Resolving and Binding**](http://www.craftinginterpreters.com/resolving-and-binding.html) (COMING SOON)
