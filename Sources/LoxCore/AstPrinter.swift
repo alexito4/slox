@@ -33,6 +33,20 @@ class AstPrinter: ExprVisitor, StmtVisitor {
         return parenthesize(name: "call", parts: expr.callee, expr.arguments)
     }
 
+    func visitFunctionExpr(_ expr: Expr.Function) -> String {
+        var res = "("
+        for param in expr.parameters {
+            res += " \(param.lexeme)"
+        }
+        res += ") "
+
+        for body in expr.body {
+            res += body.accept(visitor: self)
+        }
+
+        return res
+    }
+
     func visitGroupingExpr(_ expr: Expr.Grouping) -> String {
         return parenthesize(name: "group", exprs: expr.expression)
     }
@@ -98,19 +112,10 @@ class AstPrinter: ExprVisitor, StmtVisitor {
     }
 
     func visitFunctionStmt(_ stmt: Stmt.Function) -> String {
-        var res = "(fun \(stmt.name.lexeme)("
+        var res = "(fun \(stmt.name.lexeme)"
 
-        for param in stmt.parameters {
-            res += " \(param.lexeme)"
-        }
+        res += stmt.function.accept(visitor: self)
 
-        res += ") "
-
-        for body in stmt.body {
-            res += body.accept(visitor: self)
-        }
-
-        res += ")"
         return res
     }
 
@@ -184,6 +189,10 @@ class AstRPNPrinter: ExprVisitor {
     }
 
     func visitCallExpr(_ expr: Expr.Call) -> String {
+        fatalError("unimplemented")
+    }
+
+    func visitFunctionExpr(_ expr: Expr.Function) -> String {
         fatalError("unimplemented")
     }
 

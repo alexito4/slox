@@ -277,6 +277,11 @@ final class Interpreter: ExprVisitor, StmtVisitor {
         }
     }
 
+    func visitFunctionExpr(_ expr: Expr.Function) -> Result<Any, InterpreterError>? {
+        let value = Function(name: nil, declaration: expr, closure: environment)
+        return .success(value)
+    }
+
     func visitAssignExpr(_ expr: Expr.Assign) -> ExprVisitorReturn {
         switch evaluate(expr: expr.value) {
         case .success(let value)?:
@@ -433,7 +438,7 @@ final class Interpreter: ExprVisitor, StmtVisitor {
     }
 
     func visitFunctionStmt(_ stmt: Stmt.Function) -> Result<Void, InterpreterError> {
-        let function = Function(declaration: stmt, closure: environment)
+        let function = Function(name: stmt.name.lexeme, declaration: stmt.function, closure: environment)
         environment.define(name: stmt.name.lexeme, value: function)
         return .success()
     }

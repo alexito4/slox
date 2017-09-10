@@ -53,13 +53,11 @@ class Stmt {
 
     class Function: Stmt {
         let name: Token
-        let parameters: Array<Token>
-        let body: Array<Stmt>
+        let function: Expr.Function
 
-        init(name: Token, parameters: Array<Token>, body: Array<Stmt>) {
+        init(name: Token, function: Expr.Function) {
             self.name = name
-            self.parameters = parameters
-            self.body = body
+            self.function = function
         }
 
         override func accept<V: StmtVisitor, R>(visitor: V) -> R where R == V.StmtVisitorReturn {

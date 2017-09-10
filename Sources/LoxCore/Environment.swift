@@ -17,7 +17,7 @@ import Result
 // any other execution that tries to use it.
 let NilAny: Any = Optional<Any>.none as Any
 
-final class Environment {
+final class Environment: CustomDebugStringConvertible {
 
     var enclosing: Environment?
 
@@ -65,5 +65,9 @@ final class Environment {
         }
 
         throw InterpreterError.runtime(name, "Undefined variable '\(name.lexeme)'.")
+    }
+
+    var debugDescription: String {
+        return "\(values)" + (enclosing != nil ? "\nEnclosing:\n\(enclosing!)" : "")
     }
 }

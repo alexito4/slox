@@ -1,16 +1,12 @@
 
 protocol ExprVisitor {
 
-    // Different protocols with the same associatedtype name make it immposible to be conformed by the same type.
-    // So I can't use just `Return` here or the Interpreter won't be able to implement Expr and Stmt visitors.
     associatedtype ExprVisitorReturn
 
-    // Decided to make the Visitor methods non-throwing to avoid polluting with throws
-    // the visitors that don't return errors. Instead if an error has to be returned
-    // the specific visitor implementation will return a Result type.
     func visitAssignExpr(_ expr: Expr.Assign) -> ExprVisitorReturn
     func visitBinaryExpr(_ expr: Expr.Binary) -> ExprVisitorReturn
     func visitCallExpr(_ expr: Expr.Call) -> ExprVisitorReturn
+    func visitFunctionExpr(_ expr: Expr.Function) -> ExprVisitorReturn
     func visitGroupingExpr(_ expr: Expr.Grouping) -> ExprVisitorReturn
     func visitLiteralExpr(_ expr: Expr.Literal) -> ExprVisitorReturn
     func visitLogicalExpr(_ expr: Expr.Logical) -> ExprVisitorReturn
@@ -67,6 +63,20 @@ class Expr {
 
         override func accept<V: ExprVisitor, R>(visitor: V) -> R where R == V.ExprVisitorReturn {
             return visitor.visitCallExpr(self)
+        }
+    }
+
+    class Function: Expr {
+        let parameters: Array<Token>
+        let body: Array<Stmt>
+
+        init(parameters: Array<Token>, body: Array<Stmt>) {
+            self.parameters = parameters
+            self.body = body
+        }
+
+        override func accept<V: ExprVisitor, R>(visitor: V) -> R where R == V.ExprVisitorReturn {
+            return visitor.visitFunctionExpr(self)
         }
     }
 

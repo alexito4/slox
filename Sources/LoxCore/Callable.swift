@@ -35,12 +35,15 @@ final class AnonymousCallable: Callable {
 }
 
 final class Function: Callable, CustomDebugStringConvertible {
-    private let declaration: Stmt.Function
 
-    let arity: Int
+    private let name: String?
+    private let declaration: Expr.Function
     private let closure: Environment
 
-    init(declaration: Stmt.Function, closure: Environment) {
+    let arity: Int
+
+    init(name: String?, declaration: Expr.Function, closure: Environment) {
+        self.name = name
         self.declaration = declaration
         self.closure = closure
 
@@ -66,6 +69,9 @@ final class Function: Callable, CustomDebugStringConvertible {
     }
 
     var debugDescription: String {
-        return "<fn \(declaration.name.lexeme)>"
+        guard let name = self.name else {
+            return "<fn>"
+        }
+        return "<fn \(name)>"
     }
 }

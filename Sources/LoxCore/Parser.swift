@@ -257,7 +257,10 @@ final class Parser {
 
     private func function(kind: String) throws -> Stmt.Function {
         let name = try consume(.identifier, message: "Expect \(kind) name.")
+        return Stmt.Function(name: name, function: try functionBody(kind: kind))
+    }
 
+    private func functionBody(kind: String) throws -> Expr.Function {
         try consume(.leftParen, message: "Expect '(' after \(kind) name.")
         var parameters: Array<Token> = []
         if !check(.rightParen) {
@@ -272,7 +275,8 @@ final class Parser {
 
         try consume(.leftBrace, message: "Expect '{' before \(kind) body.")
         let body = try block()
-        return Stmt.Function(name: name, parameters: parameters, body: body)
+
+        return Expr.Function(parameters: parameters, body: body)
     }
 
     private func block() throws -> Array<Stmt> {
@@ -368,6 +372,10 @@ final class Parser {
             let expr = try expression()
             try consume(.rightParen, message: "Expect ')' after expression.")
             return Expr.Grouping(expression: expr)
+        }
+
+        if match(.fun) {
+            return try functionBody(kind: "function")
         }
 
         throw error(token: peek(), message: "Expect expression.")
