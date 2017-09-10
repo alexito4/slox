@@ -44,6 +44,9 @@ final class Parser {
 
     private func declaration() -> Stmt? {
         do {
+            if match(.fun) {
+                return try function(kind: "function")
+            }
             if match(.Var) {
                 return try varDeclaration()
             }
@@ -64,6 +67,9 @@ final class Parser {
         }
         if match(.print) {
             return try printStatement()
+        }
+        if match(.Return) {
+            return try returnStatement()
         }
         if match(.While) {
             return try whileStatement()
@@ -196,6 +202,19 @@ final class Parser {
         return Stmt.Print(expression: value)
     }
 
+    private func returnStatement() throws -> Stmt {
+        let keyword = previous()
+        var value: Expr?
+
+        if !check(.semicolon) {
+            value = try expression()
+        }
+
+        try consume(.semicolon, message: "Expect ';' after return value.")
+
+        return Stmt.Return(keyword: keyword, value: value)
+    }
+
     private func varDeclaration() throws -> Stmt {
         let name = try consume(.identifier, message: "Expect variable name.")
 
@@ -236,6 +255,26 @@ final class Parser {
         return Stmt.Expression(expression: value)
     }
 
+    private func function(kind: String) throws -> Stmt.Function {
+        let name = try consume(.identifier, message: "Expect \(kind) name.")
+
+        try consume(.leftParen, message: "Expect '(' after \(kind) name.")
+        var parameters: Array<Token> = []
+        if !check(.rightParen) {
+            repeat {
+                if parameters.count >= 8 {
+                    throw error(token: peek(), message: "Cannot have more than 8 parameters.")
+                }
+                parameters.append(try consume(.identifier, message: "Expect parameter name."))
+            } while match(.comma)
+        }
+        try consume(.rightParen, message: "Expect ')' after parameters.")
+
+        try consume(.leftBrace, message: "Expect '{' before \(kind) body.")
+        let body = try block()
+        return Stmt.Function(name: name, parameters: parameters, body: body)
+    }
+
     private func block() throws -> Array<Stmt> {
         var statements = Array<Stmt>()
 
@@ -272,7 +311,38 @@ final class Parser {
             return Expr.Unary(op: op, right: right)
         }
 
-        return try primary()
+        return try call()
+    }
+
+    private func call() throws -> Expr {
+        var expr = try primary()
+
+        while true {
+            if match(.leftParen) {
+                expr = try finishCall(callee: expr)
+            } else {
+                break
+            }
+        }
+
+        return expr
+    }
+
+    private func finishCall(callee: Expr) throws -> Expr {
+        var arguments: Array<Expr> = []
+
+        if !check(.rightParen) {
+            repeat {
+                if arguments.count >= 8 {
+                    _ = error(token: peek(), message: "Cannot have more than 8 arguments.")
+                }
+                try arguments.append(expression())
+            } while match(.comma)
+        }
+
+        let paren = try consume(.rightParen, message: "Expect ')' after arguments.")
+
+        return Expr.Call(callee: callee, paren: paren, arguments: arguments)
     }
 
     private func primary() throws -> Expr {

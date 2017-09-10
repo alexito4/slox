@@ -12,6 +12,7 @@ import Result
 enum InterpreterError: Error {
     case runtime(Token, String) // TODO: Instead of string we could have different cases for each error.
     case breakLoop // Thrown by the Break Stmt to get out of the loop
+    case ret(Any?) // Thrown by the Return Stmt to unwind the call stack
 }
 
 final class Interpreter: ExprVisitor, StmtVisitor {
@@ -19,7 +20,16 @@ final class Interpreter: ExprVisitor, StmtVisitor {
     typealias ExprVisitorReturn = Result<Any, InterpreterError>?
     typealias StmtVisitorReturn = Result<Void, InterpreterError>
 
-    private var environment = Environment()
+    let globals = Environment()
+    private var environment: Environment
+
+    init() {
+        environment = globals
+
+        globals.define(name: "clock", value: AnonymousCallable(arity: 0) { interpreter, args in
+            return Double(DispatchTime.now().uptimeNanoseconds) / 1_000_000_000
+        })
+    }
 
     func interpret(_ statements: Array<Stmt>) {
         do {
@@ -37,7 +47,7 @@ final class Interpreter: ExprVisitor, StmtVisitor {
         }
     }
 
-    private func executeBlock(_ statements: Array<Stmt>, newEnvironment: Environment) throws {
+    func executeBlock(_ statements: Array<Stmt>, newEnvironment: Environment) throws {
         let previous = environment
         environment = newEnvironment
         defer {
@@ -232,6 +242,41 @@ final class Interpreter: ExprVisitor, StmtVisitor {
         }
     }
 
+    func visitCallExpr(_ expr: Expr.Call) -> ExprVisitorReturn {
+        let calleeResult = evaluate(expr: expr.callee)
+
+        guard let callee = calleeResult?.value else {
+            return calleeResult
+        }
+
+        var arguments: Array<Any> = []
+        for argument in expr.arguments {
+            let argResult = evaluate(expr: argument)
+            guard let arg = argResult?.value else {
+                return argResult
+            }
+            arguments.append(arg)
+        }
+
+        guard let function = callee as? Callable else {
+            return .failure(InterpreterError.runtime(expr.paren, "Can only call functions and classes."))
+        }
+
+        guard arguments.count == function.arity else {
+            return .failure(InterpreterError.runtime(expr.paren, "Expected \(function.arity) arguments but got \(arguments.count)."))
+        }
+
+        do {
+            if let value = try function.call(interpreter: self, arguments: arguments) {
+                return .success(value)
+            } else {
+                return nil
+            }
+        } catch {
+            return .failure(error as! InterpreterError) // Compiler doesn't know but it should always be InterpreterError
+        }
+    }
+
     func visitAssignExpr(_ expr: Expr.Assign) -> ExprVisitorReturn {
         switch evaluate(expr: expr.value) {
         case .success(let value)?:
@@ -387,6 +432,12 @@ final class Interpreter: ExprVisitor, StmtVisitor {
         return .success()
     }
 
+    func visitFunctionStmt(_ stmt: Stmt.Function) -> Result<Void, InterpreterError> {
+        let function = Function(declaration: stmt, closure: environment)
+        environment.define(name: stmt.name.lexeme, value: function)
+        return .success()
+    }
+
     func visitIfStmt(_ stmt: Stmt.If) -> Result<Void, InterpreterError> {
         if isTruthy(evaluate(expr: stmt.condition)) {
             do {
@@ -416,6 +467,24 @@ final class Interpreter: ExprVisitor, StmtVisitor {
             print(stringify(value: nil))
             return .success()
         }
+    }
+
+    func visitReturnStmt(_ stmt: Stmt.Return) -> Result<Void, InterpreterError> {
+        var value: Any?
+
+        if let valueExpr = stmt.value {
+            let result = evaluate(expr: valueExpr)
+            switch result {
+            case nil:
+                break
+            case .success(let res)?:
+                value = res
+            case .failure(let error)?:
+                return .failure(error)
+            }
+        }
+
+        return .failure(.ret(value))
     }
 
     func visitVarStmt(_ stmt: Stmt.Var) -> StmtVisitorReturn {
