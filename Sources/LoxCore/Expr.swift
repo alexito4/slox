@@ -58,18 +58,18 @@ class Expr {
         let callee: Expr
         let paren: Token
         let arguments: Array<Expr>
-        
+
         init(callee: Expr, paren: Token, arguments: Array<Expr>) {
             self.callee = callee
             self.paren = paren
             self.arguments = arguments
         }
-        
+
         override func accept<V: ExprVisitor, R>(visitor: V) -> R where R == V.ExprVisitorReturn {
             return visitor.visitCallExpr(self)
         }
     }
-    
+
     class Grouping: Expr {
         let expression: Expr
 

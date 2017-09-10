@@ -19,7 +19,16 @@ final class Interpreter: ExprVisitor, StmtVisitor {
     typealias ExprVisitorReturn = Result<Any, InterpreterError>?
     typealias StmtVisitorReturn = Result<Void, InterpreterError>
 
-    private var environment = Environment()
+    let globals = Environment()
+    private var environment: Environment
+
+    init() {
+        environment = globals
+
+        globals.define(name: "clock", value: AnonymousCallable(arity: 0) { interpreter, args in
+            return Double(DispatchTime.now().uptimeNanoseconds) / 1_000_000_000
+        })
+    }
 
     func interpret(_ statements: Array<Stmt>) {
         do {
@@ -231,14 +240,14 @@ final class Interpreter: ExprVisitor, StmtVisitor {
             fatalError()
         }
     }
-    
+
     func visitCallExpr(_ expr: Expr.Call) -> ExprVisitorReturn {
         let calleeResult = evaluate(expr: expr.callee)
-        
+
         guard let callee = calleeResult?.value else {
             return calleeResult
         }
-        
+
         var arguments: Array<Any> = []
         for argument in expr.arguments {
             let argResult = evaluate(expr: argument)
@@ -247,15 +256,15 @@ final class Interpreter: ExprVisitor, StmtVisitor {
             }
             arguments.append(arg)
         }
-        
+
         guard let function = callee as? Callable else {
             return .failure(InterpreterError.runtime(expr.paren, "Can only call functions and classes."))
         }
-        
+
         guard arguments.count == function.arity else {
             return .failure(InterpreterError.runtime(expr.paren, "Expected \(function.arity) arguments but got \(arguments.count)."))
         }
-        
+
         let value = function.call(interpreter: self, arguments: arguments)
         return .success(value)
     }

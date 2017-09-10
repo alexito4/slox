@@ -29,6 +29,10 @@ class AstPrinter: ExprVisitor, StmtVisitor {
         return parenthesize(name: expr.op.lexeme, exprs: expr.left, expr.right)
     }
 
+    func visitCallExpr(_ expr: Expr.Call) -> String {
+        fatalError("unimplemented")
+    }
+
     func visitGroupingExpr(_ expr: Expr.Grouping) -> String {
         return parenthesize(name: "group", exprs: expr.expression)
     }
@@ -153,6 +157,10 @@ class AstRPNPrinter: ExprVisitor {
 
     func visitBinaryExpr(_ expr: Expr.Binary) -> String {
         return "\(print(expr: expr.left)) \(print(expr: expr.right)) \(expr.op.lexeme)"
+    }
+
+    func visitCallExpr(_ expr: Expr.Call) -> String {
+        fatalError("unimplemented")
     }
 
     func visitGroupingExpr(_ expr: Expr.Grouping) -> String {
