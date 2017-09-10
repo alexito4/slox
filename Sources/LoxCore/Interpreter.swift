@@ -248,8 +248,12 @@ final class Interpreter: ExprVisitor, StmtVisitor {
             arguments.append(arg)
         }
         
-        let function = callee as! Callable
-        return function.call(interpreter: self, arguments: arguments)
+        guard let function = callee as? Callable else {
+            return .failure(InterpreterError.runtime(expr.paren, "Can only call functions and classes."))
+        }
+        
+        let value = function.call(interpreter: self, arguments: arguments)
+        return .success(value)
     }
 
     func visitAssignExpr(_ expr: Expr.Assign) -> ExprVisitorReturn {
