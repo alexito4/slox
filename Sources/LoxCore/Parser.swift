@@ -272,7 +272,35 @@ final class Parser {
             return Expr.Unary(op: op, right: right)
         }
 
-        return try primary()
+        return try call()
+    }
+    
+    private func call() throws -> Expr {
+        var expr = try primary()
+        
+        while true {
+            if match(.leftParen) {
+                expr = try finishCall(callee: expr)
+            } else {
+                break
+            }
+        }
+        
+        return expr
+    }
+    
+    private func finishCall(callee: Expr) throws -> Expr {
+        var arguments: Array<Expr> = []
+        
+        if !check(.rightParen) {
+            repeat {
+                try arguments.append(expression())
+            } while match(.comma)
+        }
+        
+        let paren = try consume(.rightParen, message: "Expect ')' after arguments.")
+        
+        return Expr.Call(callee: callee, paren: paren, arguments: arguments)
     }
 
     private func primary() throws -> Expr {

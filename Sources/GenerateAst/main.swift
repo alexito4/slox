@@ -132,6 +132,7 @@ p = Printer()
 try defineAst(outputDir: outputDir, baseName: "Expr", types: [
     "Assign   / name: Token, value: Expr",
     "Binary   / left: Expr, op: Token, right: Expr",
+    "Call     / callee: Expr, paren: Token, arguments: Array<Expr>",
     "Grouping / expression: Expr",
     "Literal  / value: Any?",
     "Logical  / left: Expr, op: Token, right: Expr",

@@ -10,6 +10,7 @@ protocol ExprVisitor {
     // the specific visitor implementation will return a Result type.
     func visitAssignExpr(_ expr: Expr.Assign) -> ExprVisitorReturn
     func visitBinaryExpr(_ expr: Expr.Binary) -> ExprVisitorReturn
+    func visitCallExpr(_ expr: Expr.Call) -> ExprVisitorReturn
     func visitGroupingExpr(_ expr: Expr.Grouping) -> ExprVisitorReturn
     func visitLiteralExpr(_ expr: Expr.Literal) -> ExprVisitorReturn
     func visitLogicalExpr(_ expr: Expr.Logical) -> ExprVisitorReturn
@@ -53,6 +54,22 @@ class Expr {
         }
     }
 
+    class Call: Expr {
+        let callee: Expr
+        let paren: Token
+        let arguments: Array<Expr>
+        
+        init(callee: Expr, paren: Token, arguments: Array<Expr>) {
+            self.callee = callee
+            self.paren = paren
+            self.arguments = arguments
+        }
+        
+        override func accept<V: ExprVisitor, R>(visitor: V) -> R where R == V.ExprVisitorReturn {
+            return visitor.visitCallExpr(self)
+        }
+    }
+    
     class Grouping: Expr {
         let expression: Expr
 
