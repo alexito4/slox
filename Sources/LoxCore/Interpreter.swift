@@ -423,6 +423,10 @@ final class Interpreter: ExprVisitor, StmtVisitor {
 
         return .success()
     }
+    
+    func visitFunctionStmt(_ stmt: Stmt.Function) -> Result<Void, InterpreterError> {
+        fatalError()
+    }
 
     func visitIfStmt(_ stmt: Stmt.If) -> Result<Void, InterpreterError> {
         if isTruthy(evaluate(expr: stmt.condition)) {

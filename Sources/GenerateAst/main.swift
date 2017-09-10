@@ -145,6 +145,7 @@ try defineAst(outputDir: outputDir, baseName: "Stmt", types: [
     "Block      / statements: Array<Stmt>",
     "Break      /",
     "Expression / expression: Expr",
+    "Function   / name: Token, parameters: Array<Token>, body: Array<Stmt>",
     "If         / condition: Expr, thenBranch: Stmt, elseBranch: Stmt?",
     "Print      / expression: Expr",
     "Var        / name: Token, initializer: Expr?",
