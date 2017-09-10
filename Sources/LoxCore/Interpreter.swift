@@ -253,8 +253,8 @@ final class Interpreter: ExprVisitor, StmtVisitor {
     func visitCallExpr(_ expr: Expr.Call) -> ExprVisitorReturn {
         let calleeResult = evaluate(expr: expr.callee)
 
-        guard let callee = calleeResult?.value else {
-            return calleeResult
+        guard let callee = calleeResult?.value, let function = callee as? Callable else {
+            return .failure(InterpreterError.runtime(expr.paren, "Can only call functions and classes."))
         }
 
         var arguments: Array<Any> = []
@@ -264,10 +264,6 @@ final class Interpreter: ExprVisitor, StmtVisitor {
                 return argResult
             }
             arguments.append(arg)
-        }
-
-        guard let function = callee as? Callable else {
-            return .failure(InterpreterError.runtime(expr.paren, "Can only call functions and classes."))
         }
 
         guard arguments.count == function.arity else {

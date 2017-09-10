@@ -1,1 +1,2 @@
-true + "s"; // expect runtime error: Operands must be two numbers or two strings.
+// No error here, Chapter 7 challenge 2 implemented.
+// true + "s"; expect runtime error: Operands must be two numbers or two strings.

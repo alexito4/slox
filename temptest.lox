@@ -1,13 +1,15 @@
-fun repeat(times, fn) {
-    for (var i = 0; i < times; i = i + 1) {
-        fn();
-    }
-}
+fun () {};
 
-var times = 10;
-repeat(times, fun () {
-    print("Repeating " + times + " times.");
-});
+// fun repeat(times, fn) {
+//     for (var i = 0; i < times; i = i + 1) {
+//         fn();
+//     }
+// }
+
+// var times = 10;
+// repeat(times, fun () {
+//     print("Repeating " + times + " times.");
+// });
 
 // fun sayHi(first, last) {
 //   print "Hi, " + first + " " + last + "!";

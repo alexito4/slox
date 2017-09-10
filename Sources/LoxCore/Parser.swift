@@ -44,7 +44,8 @@ final class Parser {
 
     private func declaration() -> Stmt? {
         do {
-            if match(.fun) {
+            if check(.fun) && checkNext(.identifier) {
+                try consume(.fun, message: "")
                 return try function(kind: "function")
             }
             if match(.Var) {
@@ -374,7 +375,8 @@ final class Parser {
             return Expr.Grouping(expression: expr)
         }
 
-        if match(.fun) {
+        if check(.fun) && checkNext(.leftParen) {
+            try consume(.fun, message: "")
             return try functionBody(kind: "function")
         }
 
@@ -420,6 +422,12 @@ extension Parser {
             return false
         }
         return peek().type == tokenType
+    }
+
+    func checkNext(_ tokenType: TokenType) -> Bool {
+        if isAtEnd() { return false }
+        if tokens[current + 1].type == .eof { return false }
+        return tokens[current + 1].type == tokenType
     }
 
     func advance() -> Token {
