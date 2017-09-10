@@ -47,7 +47,11 @@ One thing to note is that I'm trying to write a mix between idiomatic Swift (wha
   - Challenge 2: Nothing to implement.
   - [x] Challenge 3: Add support for break statements.
 
-- [ ] 10. [**Functions**](http://www.craftinginterpreters.com/functions.html) (COMING SOON)
+- [x] 10. [**Functions**](http://www.craftinginterpreters.com/functions.html)
+  - Challenge 1: Nothing to implement.
+  - [ ] Challenge 2: Add anonymous function (lambdas) syntax.
+  - Challenge 3: Nothing to implement.
+
 - [ ] 11. [**Resolving and Binding**](http://www.craftinginterpreters.com/resolving-and-binding.html) (COMING SOON)
 - [ ] 12. [**Classes**](http://www.craftinginterpreters.com/classes.html) (COMING SOON)
 - [ ] 13. [**Inheritance**](http://www.craftinginterpreters.com/inheritance.html) (COMING SOON)

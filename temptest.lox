@@ -1,16 +1,23 @@
-fun makePoint(x, y) {
-  fun closure(method) {
-    if (method == "x") return x;
-    if (method == "y") return y;
-    print "unknown method " + method;
-  }
+// fun scope(a) {
+//   var a = "local";
+//   print(a);
+// }
 
-  return closure;
-}
+// scope(3);
 
-var point = makePoint(2, 3 * 3);
-print point("x"); // "2".
-print point("y"); // "3".
+// fun makePoint(x, y) {
+//   fun closure(method) {
+//     if (method == "x") return x;
+//     if (method == "y") return y;
+//     print "unknown method " + method;
+//   }
+
+//   return closure;
+// }
+
+// var point = makePoint(2, 3 * 3);
+// print point("x"); // "2".
+// print point("y"); // "3".
 
 // fun makeCounter() {
 //   var i = 0;
