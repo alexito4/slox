@@ -252,6 +252,10 @@ final class Interpreter: ExprVisitor, StmtVisitor {
             return .failure(InterpreterError.runtime(expr.paren, "Can only call functions and classes."))
         }
         
+        guard arguments.count == function.arity else {
+            return .failure(InterpreterError.runtime(expr.paren, "Expected \(function.arity) arguments but got \(arguments.count)."))
+        }
+        
         let value = function.call(interpreter: self, arguments: arguments)
         return .success(value)
     }

@@ -9,5 +9,10 @@
 import Foundation
 
 protocol Callable {
+    
+    // Number of arguments.
+    var arity: Int { get }
+    
     func call(interpreter: Interpreter, arguments: Array<Any>) -> Any
+    
 }
