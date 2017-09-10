@@ -266,10 +266,14 @@ final class Interpreter: ExprVisitor, StmtVisitor {
             return .failure(InterpreterError.runtime(expr.paren, "Expected \(function.arity) arguments but got \(arguments.count)."))
         }
 
-        if let value = function.call(interpreter: self, arguments: arguments) {
-            return .success(value)
-        } else {
-            return nil
+        do {
+            if let value = try function.call(interpreter: self, arguments: arguments) {
+                return .success(value)
+            } else {
+                return nil
+            }
+        } catch {
+            return .failure(error as! InterpreterError) // Compiler doesn't know but it should always be InterpreterError
         }
     }
 
@@ -429,7 +433,7 @@ final class Interpreter: ExprVisitor, StmtVisitor {
     }
 
     func visitFunctionStmt(_ stmt: Stmt.Function) -> Result<Void, InterpreterError> {
-        let function = Function(declaration: stmt)
+        let function = Function(declaration: stmt, closure: environment)
         environment.define(name: stmt.name.lexeme, value: function)
         return .success()
     }

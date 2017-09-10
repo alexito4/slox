@@ -99,18 +99,17 @@ class AstPrinter: ExprVisitor, StmtVisitor {
 
     func visitFunctionStmt(_ stmt: Stmt.Function) -> String {
         var res = "(fun \(stmt.name.lexeme)("
-        
+
         for param in stmt.parameters {
             res += " \(param.lexeme)"
         }
-        
+
         res += ") "
-        
-        
+
         for body in stmt.body {
             res += body.accept(visitor: self)
         }
-        
+
         res += ")"
         return res
     }

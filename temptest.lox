@@ -1,17 +1,45 @@
-fun fibonacci(n) {
-  if (n <= 1) return n;
-  return fibonacci(n - 2) + fibonacci(n - 1);
+fun makePoint(x, y) {
+  fun closure(method) {
+    if (method == "x") return x;
+    if (method == "y") return y;
+    print "unknown method " + method;
+  }
+
+  return closure;
 }
 
+var point = makePoint(2, 3 * 3);
+print point("x"); // "2".
+print point("y"); // "3".
 
-for (var i = 0; i < 20; i = i + 1) {
-    var before = clock();
-    fibonacci(i);
-    var takes = clock() - before;
-    print i;
-    print takes;
-//   print fibonacci(i);
-}
+// fun makeCounter() {
+//   var i = 0;
+//   fun count() {
+//     i = i + 1;
+//     print i;
+//   }
+
+//   return count;
+// }
+
+// var counter = makeCounter();
+// counter(); // "1".
+// counter(); // "2".
+
+// fun fibonacci(n) {
+//   if (n <= 1) return n;
+//   return fibonacci(n - 2) + fibonacci(n - 1);
+// }
+
+
+// for (var i = 0; i < 20; i = i + 1) {
+//     var before = clock();
+//     fibonacci(i);
+//     var takes = clock() - before;
+//     print i;
+//     print takes;
+// //   print fibonacci(i);
+// }
 
 // fun sayHi(first, last) {
 //   print "Hi, " + first + " " + last + "!";
