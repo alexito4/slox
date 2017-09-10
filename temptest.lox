@@ -4,11 +4,10 @@ fun repeat(times, fn) {
     }
 }
 
-var i = 0;
-repeat(10, fun () {
-    i = i + 1;
+var times = 10;
+repeat(times, fun () {
+    print("Repeating " + times + " times.");
 });
-print(i);
 
 // fun sayHi(first, last) {
 //   print "Hi, " + first + " " + last + "!";

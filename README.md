@@ -34,7 +34,7 @@ One thing to note is that I'm trying to write a mix between idiomatic Swift (wha
 
 - [x] 7. [**Evaluating Expressions**](http://www.craftinginterpreters.com/evaluating-expressions.html)
   - [ ] Challenge 1: Allowing comparisons on types other than numbers could be useful.
-  - [ ] Challenge 2: Many languages define + such that if either operand is a string, the other is converted to a string and the results are then concatenated.
+  - [x] Challenge 2: Many languages define + such that if either operand is a string, the other is converted to a string and the results are then concatenated.
   - [ ] Challenge 3: Change the implementation in visitBinary() to detect and report a runtime error when dividing by 0. 
 
 - [x] 8. [**Statements and State**](http://www.craftinginterpreters.com/statements-and-state.html)

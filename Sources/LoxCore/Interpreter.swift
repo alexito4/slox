@@ -185,13 +185,21 @@ final class Interpreter: ExprVisitor, StmtVisitor {
                 return right // returns the error
             }
 
+            // I'm not a fan of automatically casting things to String but the dynamism of the
+            // language asks for it.
+            if ls is String || rs is String {
+                let lString = stringify(value: ls)
+                let rString = stringify(value: rs)
+                return .success(lString + rString)
+            }
+
             if let lDouble = ls as? Double, let rDouble = rs as? Double {
                 return .success(lDouble + rDouble)
             }
 
-            if let lString = ls as? String, let rString = rs as? String {
-                return .success(lString + rString)
-            }
+            //            if let lString = ls as? String, let rString = rs as? String {
+            //                return .success(lString + rString)
+            //            }
 
             return .failure(InterpreterError.runtime(expr.op, "Operands must be two numbers or two strings."))
 
