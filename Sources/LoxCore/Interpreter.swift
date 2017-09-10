@@ -231,6 +231,26 @@ final class Interpreter: ExprVisitor, StmtVisitor {
             fatalError()
         }
     }
+    
+    func visitCallExpr(_ expr: Expr.Call) -> ExprVisitorReturn {
+        let calleeResult = evaluate(expr: expr.callee)
+        
+        guard let callee = calleeResult?.value else {
+            return calleeResult
+        }
+        
+        var arguments: Array<Any> = []
+        for argument in expr.arguments {
+            let argResult = evaluate(expr: argument)
+            guard let arg = argResult?.value else {
+                return argResult
+            }
+            arguments.append(arg)
+        }
+        
+        let function = callee as! Callable
+        return function.call(interpreter: self, arguments: arguments)
+    }
 
     func visitAssignExpr(_ expr: Expr.Assign) -> ExprVisitorReturn {
         switch evaluate(expr: expr.value) {

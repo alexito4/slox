@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		FB57ADC11EE0CFF100E52974 /* Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB57ADC01EE0CFF100E52974 /* Environment.swift */; };
 		FB57ADC61EE2D3C900E52974 /* Debug.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB57ADC31EE2D3AF00E52974 /* Debug.swift */; };
+		FB9EDD701F654C9A0046BC56 /* Callable.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB9EDD6E1F654C490046BC56 /* Callable.swift */; };
 		OBJ_42 /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_30 /* Result.swift */; };
 		OBJ_43 /* ResultProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_31 /* ResultProtocol.swift */; };
 		OBJ_50 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_11 /* main.swift */; };
@@ -62,6 +63,7 @@
 /* Begin PBXFileReference section */
 		FB57ADC01EE0CFF100E52974 /* Environment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Environment.swift; sourceTree = "<group>"; };
 		FB57ADC31EE2D3AF00E52974 /* Debug.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Debug.swift; sourceTree = "<group>"; };
+		FB9EDD6E1F654C490046BC56 /* Callable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Callable.swift; sourceTree = "<group>"; };
 		OBJ_11 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		OBJ_13 /* AstPrinter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AstPrinter.swift; sourceTree = "<group>"; };
 		OBJ_14 /* Expr.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Expr.swift; sourceTree = "<group>"; };
@@ -143,6 +145,7 @@
 				OBJ_20 /* Token.swift */,
 				FB57ADC01EE0CFF100E52974 /* Environment.swift */,
 				FB57ADC31EE2D3AF00E52974 /* Debug.swift */,
+				FB9EDD6E1F654C490046BC56 /* Callable.swift */,
 			);
 			name = LoxCore;
 			path = Sources/LoxCore;
@@ -375,6 +378,7 @@
 				OBJ_61 /* AstPrinter.swift in Sources */,
 				OBJ_62 /* Expr.swift in Sources */,
 				OBJ_63 /* Interpreter.swift in Sources */,
+				FB9EDD701F654C9A0046BC56 /* Callable.swift in Sources */,
 				OBJ_64 /* Lox.swift in Sources */,
 				FB57ADC11EE0CFF100E52974 /* Environment.swift in Sources */,
 				OBJ_65 /* Parser.swift in Sources */,
