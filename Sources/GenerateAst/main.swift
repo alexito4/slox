@@ -148,6 +148,7 @@ try defineAst(outputDir: outputDir, baseName: "Stmt", types: [
     "Function   / name: Token, parameters: Array<Token>, body: Array<Stmt>",
     "If         / condition: Expr, thenBranch: Stmt, elseBranch: Stmt?",
     "Print      / expression: Expr",
+    "Return     / keyword: Token, value: Expr?",
     "Var        / name: Token, initializer: Expr?",
     "While      / condition: Expr, body: Stmt",
 ])

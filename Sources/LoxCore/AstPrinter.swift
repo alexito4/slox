@@ -30,7 +30,7 @@ class AstPrinter: ExprVisitor, StmtVisitor {
     }
 
     func visitCallExpr(_ expr: Expr.Call) -> String {
-        fatalError("unimplemented")
+        return parenthesize(name: "call", parts: expr.callee, expr.arguments)
     }
 
     func visitGroupingExpr(_ expr: Expr.Grouping) -> String {
@@ -98,7 +98,21 @@ class AstPrinter: ExprVisitor, StmtVisitor {
     }
 
     func visitFunctionStmt(_ stmt: Stmt.Function) -> String {
-        fatalError("unimplemented")
+        var res = "(fun \(stmt.name.lexeme)("
+        
+        for param in stmt.parameters {
+            res += " \(param.lexeme)"
+        }
+        
+        res += ") "
+        
+        
+        for body in stmt.body {
+            res += body.accept(visitor: self)
+        }
+        
+        res += ")"
+        return res
     }
 
     func visitIfStmt(_ stmt: Stmt.If) -> String {
@@ -111,6 +125,13 @@ class AstPrinter: ExprVisitor, StmtVisitor {
 
     func visitPrintStmt(_ stmt: Stmt.Print) -> String {
         return parenthesize(name: "print", exprs: stmt.expression)
+    }
+
+    func visitReturnStmt(_ stmt: Stmt.Return) -> String {
+        guard let value = stmt.value else {
+            return "(return)"
+        }
+        return parenthesize(name: "return", parts: value)
     }
 
     func visitVarStmt(_ stmt: Stmt.Var) -> String {

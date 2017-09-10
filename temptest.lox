@@ -1,9 +1,25 @@
-fun sayHi(first, last) {
-  print "Hi, " + first + " " + last + "!";
+fun fibonacci(n) {
+  if (n <= 1) return n;
+  return fibonacci(n - 2) + fibonacci(n - 1);
 }
 
-var name = "Alex";
-sayHi("Dear", name);
+
+for (var i = 0; i < 20; i = i + 1) {
+    var before = clock();
+    fibonacci(i);
+    var takes = clock() - before;
+    print i;
+    print takes;
+//   print fibonacci(i);
+}
+
+// fun sayHi(first, last) {
+//   print "Hi, " + first + " " + last + "!";
+//   return nil;
+// }
+
+// var name = "Alex";
+// print sayHi("Dear", name);
 
 // var i = 0;
 // while (i < 10) {

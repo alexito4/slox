@@ -68,6 +68,9 @@ final class Parser {
         if match(.print) {
             return try printStatement()
         }
+        if match(.Return) {
+            return try returnStatement()
+        }
         if match(.While) {
             return try whileStatement()
         }
@@ -197,6 +200,19 @@ final class Parser {
         let value = try expression()
         try consume(.semicolon, message: "Expect ';' after value.")
         return Stmt.Print(expression: value)
+    }
+
+    private func returnStatement() throws -> Stmt {
+        let keyword = previous()
+        var value: Expr?
+
+        if !check(.semicolon) {
+            value = try expression()
+        }
+
+        try consume(.semicolon, message: "Expect ';' after return value.")
+
+        return Stmt.Return(keyword: keyword, value: value)
     }
 
     private func varDeclaration() throws -> Stmt {

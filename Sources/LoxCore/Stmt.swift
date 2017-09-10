@@ -9,6 +9,7 @@ protocol StmtVisitor {
     func visitFunctionStmt(_ stmt: Stmt.Function) -> StmtVisitorReturn
     func visitIfStmt(_ stmt: Stmt.If) -> StmtVisitorReturn
     func visitPrintStmt(_ stmt: Stmt.Print) -> StmtVisitorReturn
+    func visitReturnStmt(_ stmt: Stmt.Return) -> StmtVisitorReturn
     func visitVarStmt(_ stmt: Stmt.Var) -> StmtVisitorReturn
     func visitWhileStmt(_ stmt: Stmt.While) -> StmtVisitorReturn
 }
@@ -91,6 +92,20 @@ class Stmt {
 
         override func accept<V: StmtVisitor, R>(visitor: V) -> R where R == V.StmtVisitorReturn {
             return visitor.visitPrintStmt(self)
+        }
+    }
+
+    class Return: Stmt {
+        let keyword: Token
+        let value: Expr?
+
+        init(keyword: Token, value: Expr?) {
+            self.keyword = keyword
+            self.value = value
+        }
+
+        override func accept<V: StmtVisitor, R>(visitor: V) -> R where R == V.StmtVisitorReturn {
+            return visitor.visitReturnStmt(self)
         }
     }
 

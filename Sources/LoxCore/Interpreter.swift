@@ -12,6 +12,7 @@ import Result
 enum InterpreterError: Error {
     case runtime(Token, String) // TODO: Instead of string we could have different cases for each error.
     case breakLoop // Thrown by the Break Stmt to get out of the loop
+    case ret(Any?) // Thrown by the Return Stmt to unwind the call stack
 }
 
 final class Interpreter: ExprVisitor, StmtVisitor {
@@ -265,8 +266,11 @@ final class Interpreter: ExprVisitor, StmtVisitor {
             return .failure(InterpreterError.runtime(expr.paren, "Expected \(function.arity) arguments but got \(arguments.count)."))
         }
 
-        let value = function.call(interpreter: self, arguments: arguments)
-        return .success(value)
+        if let value = function.call(interpreter: self, arguments: arguments) {
+            return .success(value)
+        } else {
+            return nil
+        }
     }
 
     func visitAssignExpr(_ expr: Expr.Assign) -> ExprVisitorReturn {
@@ -459,6 +463,24 @@ final class Interpreter: ExprVisitor, StmtVisitor {
             print(stringify(value: nil))
             return .success()
         }
+    }
+
+    func visitReturnStmt(_ stmt: Stmt.Return) -> Result<Void, InterpreterError> {
+        var value: Any?
+
+        if let valueExpr = stmt.value {
+            let result = evaluate(expr: valueExpr)
+            switch result {
+            case nil:
+                break
+            case .success(let res)?:
+                value = res
+            case .failure(let error)?:
+                return .failure(error)
+            }
+        }
+
+        return .failure(.ret(value))
     }
 
     func visitVarStmt(_ stmt: Stmt.Var) -> StmtVisitorReturn {
