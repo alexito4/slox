@@ -41,22 +41,22 @@ final class Function: Callable, CustomDebugStringConvertible {
 
     init(declaration: Stmt.Function) {
         self.declaration = declaration
-        
-        self.arity = declaration.parameters.count
+
+        arity = declaration.parameters.count
     }
-    
+
     func call(interpreter: Interpreter, arguments: Array<Any>) -> Any {
         let environment = Environment(enclosing: interpreter.globals)
-        
+
         for (i, param) in declaration.parameters.enumerated() {
             environment.define(name: param.lexeme, value: arguments[i])
         }
-        
+
         try! interpreter.executeBlock(declaration.body, newEnvironment: environment)
-        
+
         return "THIS SHOULD BE NIL"
     }
-    
+
     var debugDescription: String {
         return "<fn \(declaration.name.lexeme)>"
     }

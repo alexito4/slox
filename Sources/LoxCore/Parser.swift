@@ -238,7 +238,7 @@ final class Parser {
         try consume(.semicolon, message: "Expect ';' after expression.")
         return Stmt.Expression(expression: value)
     }
-    
+
     private func function(kind: String) throws -> Stmt.Function {
         let name = try consume(.identifier, message: "Expect \(kind) name.")
 
@@ -253,7 +253,7 @@ final class Parser {
             } while match(.comma)
         }
         try consume(.rightParen, message: "Expect ')' after parameters.")
-        
+
         try consume(.leftBrace, message: "Expect '{' before \(kind) body.")
         let body = try block()
         return Stmt.Function(name: name, parameters: parameters, body: body)

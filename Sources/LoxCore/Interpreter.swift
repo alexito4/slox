@@ -423,9 +423,11 @@ final class Interpreter: ExprVisitor, StmtVisitor {
 
         return .success()
     }
-    
+
     func visitFunctionStmt(_ stmt: Stmt.Function) -> Result<Void, InterpreterError> {
-        fatalError()
+        let function = Function(declaration: stmt)
+        environment.define(name: stmt.name.lexeme, value: function)
+        return .success()
     }
 
     func visitIfStmt(_ stmt: Stmt.If) -> Result<Void, InterpreterError> {

@@ -96,7 +96,7 @@ class AstPrinter: ExprVisitor, StmtVisitor {
     func visitExpressionStmt(_ stmt: Stmt.Expression) -> String {
         return parenthesize(name: ";", exprs: stmt.expression)
     }
-    
+
     func visitFunctionStmt(_ stmt: Stmt.Function) -> String {
         fatalError("unimplemented")
     }

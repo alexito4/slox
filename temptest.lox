@@ -1,17 +1,24 @@
-var i = 0;
-while (i < 10) {
-    i = i + 1;
-    print(i);
-    var in = 0;
-    while (true) {
-        in = in + 1;
-        print(i);
-        if (in > 5) {
-            break;
-        }
-        print("after");
-    }
-    if (i == 5) {
-        break;
-    }
+fun sayHi(first, last) {
+  print "Hi, " + first + " " + last + "!";
 }
+
+var name = "Alex";
+sayHi("Dear", name);
+
+// var i = 0;
+// while (i < 10) {
+//     i = i + 1;
+//     print(i);
+//     var in = 0;
+//     while (true) {
+//         in = in + 1;
+//         print(i);
+//         if (in > 5) {
+//             break;
+//         }
+//         print("after");
+//     }
+//     if (i == 5) {
+//         break;
+//     }
+// }
