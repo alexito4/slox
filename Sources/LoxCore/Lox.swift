@@ -10,6 +10,31 @@ import Foundation
 
 public final class Lox {
 
+    public final class Logger {
+        public var output: (String) -> Void
+        public var error: (String) -> Void
+
+        init() {
+            output = {
+                Swift.print($0)
+            }
+            error = {
+                var stderr = FileHandle.standardError
+                Swift.print($0, to: &stderr)
+            }
+        }
+
+        func print(_ text: String) {
+            output(text)
+        }
+
+        func report(_ text: String) {
+            error(text)
+        }
+    }
+
+    public static var logger = Logger()
+
     static let interpreter = Interpreter()
 
     public static func runFile(path: String) throws {
@@ -35,7 +60,12 @@ public final class Lox {
         }
     }
 
-    static func run(_ code: String) {
+    public static func run(_ code: String) {
+        defer {
+            // Clean up static state in case it gets run multiple times
+            hadError = false
+        }
+
         let scanner = Scanner(source: code)
         let tokens = scanner.scanTokens()
 
@@ -83,8 +113,7 @@ public final class Lox {
 
     static var hadError = false
     static func report(line: Int, where location: String, message: String) {
-        var stderr = FileHandle.standardError
-        print("[line \(line)] Error\(location): \(message)", to: &stderr)
+        Lox.logger.report("[line \(line)] Error\(location): \(message)")
         hadError = true
     }
 

@@ -505,12 +505,12 @@ final class Interpreter: ExprVisitor, StmtVisitor {
     func visitPrintStmt(_ stmt: Stmt.Print) -> StmtVisitorReturn {
         switch evaluate(expr: stmt.expression) {
         case .success(let value)?:
-            print(stringify(value: value))
+            Lox.logger.print(stringify(value: value))
             return .success()
         case .failure(let error)?:
             return .failure(error)
         case nil:
-            print(stringify(value: nil))
+            Lox.logger.print(stringify(value: nil))
             return .success()
         }
     }

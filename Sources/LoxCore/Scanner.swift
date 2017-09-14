@@ -119,7 +119,7 @@ final class Scanner {
             // Ingore whitespace
             break
 
-        case "\n", "\r\n":
+        case "\n": // replace this is "isNewlineChar()" that checks also for "\r\n"
             line += 1
 
         case "\"":
