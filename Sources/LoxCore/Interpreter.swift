@@ -280,6 +280,12 @@ final class Interpreter: ExprVisitor, StmtVisitor {
     func visitCallExpr(_ expr: Expr.Call) -> ExprVisitorReturn {
         let calleeResult = evaluate(expr: expr.callee)
 
+        if calleeResult?.error != nil {
+            // If calleeResult already has an error, propagate this one instead of creating a new one in the next lines.
+            // Is probably a "variable not found" error because the function hasn't been declared yet.
+            return calleeResult
+        }
+
         guard let callee = calleeResult?.value, let function = callee as? Callable else {
             return .failure(InterpreterError.runtime(expr.paren, "Can only call functions and classes."))
         }
