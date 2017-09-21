@@ -47,6 +47,14 @@ public final class Lox {
             return
         }
 
+        let resolver = Resolver(interpreter: interpreter)
+        resolver.resolve(statements: statements)
+
+        // Stop if there was a resolution error.
+        guard !hadError else {
+            return
+        }
+
         interpreter.interpret(statements)
 
         /*

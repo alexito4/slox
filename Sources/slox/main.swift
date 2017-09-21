@@ -12,13 +12,13 @@ import LoxCore
 #if true
 
     let args = CommandLine.arguments
-//    print("Arguments: \(args)")
+    //    print("Arguments: \(args)")
 
     guard args.count <= 2 else {
         print("Usage: slox [script]")
         exit(1)
     }
-    
+
     if args.count == 2 {
         try Lox.runFile(path: args[1])
     } else {

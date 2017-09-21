@@ -53,6 +53,11 @@ final class Environment: CustomDebugStringConvertible {
         throw InterpreterError.runtime(name, "Undefined variable '\(name.lexeme)'.")
     }
 
+    func valueFor(name: Token, atDistance distance: Int) throws -> Any {
+        let environment = environmentAtDistance(distance)
+        return try environment.valueFor(name: name)
+    }
+
     func assign(name: Token, value: Any) throws {
         if values.contains(where: { key, value in key == name.lexeme }) {
             values[name.lexeme] = value
@@ -65,6 +70,20 @@ final class Environment: CustomDebugStringConvertible {
         }
 
         throw InterpreterError.runtime(name, "Undefined variable '\(name.lexeme)'.")
+    }
+
+    func assign(name: Token, value: Any, atDistance distance: Int) throws {
+        let environment = environmentAtDistance(distance)
+        environment.values[name.lexeme] = value
+    }
+
+    private func environmentAtDistance(_ distance: Int) -> Environment {
+        var environment = self
+        for _ in 0 ..< distance {
+            // The interpreter code trusts that the resolver did its job and resolved the variable correctly.
+            environment = environment.enclosing!
+        }
+        return environment
     }
 
     var debugDescription: String {

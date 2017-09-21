@@ -15,12 +15,26 @@ enum InterpreterError: Error {
     case ret(Any?) // Thrown by the Return Stmt to unwind the call stack
 }
 
+// TODO: Temporal, implement proper protocols by generating the code
+// but in any case... we want identify based on the reference...
+// maybe the issue is that we shouldn't use a Dictionary but a container that uses reference types directly by their pointers (NSDictioanry?).
+extension Expr: Hashable {
+    var hashValue: Int {
+        return ObjectIdentifier(self).hashValue
+    }
+
+    static func ==(lhs: Expr, rhs: Expr) -> Bool {
+        return ObjectIdentifier(lhs) == ObjectIdentifier(rhs)
+    }
+}
+
 final class Interpreter: ExprVisitor, StmtVisitor {
 
     typealias ExprVisitorReturn = Result<Any, InterpreterError>?
     typealias StmtVisitorReturn = Result<Void, InterpreterError>
 
-    let globals = Environment()
+    private let globals = Environment()
+    private var locals: Dictionary<Expr, Int> = [:]
     private var environment: Environment
 
     init() {
@@ -72,6 +86,11 @@ final class Interpreter: ExprVisitor, StmtVisitor {
         }
 
         return String(describing: value)
+    }
+
+    // Used by the Resolver Variable resolution pass
+    func resolve(_ expr: Expr, depth: Int) {
+        locals[expr] = depth
     }
 
     // MARK: ExprVisitor
@@ -153,10 +172,18 @@ final class Interpreter: ExprVisitor, StmtVisitor {
 
     func visitVariableExpr(_ expr: Expr.Variable) -> ExprVisitorReturn {
         do {
-            let value = try environment.valueFor(name: expr.name)
+            let value = try lookUpVariable(name: expr.name, expr: expr)
             return .success(value as Any)
         } catch {
             return .failure(error as! InterpreterError) // Compiler doesn't know but it should always be InterpreterError
+        }
+    }
+
+    private func lookUpVariable(name: Token, expr: Expr) throws -> Any {
+        if let distance = locals[expr] {
+            return try environment.valueFor(name: name, atDistance: distance)
+        } else {
+            return try globals.valueFor(name: name)
         }
     }
 
@@ -291,7 +318,11 @@ final class Interpreter: ExprVisitor, StmtVisitor {
         case .success(let value)?:
 
             do {
-                try environment.assign(name: expr.name, value: value)
+                if let distance = locals[expr] {
+                    try environment.assign(name: expr.name, value: value, atDistance: distance)
+                } else {
+                    try globals.assign(name: expr.name, value: value)
+                }
             } catch {
                 return .failure(error as! InterpreterError) // Compiler doesn't know but it should always be InterpreterError
             }

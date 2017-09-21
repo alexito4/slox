@@ -1,4 +1,22 @@
-fun () {};
+var a = "global";
+{
+  fun showA() {
+    print a;
+  }
+
+  showA();
+  var a = "block";
+  showA();
+}
+
+// fun bad() {
+//   var a = "first";
+//   var a = "second";
+// }
+
+// return "at top level";
+
+// fun () {};
 
 // fun repeat(times, fn) {
 //     for (var i = 0; i < times; i = i + 1) {

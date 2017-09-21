@@ -119,7 +119,7 @@ final class Scanner {
             // Ingore whitespace
             break
 
-        case "\n":
+        case "\n", "\r\n":
             line += 1
 
         case "\"":

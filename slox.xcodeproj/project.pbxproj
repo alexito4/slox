@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		FB57ADC11EE0CFF100E52974 /* Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB57ADC01EE0CFF100E52974 /* Environment.swift */; };
 		FB57ADC61EE2D3C900E52974 /* Debug.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB57ADC31EE2D3AF00E52974 /* Debug.swift */; };
+		FB918D441F724B2A00A8ED3E /* Resolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB918D431F724B2A00A8ED3E /* Resolver.swift */; };
 		FB9EDD701F654C9A0046BC56 /* Callable.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB9EDD6E1F654C490046BC56 /* Callable.swift */; };
 		OBJ_42 /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_30 /* Result.swift */; };
 		OBJ_43 /* ResultProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_31 /* ResultProtocol.swift */; };
@@ -63,6 +64,7 @@
 /* Begin PBXFileReference section */
 		FB57ADC01EE0CFF100E52974 /* Environment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Environment.swift; sourceTree = "<group>"; };
 		FB57ADC31EE2D3AF00E52974 /* Debug.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Debug.swift; sourceTree = "<group>"; };
+		FB918D431F724B2A00A8ED3E /* Resolver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Resolver.swift; sourceTree = "<group>"; };
 		FB9EDD6E1F654C490046BC56 /* Callable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Callable.swift; sourceTree = "<group>"; };
 		OBJ_11 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		OBJ_13 /* AstPrinter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AstPrinter.swift; sourceTree = "<group>"; };
@@ -138,6 +140,7 @@
 				OBJ_13 /* AstPrinter.swift */,
 				OBJ_14 /* Expr.swift */,
 				OBJ_15 /* Interpreter.swift */,
+				FB918D431F724B2A00A8ED3E /* Resolver.swift */,
 				FB9EDD6E1F654C490046BC56 /* Callable.swift */,
 				OBJ_16 /* Lox.swift */,
 				OBJ_17 /* Parser.swift */,
@@ -378,6 +381,7 @@
 				OBJ_61 /* AstPrinter.swift in Sources */,
 				OBJ_62 /* Expr.swift in Sources */,
 				OBJ_63 /* Interpreter.swift in Sources */,
+				FB918D441F724B2A00A8ED3E /* Resolver.swift in Sources */,
 				FB9EDD701F654C9A0046BC56 /* Callable.swift in Sources */,
 				OBJ_64 /* Lox.swift in Sources */,
 				FB57ADC11EE0CFF100E52974 /* Environment.swift in Sources */,

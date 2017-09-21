@@ -52,7 +52,12 @@ One thing to note is that I'm trying to write a mix between idiomatic Swift (wha
   - [x] Challenge 2: Add anonymous function (lambdas) syntax.
   - Challenge 3: Nothing to implement.
 
-- [ ] 11. [**Resolving and Binding**](http://www.craftinginterpreters.com/resolving-and-binding.html) (COMING SOON)
+- [x] 11. [**Resolving and Binding**](http://www.craftinginterpreters.com/resolving-and-binding.html)
+  - Challenge 1: Nothing to implement.
+  - Challenge 2: Nothing to implement.
+  - [ ] Challenge 3: Extend the resolver to report an error if a local variable is never used.
+  - [ ] Challenge 4: Store local variables in an array and look them up by index.
+
 - [ ] 12. [**Classes**](http://www.craftinginterpreters.com/classes.html) (COMING SOON)
 - [ ] 13. [**Inheritance**](http://www.craftinginterpreters.com/inheritance.html) (COMING SOON)
 
