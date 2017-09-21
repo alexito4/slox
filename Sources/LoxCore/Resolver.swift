@@ -71,7 +71,7 @@ final class Resolver: ExprVisitor, StmtVisitor {
 
     private func resolveLocal(_ expr: Expr, _ name: Token) {
 
-        for (i, scope) in scopes.enumerated() {
+        for (i, scope) in zip(0 ... scopes.count, scopes).reversed() {
             if scope[name.lexeme] != nil {
                 let numOfScopes = scopes.count - 1 - i
                 interpreter.resolve(expr, depth: numOfScopes)
