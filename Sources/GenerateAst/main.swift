@@ -133,10 +133,12 @@ try defineAst(outputDir: outputDir, baseName: "Expr", types: [
     "Assign   / name: Token, value: Expr",
     "Binary   / left: Expr, op: Token, right: Expr",
     "Call     / callee: Expr, paren: Token, arguments: Array<Expr>",
-    "Function / parameters: Array<Token>, body: Array<Stmt>",
+    "Get      / object: Expr, name: Token",
     "Grouping / expression: Expr",
     "Literal  / value: Any?",
     "Logical  / left: Expr, op: Token, right: Expr",
+    "Set      / object: Expr, name: Token, value: Expr",
+    "This     / keyword: Token",
     "Unary    / op: Token, right: Expr",
     "Variable / name: Token",
 ])
@@ -144,9 +146,10 @@ try defineAst(outputDir: outputDir, baseName: "Expr", types: [
 p = Printer()
 try defineAst(outputDir: outputDir, baseName: "Stmt", types: [
     "Block      / statements: Array<Stmt>",
+    "Class      / name: Token, methods: Array<Stmt.Function>",
     "Break      /",
     "Expression / expression: Expr",
-    "Function   / name: Token, function: Expr.Function",
+    "Function   / name: Token, parameters: Array<Token>, body: Array<Stmt>",
     "If         / condition: Expr, thenBranch: Stmt, elseBranch: Stmt?",
     "Print      / expression: Expr",
     "Return     / keyword: Token, value: Expr?",

@@ -6,10 +6,12 @@ protocol ExprVisitor {
     func visitAssignExpr(_ expr: Expr.Assign) -> ExprVisitorReturn
     func visitBinaryExpr(_ expr: Expr.Binary) -> ExprVisitorReturn
     func visitCallExpr(_ expr: Expr.Call) -> ExprVisitorReturn
-    func visitFunctionExpr(_ expr: Expr.Function) -> ExprVisitorReturn
+    func visitGetExpr(_ expr: Expr.Get) -> ExprVisitorReturn
     func visitGroupingExpr(_ expr: Expr.Grouping) -> ExprVisitorReturn
     func visitLiteralExpr(_ expr: Expr.Literal) -> ExprVisitorReturn
     func visitLogicalExpr(_ expr: Expr.Logical) -> ExprVisitorReturn
+    func visitSetExpr(_ expr: Expr.Set) -> ExprVisitorReturn
+    func visitThisExpr(_ expr: Expr.This) -> ExprVisitorReturn
     func visitUnaryExpr(_ expr: Expr.Unary) -> ExprVisitorReturn
     func visitVariableExpr(_ expr: Expr.Variable) -> ExprVisitorReturn
 }
@@ -66,17 +68,17 @@ class Expr {
         }
     }
 
-    class Function: Expr {
-        let parameters: Array<Token>
-        let body: Array<Stmt>
+    class Get: Expr {
+        let object: Expr
+        let name: Token
 
-        init(parameters: Array<Token>, body: Array<Stmt>) {
-            self.parameters = parameters
-            self.body = body
+        init(object: Expr, name: Token) {
+            self.object = object
+            self.name = name
         }
 
         override func accept<V: ExprVisitor, R>(visitor: V) -> R where R == V.ExprVisitorReturn {
-            return visitor.visitFunctionExpr(self)
+            return visitor.visitGetExpr(self)
         }
     }
 
@@ -117,6 +119,34 @@ class Expr {
 
         override func accept<V: ExprVisitor, R>(visitor: V) -> R where R == V.ExprVisitorReturn {
             return visitor.visitLogicalExpr(self)
+        }
+    }
+
+    class Set: Expr {
+        let object: Expr
+        let name: Token
+        let value: Expr
+
+        init(object: Expr, name: Token, value: Expr) {
+            self.object = object
+            self.name = name
+            self.value = value
+        }
+
+        override func accept<V: ExprVisitor, R>(visitor: V) -> R where R == V.ExprVisitorReturn {
+            return visitor.visitSetExpr(self)
+        }
+    }
+
+    class This: Expr {
+        let keyword: Token
+
+        init(keyword: Token) {
+            self.keyword = keyword
+        }
+
+        override func accept<V: ExprVisitor, R>(visitor: V) -> R where R == V.ExprVisitorReturn {
+            return visitor.visitThisExpr(self)
         }
     }
 

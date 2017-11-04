@@ -30,8 +30,8 @@ extension Expr: Hashable {
 
 final class Interpreter: ExprVisitor, StmtVisitor {
 
-    typealias ExprVisitorReturn = Result<Any, InterpreterError>?
-    typealias StmtVisitorReturn = Result<Void, InterpreterError>
+    //    typealias ExprVisitorReturn = Result<Any, InterpreterError>?
+    //    typealias StmtVisitorReturn = Result<Void, InterpreterError>
 
     private let globals = Environment()
     private var locals: Dictionary<Expr, Int> = [:]
@@ -95,7 +95,7 @@ final class Interpreter: ExprVisitor, StmtVisitor {
 
     // MARK: ExprVisitor
 
-    func visitLiteralExpr(_ expr: Expr.Literal) -> ExprVisitorReturn {
+    func visitLiteralExpr(_ expr: Expr.Literal) -> Result<Any, InterpreterError>? {
         guard let value = expr.value else {
             return nil
         }
@@ -116,12 +116,53 @@ final class Interpreter: ExprVisitor, StmtVisitor {
         }
     }
 
-    func visitGroupingExpr(_ expr: Expr.Grouping) -> ExprVisitorReturn {
+    func visitSetExpr(_ expr: Expr.Set) -> Result<Any, InterpreterError>? {
+        let objectResult = evaluate(expr: expr.object)
+
+        if objectResult?.error != nil {
+            // If objectResult already has an error, propagate this one instead of creating a new one in the next lines.
+            return objectResult
+        }
+
+        guard let object = objectResult?.value, let instance = object as? LoxInstance else {
+            return .failure(InterpreterError.runtime(expr.name, "Only instances have fields."))
+        }
+
+        let valueResult = evaluate(expr: expr.value)
+
+        if valueResult?.error != nil {
+            // If valueResult already has an error, propagate this one instead of creating a new one in the next lines.
+            return valueResult
+        }
+
+        // As with normal assignment, setting nil has to be special cased in order for the field
+        // to still be in the dictionary when accessed later. nil would remove the entry from the
+        // Swift dictionary giving the "Undefined property" error later.
+        let value = valueResult?.value ?? NilAny
+
+        //        do {
+        instance.set(name: expr.name, value: value)
+        return .success(value)
+        //        } catch {
+        //            return .failure(error as! InterpreterError) // Compiler doesn't know but it should always be InterpreterError
+        //        }
+    }
+
+    func visitThisExpr(_ expr: Expr.This) -> Result<Any, InterpreterError>? {
+        do {
+            let value = try lookUpVariable(name: expr.keyword, expr: expr)
+            return .success(value as Any)
+        } catch {
+            return .failure(error as! InterpreterError) // Compiler doesn't know but it should always be InterpreterError
+        }
+    }
+
+    func visitGroupingExpr(_ expr: Expr.Grouping) -> Result<Any, InterpreterError>? {
         let res = evaluate(expr: expr.expression)
         return res
     }
 
-    func visitUnaryExpr(_ expr: Expr.Unary) -> ExprVisitorReturn {
+    func visitUnaryExpr(_ expr: Expr.Unary) -> Result<Any, InterpreterError>? {
         let right = evaluate(expr: expr.right)
 
         switch expr.op.type {
@@ -170,7 +211,7 @@ final class Interpreter: ExprVisitor, StmtVisitor {
         }
     }
 
-    func visitVariableExpr(_ expr: Expr.Variable) -> ExprVisitorReturn {
+    func visitVariableExpr(_ expr: Expr.Variable) -> Result<Any, InterpreterError>? {
         do {
             let value = try lookUpVariable(name: expr.name, expr: expr)
             return .success(value as Any)
@@ -187,7 +228,7 @@ final class Interpreter: ExprVisitor, StmtVisitor {
         }
     }
 
-    func visitBinaryExpr(_ expr: Expr.Binary) -> ExprVisitorReturn {
+    func visitBinaryExpr(_ expr: Expr.Binary) -> Result<Any, InterpreterError>? {
         let left = evaluate(expr: expr.left)
         let right = evaluate(expr: expr.right)
 
@@ -277,7 +318,7 @@ final class Interpreter: ExprVisitor, StmtVisitor {
         }
     }
 
-    func visitCallExpr(_ expr: Expr.Call) -> ExprVisitorReturn {
+    func visitCallExpr(_ expr: Expr.Call) -> Result<Any, InterpreterError>? {
         let calleeResult = evaluate(expr: expr.callee)
 
         if calleeResult?.error != nil {
@@ -286,7 +327,7 @@ final class Interpreter: ExprVisitor, StmtVisitor {
             return calleeResult
         }
 
-        guard let callee = calleeResult?.value, let function = callee as? Callable else {
+        guard let callee = calleeResult?.value, let function = callee as? LoxCallable else {
             return .failure(InterpreterError.runtime(expr.paren, "Can only call functions and classes."))
         }
 
@@ -314,14 +355,32 @@ final class Interpreter: ExprVisitor, StmtVisitor {
         }
     }
 
-    func visitFunctionExpr(_ expr: Expr.Function) -> Result<Any, InterpreterError>? {
-        let value = Function(name: nil, declaration: expr, closure: environment)
-        return .success(value)
+    func visitGetExpr(_ expr: Expr.Get) -> Result<Any, InterpreterError>? {
+        let objectResult = evaluate(expr: expr.object)
+
+        if objectResult?.error != nil {
+            // If objectResult already has an error, propagate this one instead of creating a new one in the next lines.
+            return objectResult
+        }
+
+        guard let object = objectResult?.value, let instance = object as? LoxInstance else {
+            return .failure(InterpreterError.runtime(expr.name, "Only instances have properties."))
+        }
+
+        do {
+            let field = try instance.get(name: expr.name)
+            return .success(field)
+        } catch {
+            return .failure(error as! InterpreterError) // Compiler doesn't know but it should always be InterpreterError
+        }
     }
 
-    func visitAssignExpr(_ expr: Expr.Assign) -> ExprVisitorReturn {
-        switch evaluate(expr: expr.value) {
-        case .success(let value)?:
+    func visitAssignExpr(_ expr: Expr.Assign) -> Result<Any, InterpreterError>? {
+        // Assigning nil has to be special cased to avoid the entry disappearing from the Swift Dictionary.
+        let result = evaluate(expr: expr.value) ?? .success(NilAny)
+
+        switch result {
+        case .success(let value):
 
             do {
                 if let distance = locals[expr] {
@@ -334,20 +393,17 @@ final class Interpreter: ExprVisitor, StmtVisitor {
             }
 
             return .success(value)
-
-        case .failure(let error)?:
+        case .failure(let error):
             return .failure(error)
-        default:
-            fatalError()
         }
     }
 
-    private func evaluate(expr: Expr) -> ExprVisitorReturn {
+    private func evaluate(expr: Expr) -> Result<Any, InterpreterError>? {
         return expr.accept(visitor: self)
     }
 
     // ugh, again, unnecessary code just to make Result, Any and Optional play together.
-    private func isTruthy(_ result: ExprVisitorReturn) -> Bool {
+    private func isTruthy(_ result: Result<Any, InterpreterError>?) -> Bool {
         guard let result = result else {
             return false
         }
@@ -372,7 +428,7 @@ final class Interpreter: ExprVisitor, StmtVisitor {
         return true
     }
 
-    private func isEqualAny(left: ExprVisitorReturn, right: ExprVisitorReturn) -> Bool {
+    private func isEqualAny(left: Result<Any, InterpreterError>?, right: Result<Any, InterpreterError>?) -> Bool {
         // nil is only equal to nil.
         if left == nil && right == nil {
             return true
@@ -412,12 +468,16 @@ final class Interpreter: ExprVisitor, StmtVisitor {
             return l == r
         }
 
+        if let l = left as? LoxFunction, let r = right as? LoxFunction {
+            return l == r
+        }
+
         fatalError("Unsupported equatable type. /n \(String(describing: left)) or \(String(describing: right))")
     }
 
     // MARK: Runtime checks
 
-    private func castNumberOperands(op: Token, left: ExprVisitorReturn, right: ExprVisitorReturn) -> Result<(Double, Double), InterpreterError> {
+    private func castNumberOperands(op: Token, left: Result<Any, InterpreterError>?, right: Result<Any, InterpreterError>?) -> Result<(Double, Double), InterpreterError> {
         guard let left = left, let right = right else {
             return .failure(InterpreterError.runtime(op, "Operands must be numbers.")) // Operands must not be nil.
         }
@@ -437,7 +497,7 @@ final class Interpreter: ExprVisitor, StmtVisitor {
         return .failure(InterpreterError.runtime(op, "Operands must be numbers."))
     }
 
-    private func castNumberOperand(op: Token, operand: ExprVisitorReturn) -> Result<Double, InterpreterError> {
+    private func castNumberOperand(op: Token, operand: Result<Any, InterpreterError>?) -> Result<Double, InterpreterError> {
         guard let operand = operand else {
             return .failure(InterpreterError.runtime(op, "Operand must not be nil."))
         }
@@ -455,7 +515,7 @@ final class Interpreter: ExprVisitor, StmtVisitor {
 
     // MARK: StmtVisitor
 
-    func visitBlockStmt(_ stmt: Stmt.Block) -> StmtVisitorReturn {
+    func visitBlockStmt(_ stmt: Stmt.Block) -> Result<Void, InterpreterError> {
 
         do {
             try executeBlock(stmt.statements, newEnvironment: Environment(enclosing: environment))
@@ -466,11 +526,30 @@ final class Interpreter: ExprVisitor, StmtVisitor {
         return .success()
     }
 
+    func visitClassStmt(_ stmt: Stmt.Class) -> Result<Void, InterpreterError> {
+        environment.define(name: stmt.name.lexeme, value: NilAny)
+
+        var methods = Dictionary<String, LoxFunction>()
+        for method in stmt.methods {
+            let isInitializer = method.name.lexeme == "init"
+            let function = LoxFunction(name: nil, declaration: method, closure: environment, isInitializer: isInitializer)
+            methods[method.name.lexeme] = function
+        }
+
+        let klass = LoxClass(name: stmt.name.lexeme, methods: methods)
+        do {
+            try environment.assign(name: stmt.name, value: klass)
+            return .success()
+        } catch {
+            return .failure(error as! InterpreterError) // Compiler doesn't know but it should always be InterpreterError
+        }
+    }
+
     func visitBreakStmt(_ stmt: Stmt.Break) -> Result<Void, InterpreterError> {
         return .failure(.breakLoop)
     }
 
-    func visitExpressionStmt(_ stmt: Stmt.Expression) -> StmtVisitorReturn {
+    func visitExpressionStmt(_ stmt: Stmt.Expression) -> Result<Void, InterpreterError> {
         if case let .failure(error)? = evaluate(expr: stmt.expression) {
             return .failure(error)
         }
@@ -479,7 +558,7 @@ final class Interpreter: ExprVisitor, StmtVisitor {
     }
 
     func visitFunctionStmt(_ stmt: Stmt.Function) -> Result<Void, InterpreterError> {
-        let function = Function(name: stmt.name.lexeme, declaration: stmt.function, closure: environment)
+        let function = LoxFunction(name: stmt.name.lexeme, declaration: stmt, closure: environment, isInitializer: false)
         environment.define(name: stmt.name.lexeme, value: function)
         return .success()
     }
@@ -502,7 +581,7 @@ final class Interpreter: ExprVisitor, StmtVisitor {
         return .success()
     }
 
-    func visitPrintStmt(_ stmt: Stmt.Print) -> StmtVisitorReturn {
+    func visitPrintStmt(_ stmt: Stmt.Print) -> Result<Void, InterpreterError> {
         switch evaluate(expr: stmt.expression) {
         case .success(let value)?:
             Lox.logger.print(stringify(value: value))
@@ -533,7 +612,7 @@ final class Interpreter: ExprVisitor, StmtVisitor {
         return .failure(.ret(value))
     }
 
-    func visitVarStmt(_ stmt: Stmt.Var) -> StmtVisitorReturn {
+    func visitVarStmt(_ stmt: Stmt.Var) -> Result<Void, InterpreterError> {
         let value: Any
         if let initializer = stmt.initializer {
             switch evaluate(expr: initializer) {

@@ -59,13 +59,13 @@ public final class Lox {
             hadError = false
         }
     }
-    
+
     public static func runCode(_ code: String) {
         defer {
             // Clean up static state in case it gets run multiple times
             hadError = false
         }
-        
+
         run(code)
     }
 

@@ -44,6 +44,9 @@ final class Parser {
 
     private func declaration() -> Stmt? {
         do {
+            if match(.Class) {
+                return try classDeclaration()
+            }
             if check(.fun) && checkNext(.identifier) {
                 try consume(.fun, message: "")
                 return try function(kind: "function")
@@ -57,6 +60,22 @@ final class Parser {
             synchronize()
             return nil // Recovered from error mode. Return nil and continue parsing.
         }
+    }
+
+    private func classDeclaration() throws -> Stmt {
+        let name = try consume(.identifier, message: "Expect class name.")
+
+        try consume(.leftBrace, message: "Expect '{' before class body.")
+
+        var methods = Array<Stmt.Function>()
+        while !check(.rightBrace) && !isAtEnd() {
+            let f = try function(kind: "method")
+            methods.append(f)
+        }
+
+        try consume(.rightBrace, message: "Expect '}' after class body.")
+
+        return Stmt.Class(name: name, methods: methods)
     }
 
     private func statement() throws -> Stmt {
@@ -165,6 +184,8 @@ final class Parser {
             if let variable = expr as? Expr.Variable {
                 let name = variable.name
                 return Expr.Assign(name: name, value: value)
+            } else if let get = expr as? Expr.Get {
+                return Expr.Set(object: get.object, name: get.name, value: value)
             }
 
             throw error(token: equals, message: "Invalid assignment target.")
@@ -258,26 +279,28 @@ final class Parser {
 
     private func function(kind: String) throws -> Stmt.Function {
         let name = try consume(.identifier, message: "Expect \(kind) name.")
-        return Stmt.Function(name: name, function: try functionBody(kind: kind))
-    }
 
-    private func functionBody(kind: String) throws -> Expr.Function {
-        try consume(.leftParen, message: "Expect '(' after \(kind) name.")
-        var parameters: Array<Token> = []
-        if !check(.rightParen) {
-            repeat {
-                if parameters.count >= 8 {
-                    throw error(token: peek(), message: "Cannot have more than 8 parameters.")
-                }
-                parameters.append(try consume(.identifier, message: "Expect parameter name."))
-            } while match(.comma)
+        func functionBody(kind: String) throws -> (parameters: Array<Token>, body: Array<Stmt>) {
+            try consume(.leftParen, message: "Expect '(' after \(kind) name.")
+            var parameters: Array<Token> = []
+            if !check(.rightParen) {
+                repeat {
+                    if parameters.count >= 8 {
+                        throw error(token: peek(), message: "Cannot have more than 8 parameters.")
+                    }
+                    parameters.append(try consume(.identifier, message: "Expect parameter name."))
+                } while match(.comma)
+            }
+            try consume(.rightParen, message: "Expect ')' after parameters.")
+
+            try consume(.leftBrace, message: "Expect '{' before \(kind) body.")
+            let body = try block()
+
+            return (parameters, body)
         }
-        try consume(.rightParen, message: "Expect ')' after parameters.")
 
-        try consume(.leftBrace, message: "Expect '{' before \(kind) body.")
-        let body = try block()
-
-        return Expr.Function(parameters: parameters, body: body)
+        let (parameters, body) = try functionBody(kind: kind)
+        return Stmt.Function(name: name, parameters: parameters, body: body)
     }
 
     private func block() throws -> Array<Stmt> {
@@ -325,6 +348,9 @@ final class Parser {
         while true {
             if match(.leftParen) {
                 expr = try finishCall(callee: expr)
+            } else if match(.dot) {
+                let name = try consume(.identifier, message: "Expect property name after '.'.")
+                expr = Expr.Get(object: expr, name: name)
             } else {
                 break
             }
@@ -365,6 +391,10 @@ final class Parser {
             return Expr.Literal(value: previous().literal)
         }
 
+        if match(.this) {
+            return Expr.This(keyword: previous())
+        }
+
         if match(.identifier) {
             return Expr.Variable(name: previous())
         }
@@ -373,11 +403,6 @@ final class Parser {
             let expr = try expression()
             try consume(.rightParen, message: "Expect ')' after expression.")
             return Expr.Grouping(expression: expr)
-        }
-
-        if check(.fun) && checkNext(.leftParen) {
-            try consume(.fun, message: "")
-            return try functionBody(kind: "function")
         }
 
         throw error(token: peek(), message: "Expect expression.")

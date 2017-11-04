@@ -1,5 +1,5 @@
 //
-//  Callable.swift
+//  LoxCallable.swift
 //  slox
 //
 //  Created by Alejandro Martinez on 10/09/2017.
@@ -8,7 +8,9 @@
 
 import Foundation
 
-protocol Callable {
+// Runtime representation of something that can be used with function call syntax.
+
+protocol LoxCallable {
     // Number of arguments.
     var arity: Int { get }
 
@@ -19,7 +21,7 @@ protocol Callable {
 // Java has anonymous class for this.
 // Could add and overloaded `define` function to Enviornment but not sure if later
 // I will need this for something else.
-final class AnonymousCallable: Callable {
+final class AnonymousCallable: LoxCallable {
 
     let arity: Int
     let callClosure: (Interpreter, Array<Any>) throws -> Any?
@@ -34,18 +36,19 @@ final class AnonymousCallable: Callable {
     }
 }
 
-final class Function: Callable, CustomDebugStringConvertible {
+final class LoxFunction: LoxCallable, CustomDebugStringConvertible, Equatable {
 
     private let name: String?
-    private let declaration: Expr.Function
+    private let declaration: Stmt.Function
     private let closure: Environment
-
+    private let isInitializer: Bool
     let arity: Int
 
-    init(name: String?, declaration: Expr.Function, closure: Environment) {
+    init(name: String?, declaration: Stmt.Function, closure: Environment, isInitializer: Bool) {
         self.name = name
         self.declaration = declaration
         self.closure = closure
+        self.isInitializer = isInitializer
 
         arity = declaration.parameters.count
     }
@@ -65,7 +68,17 @@ final class Function: Callable, CustomDebugStringConvertible {
             throw error
         }
 
+        if isInitializer {
+            return try closure.valueFor(name: "this", atDistance: 0)
+        }
+
         return nil
+    }
+
+    func bind(_ instance: LoxInstance) -> LoxFunction {
+        let env = Environment(enclosing: closure)
+        env.define(name: "this", value: instance)
+        return LoxFunction(name: name, declaration: declaration, closure: env, isInitializer: isInitializer)
     }
 
     var debugDescription: String {
@@ -73,5 +86,13 @@ final class Function: Callable, CustomDebugStringConvertible {
             return "<fn>"
         }
         return "<fn \(name)>"
+    }
+
+    static func ==(lhs: LoxFunction, rhs: LoxFunction) -> Bool {
+        return lhs.name == rhs.name &&
+            //        lhs.declaration.name.lexeme == rhs.declaration.name.lexeme &&
+            //        lhs.declaration.body == rhs.declaration.body &&
+            //        lhs.declaration.parameters == rhs.declaration.parameters &&
+            lhs.closure === rhs.closure
     }
 }

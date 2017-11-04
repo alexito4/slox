@@ -33,18 +33,8 @@ class AstPrinter: ExprVisitor, StmtVisitor {
         return parenthesize(name: "call", parts: expr.callee, expr.arguments)
     }
 
-    func visitFunctionExpr(_ expr: Expr.Function) -> String {
-        var res = "("
-        for param in expr.parameters {
-            res += " \(param.lexeme)"
-        }
-        res += ") "
-
-        for body in expr.body {
-            res += body.accept(visitor: self)
-        }
-
-        return res
+    func visitGetExpr(_ expr: Expr.Get) -> String {
+        return parenthesize(name: ".", parts: expr.object, expr.name.lexeme)
     }
 
     func visitGroupingExpr(_ expr: Expr.Grouping) -> String {
@@ -60,6 +50,14 @@ class AstPrinter: ExprVisitor, StmtVisitor {
 
     func visitLogicalExpr(_ expr: Expr.Logical) -> String {
         return parenthesize(name: expr.op.lexeme, exprs: expr.left, expr.right)
+    }
+
+    func visitSetExpr(_ expr: Expr.Set) -> String {
+        return parenthesize(name: "=", parts: expr.object, expr.name.lexeme, expr.value)
+    }
+
+    func visitThisExpr(_ expr: Expr.This) -> String {
+        return "this"
     }
 
     func visitUnaryExpr(_ expr: Expr.Unary) -> String {
@@ -103,6 +101,22 @@ class AstPrinter: ExprVisitor, StmtVisitor {
         return output
     }
 
+    func visitClassStmt(_ stmt: Stmt.Class) -> String {
+        var output = ""
+        output += ("(class " + stmt.name.lexeme)
+
+        //        if (stmt.superclass != null) {
+        //            builder.append(" < " + print(stmt.superclass));
+        //        }
+
+        for method in stmt.methods {
+            output += " " + method.accept(visitor: self)
+        }
+
+        output += ")"
+        return output
+    }
+
     func visitBreakStmt(_ stmt: Stmt.Break) -> String {
         return "(break)"
     }
@@ -114,7 +128,15 @@ class AstPrinter: ExprVisitor, StmtVisitor {
     func visitFunctionStmt(_ stmt: Stmt.Function) -> String {
         var res = "(fun \(stmt.name.lexeme)"
 
-        res += stmt.function.accept(visitor: self)
+        res += "("
+        for param in stmt.parameters {
+            res += " \(param.lexeme)"
+        }
+        res += ") "
+
+        for body in stmt.body {
+            res += body.accept(visitor: self)
+        }
 
         return res
     }
@@ -192,7 +214,7 @@ class AstRPNPrinter: ExprVisitor {
         fatalError("unimplemented")
     }
 
-    func visitFunctionExpr(_ expr: Expr.Function) -> String {
+    func visitGetExpr(_ expr: Expr.Get) -> String {
         fatalError("unimplemented")
     }
 
@@ -206,6 +228,14 @@ class AstRPNPrinter: ExprVisitor {
 
     func visitLogicalExpr(_ expr: Expr.Logical) -> String {
         return "\(print(expr: expr.left)) \(print(expr: expr.right)) \(expr.op.lexeme)"
+    }
+
+    func visitSetExpr(_ expr: Expr.Set) -> String {
+        fatalError("unimplemented")
+    }
+
+    func visitThisExpr(_ expr: Expr.This) -> String {
+        fatalError("unimplemented")
     }
 
     func visitUnaryExpr(_ expr: Expr.Unary) -> String {

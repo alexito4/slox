@@ -10,7 +10,10 @@
 		FB57ADC11EE0CFF100E52974 /* Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB57ADC01EE0CFF100E52974 /* Environment.swift */; };
 		FB57ADC61EE2D3C900E52974 /* Debug.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB57ADC31EE2D3AF00E52974 /* Debug.swift */; };
 		FB918D441F724B2A00A8ED3E /* Resolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB918D431F724B2A00A8ED3E /* Resolver.swift */; };
-		FB9EDD701F654C9A0046BC56 /* Callable.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB9EDD6E1F654C490046BC56 /* Callable.swift */; };
+		FB9D62971FADE07F0098B973 /* Interpreter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB9D62931FADE07F0098B973 /* Interpreter.swift */; };
+		FB9D62981FADE07F0098B973 /* LoxCallable.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB9D62941FADE07F0098B973 /* LoxCallable.swift */; };
+		FB9D62991FADE07F0098B973 /* LoxClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB9D62951FADE07F0098B973 /* LoxClass.swift */; };
+		FB9D629A1FADE07F0098B973 /* LoxInstance.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB9D62961FADE07F0098B973 /* LoxInstance.swift */; };
 		OBJ_42 /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_30 /* Result.swift */; };
 		OBJ_43 /* ResultProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_31 /* ResultProtocol.swift */; };
 		OBJ_50 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_11 /* main.swift */; };
@@ -18,7 +21,6 @@
 		OBJ_53 /* LoxCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = OBJ_35 /* LoxCore.framework */; };
 		OBJ_61 /* AstPrinter.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_13 /* AstPrinter.swift */; };
 		OBJ_62 /* Expr.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_14 /* Expr.swift */; };
-		OBJ_63 /* Interpreter.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_15 /* Interpreter.swift */; };
 		OBJ_64 /* Lox.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_16 /* Lox.swift */; };
 		OBJ_65 /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_17 /* Parser.swift */; };
 		OBJ_66 /* Scanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_18 /* Scanner.swift */; };
@@ -65,11 +67,13 @@
 		FB57ADC01EE0CFF100E52974 /* Environment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Environment.swift; sourceTree = "<group>"; };
 		FB57ADC31EE2D3AF00E52974 /* Debug.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Debug.swift; sourceTree = "<group>"; };
 		FB918D431F724B2A00A8ED3E /* Resolver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Resolver.swift; sourceTree = "<group>"; };
-		FB9EDD6E1F654C490046BC56 /* Callable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Callable.swift; sourceTree = "<group>"; };
+		FB9D62931FADE07F0098B973 /* Interpreter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Interpreter.swift; sourceTree = "<group>"; };
+		FB9D62941FADE07F0098B973 /* LoxCallable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoxCallable.swift; sourceTree = "<group>"; };
+		FB9D62951FADE07F0098B973 /* LoxClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoxClass.swift; sourceTree = "<group>"; };
+		FB9D62961FADE07F0098B973 /* LoxInstance.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoxInstance.swift; sourceTree = "<group>"; };
 		OBJ_11 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		OBJ_13 /* AstPrinter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AstPrinter.swift; sourceTree = "<group>"; };
 		OBJ_14 /* Expr.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Expr.swift; sourceTree = "<group>"; };
-		OBJ_15 /* Interpreter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Interpreter.swift; sourceTree = "<group>"; };
 		OBJ_16 /* Lox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Lox.swift; sourceTree = "<group>"; };
 		OBJ_17 /* Parser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
 		OBJ_18 /* Scanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scanner.swift; sourceTree = "<group>"; };
@@ -125,6 +129,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		FB9D62921FADE07F0098B973 /* Runtime */ = {
+			isa = PBXGroup;
+			children = (
+				FB9D62931FADE07F0098B973 /* Interpreter.swift */,
+				FB9D62941FADE07F0098B973 /* LoxCallable.swift */,
+				FB9D62951FADE07F0098B973 /* LoxClass.swift */,
+				FB9D62961FADE07F0098B973 /* LoxInstance.swift */,
+			);
+			path = Runtime;
+			sourceTree = "<group>";
+		};
 		OBJ_10 /* slox */ = {
 			isa = PBXGroup;
 			children = (
@@ -139,10 +154,9 @@
 			children = (
 				OBJ_13 /* AstPrinter.swift */,
 				OBJ_14 /* Expr.swift */,
-				OBJ_15 /* Interpreter.swift */,
 				FB918D431F724B2A00A8ED3E /* Resolver.swift */,
-				FB9EDD6E1F654C490046BC56 /* Callable.swift */,
 				OBJ_16 /* Lox.swift */,
+				FB9D62921FADE07F0098B973 /* Runtime */,
 				OBJ_17 /* Parser.swift */,
 				OBJ_18 /* Scanner.swift */,
 				OBJ_19 /* Stmt.swift */,
@@ -380,16 +394,18 @@
 			files = (
 				OBJ_61 /* AstPrinter.swift in Sources */,
 				OBJ_62 /* Expr.swift in Sources */,
-				OBJ_63 /* Interpreter.swift in Sources */,
+				FB9D629A1FADE07F0098B973 /* LoxInstance.swift in Sources */,
 				FB918D441F724B2A00A8ED3E /* Resolver.swift in Sources */,
-				FB9EDD701F654C9A0046BC56 /* Callable.swift in Sources */,
 				OBJ_64 /* Lox.swift in Sources */,
 				FB57ADC11EE0CFF100E52974 /* Environment.swift in Sources */,
 				OBJ_65 /* Parser.swift in Sources */,
+				FB9D62991FADE07F0098B973 /* LoxClass.swift in Sources */,
+				FB9D62971FADE07F0098B973 /* Interpreter.swift in Sources */,
 				OBJ_66 /* Scanner.swift in Sources */,
 				FB57ADC61EE2D3C900E52974 /* Debug.swift in Sources */,
 				OBJ_67 /* Stmt.swift in Sources */,
 				OBJ_68 /* Token.swift in Sources */,
+				FB9D62981FADE07F0098B973 /* LoxCallable.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

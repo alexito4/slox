@@ -58,6 +58,11 @@ final class Environment: CustomDebugStringConvertible {
         return try environment.valueFor(name: name)
     }
 
+    func valueFor(name: String, atDistance distance: Int) throws -> Any {
+        let tokenName = Token(type: .identifier, lexeme: name, line: 0)
+        return try valueFor(name: tokenName, atDistance: distance)
+    }
+
     func assign(name: Token, value: Any) throws {
         if values.contains(where: { key, value in key == name.lexeme }) {
             values[name.lexeme] = value

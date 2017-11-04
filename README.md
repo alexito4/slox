@@ -11,7 +11,7 @@ One thing to note is that I'm trying to write a mix between idiomatic Swift (wha
 
 # Implementation
 
-*as of 21/09/2017*
+*as of 04/11/2017*
 
 ## A TREE-WALK INTERPRETER
 
@@ -58,7 +58,11 @@ One thing to note is that I'm trying to write a mix between idiomatic Swift (wha
   - [ ] Challenge 3: Extend the resolver to report an error if a local variable is never used.
   - [ ] Challenge 4: Store local variables in an array and look them up by index.
 
-- [ ] 12. [**Classes**](http://www.craftinginterpreters.com/classes.html) (COMING SOON)
+- [x] 12. [**Classes**](http://www.craftinginterpreters.com/classes.html)
+  - [ ] Challenge 1: Add class methods.
+  - [ ] Challenge 2: Support getter methods.
+  - Challenge 3: Nothing to implement.
+
 - [ ] 13. [**Inheritance**](http://www.craftinginterpreters.com/inheritance.html) (COMING SOON)
 
 # Tests

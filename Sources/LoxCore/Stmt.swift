@@ -4,6 +4,7 @@ protocol StmtVisitor {
     associatedtype StmtVisitorReturn
 
     func visitBlockStmt(_ stmt: Stmt.Block) -> StmtVisitorReturn
+    func visitClassStmt(_ stmt: Stmt.Class) -> StmtVisitorReturn
     func visitBreakStmt(_ stmt: Stmt.Break) -> StmtVisitorReturn
     func visitExpressionStmt(_ stmt: Stmt.Expression) -> StmtVisitorReturn
     func visitFunctionStmt(_ stmt: Stmt.Function) -> StmtVisitorReturn
@@ -32,6 +33,20 @@ class Stmt {
         }
     }
 
+    class Class: Stmt {
+        let name: Token
+        let methods: Array<Stmt.Function>
+
+        init(name: Token, methods: Array<Stmt.Function>) {
+            self.name = name
+            self.methods = methods
+        }
+
+        override func accept<V: StmtVisitor, R>(visitor: V) -> R where R == V.StmtVisitorReturn {
+            return visitor.visitClassStmt(self)
+        }
+    }
+
     class Break: Stmt {
 
         override func accept<V: StmtVisitor, R>(visitor: V) -> R where R == V.StmtVisitorReturn {
@@ -53,11 +68,13 @@ class Stmt {
 
     class Function: Stmt {
         let name: Token
-        let function: Expr.Function
+        let parameters: Array<Token>
+        let body: Array<Stmt>
 
-        init(name: Token, function: Expr.Function) {
+        init(name: Token, parameters: Array<Token>, body: Array<Stmt>) {
             self.name = name
-            self.function = function
+            self.parameters = parameters
+            self.body = body
         }
 
         override func accept<V: StmtVisitor, R>(visitor: V) -> R where R == V.StmtVisitorReturn {
