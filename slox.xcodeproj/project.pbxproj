@@ -14,6 +14,7 @@
 		FB9D62981FADE07F0098B973 /* LoxCallable.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB9D62941FADE07F0098B973 /* LoxCallable.swift */; };
 		FB9D62991FADE07F0098B973 /* LoxClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB9D62951FADE07F0098B973 /* LoxClass.swift */; };
 		FB9D629A1FADE07F0098B973 /* LoxInstance.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB9D62961FADE07F0098B973 /* LoxInstance.swift */; };
+		FB9D629C1FAE1E0A0098B973 /* BuiltIn.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB9D629B1FAE1E0A0098B973 /* BuiltIn.swift */; };
 		OBJ_42 /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_30 /* Result.swift */; };
 		OBJ_43 /* ResultProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_31 /* ResultProtocol.swift */; };
 		OBJ_50 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_11 /* main.swift */; };
@@ -71,6 +72,7 @@
 		FB9D62941FADE07F0098B973 /* LoxCallable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoxCallable.swift; sourceTree = "<group>"; };
 		FB9D62951FADE07F0098B973 /* LoxClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoxClass.swift; sourceTree = "<group>"; };
 		FB9D62961FADE07F0098B973 /* LoxInstance.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoxInstance.swift; sourceTree = "<group>"; };
+		FB9D629B1FAE1E0A0098B973 /* BuiltIn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuiltIn.swift; sourceTree = "<group>"; };
 		OBJ_11 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		OBJ_13 /* AstPrinter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AstPrinter.swift; sourceTree = "<group>"; };
 		OBJ_14 /* Expr.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Expr.swift; sourceTree = "<group>"; };
@@ -136,6 +138,7 @@
 				FB9D62941FADE07F0098B973 /* LoxCallable.swift */,
 				FB9D62951FADE07F0098B973 /* LoxClass.swift */,
 				FB9D62961FADE07F0098B973 /* LoxInstance.swift */,
+				FB9D629B1FAE1E0A0098B973 /* BuiltIn.swift */,
 			);
 			path = Runtime;
 			sourceTree = "<group>";
@@ -398,6 +401,7 @@
 				FB918D441F724B2A00A8ED3E /* Resolver.swift in Sources */,
 				OBJ_64 /* Lox.swift in Sources */,
 				FB57ADC11EE0CFF100E52974 /* Environment.swift in Sources */,
+				FB9D629C1FAE1E0A0098B973 /* BuiltIn.swift in Sources */,
 				OBJ_65 /* Parser.swift in Sources */,
 				FB9D62991FADE07F0098B973 /* LoxClass.swift in Sources */,
 				FB9D62971FADE07F0098B973 /* Interpreter.swift in Sources */,

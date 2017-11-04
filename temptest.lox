@@ -1,3 +1,12 @@
+var a = Stack();
+a.push(true);
+a.push("B");
+a.push(2);
+print a;
+a.pop();
+print a;
+print a.count();
+
 // class Foo {
 //   init() {
 //     return "something else";

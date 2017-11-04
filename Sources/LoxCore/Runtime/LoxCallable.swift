@@ -15,6 +15,9 @@ protocol LoxCallable {
     var arity: Int { get }
 
     func call(interpreter: Interpreter, arguments: Array<Any>) throws -> Any?
+
+    // TESTING
+    func bind(_ instance: LoxInstance) -> LoxCallable
 }
 
 // To create functions with closures.
@@ -33,6 +36,11 @@ final class AnonymousCallable: LoxCallable {
 
     func call(interpreter: Interpreter, arguments: Array<Any>) throws -> Any? {
         return try callClosure(interpreter, arguments)
+    }
+
+    // TESTING
+    func bind(_ instance: LoxInstance) -> LoxCallable {
+        return self
     }
 }
 
@@ -75,7 +83,7 @@ final class LoxFunction: LoxCallable, CustomDebugStringConvertible, Equatable {
         return nil
     }
 
-    func bind(_ instance: LoxInstance) -> LoxFunction {
+    func bind(_ instance: LoxInstance) -> LoxCallable {
         let env = Environment(enclosing: closure)
         env.define(name: "this", value: instance)
         return LoxFunction(name: name, declaration: declaration, closure: env, isInitializer: isInitializer)

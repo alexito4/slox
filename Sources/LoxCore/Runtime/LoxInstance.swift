@@ -40,3 +40,9 @@ extension LoxInstance: CustomDebugStringConvertible {
         return klass.name + " instance"
     }
 }
+
+extension LoxInstance {
+    func loxCustomDebugDescription(interpreter: Interpreter) -> String? {
+        return try! klass.findMethod(instance: self, name: "debugDescription")?.call(interpreter: interpreter, arguments: []) as? String
+    }
+}

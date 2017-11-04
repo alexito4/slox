@@ -43,6 +43,8 @@ final class Interpreter: ExprVisitor, StmtVisitor {
         globals.define(name: "clock", value: AnonymousCallable(arity: 0) { interpreter, args in
             return Double(DispatchTime.now().uptimeNanoseconds) / 1_000_000_000
         })
+
+        globals.define(name: "Stack", value: LoxNativeClass(native: NativeStack.self))
     }
 
     func interpret(_ statements: Array<Stmt>) {
@@ -83,6 +85,10 @@ final class Interpreter: ExprVisitor, StmtVisitor {
                 text = text.substring(to: text.index(text.endIndex, offsetBy: -2))
             }
             return text
+        }
+
+        if let instance = value as? LoxInstance, let description = instance.loxCustomDebugDescription(interpreter: self) {
+            return description
         }
 
         return String(describing: value)

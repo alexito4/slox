@@ -14,9 +14,9 @@ import Foundation
 final class LoxClass: LoxCallable {
 
     let name: String
-    private let methods: Dictionary<String, LoxFunction>
+    private let methods: Dictionary<String, LoxCallable>
 
-    init(name: String, methods: Dictionary<String, LoxFunction>) {
+    init(name: String, methods: Dictionary<String, LoxCallable>) {
         self.name = name
         self.methods = methods
     }
@@ -41,12 +41,16 @@ final class LoxClass: LoxCallable {
         return instance
     }
 
-    func findMethod(instance: LoxInstance, name: String) -> LoxFunction? {
+    func findMethod(instance: LoxInstance, name: String) -> LoxCallable? {
         if let method = methods[name] {
             return method.bind(instance)
         }
 
         return nil
+    }
+
+    func bind(_ instance: LoxInstance) -> LoxCallable {
+        return self
     }
 }
 
