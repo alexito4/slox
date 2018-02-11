@@ -22,7 +22,6 @@ protocol LoxCallable {
 // Could add and overloaded `define` function to Enviornment but not sure if later
 // I will need this for something else.
 final class AnonymousCallable: LoxCallable {
-
     let arity: Int
     let callClosure: (Interpreter, Array<Any>) throws -> Any?
 
@@ -37,7 +36,6 @@ final class AnonymousCallable: LoxCallable {
 }
 
 final class LoxFunction: LoxCallable, CustomDebugStringConvertible, Equatable {
-
     private let name: String?
     private let declaration: Stmt.Function
     private let closure: Environment
@@ -88,7 +86,7 @@ final class LoxFunction: LoxCallable, CustomDebugStringConvertible, Equatable {
         return "<fn \(name)>"
     }
 
-    static func ==(lhs: LoxFunction, rhs: LoxFunction) -> Bool {
+    static func == (lhs: LoxFunction, rhs: LoxFunction) -> Bool {
         return lhs.name == rhs.name &&
             //        lhs.declaration.name.lexeme == rhs.declaration.name.lexeme &&
             //        lhs.declaration.body == rhs.declaration.body &&

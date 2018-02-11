@@ -9,14 +9,12 @@
 import Foundation
 
 extension Stmt: CustomDebugStringConvertible {
-
     var debugDescription: String {
         return AstPrinter().print(stmt: self)
     }
 }
 
 extension Expr: CustomDebugStringConvertible {
-
     var debugDescription: String {
         return AstPrinter().print(expr: self)
     }

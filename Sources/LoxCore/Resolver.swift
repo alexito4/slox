@@ -12,7 +12,6 @@ import Foundation
 // Variable resolution pass.
 // Each time it visits a variable, it tells the interpreter how many scopes there are between the current scope and the scope where the variable is defined. At runtime, this corresponds exactly to the number of environments between the current one and the enclosing one where interpreter can find the variable’s value.
 final class Resolver: ExprVisitor, StmtVisitor {
-
     private let interpreter: Interpreter
 
     private var scopes: Array<Dictionary<String, Bool>> = []
@@ -80,7 +79,6 @@ final class Resolver: ExprVisitor, StmtVisitor {
     }
 
     private func resolveLocal(_ expr: Expr, _ name: Token) {
-
         for (i, scope) in zip(0 ... scopes.count, scopes).reversed() {
             if scope[name.lexeme] != nil {
                 let numOfScopes = scopes.count - 1 - i

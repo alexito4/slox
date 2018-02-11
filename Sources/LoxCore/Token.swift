@@ -55,7 +55,6 @@ enum TokenType {
 }
 
 struct Token: CustomStringConvertible {
-
     let type: TokenType
     let lexeme: String
     let literal: Any?

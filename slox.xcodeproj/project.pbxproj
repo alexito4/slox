@@ -7,233 +7,231 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		FB57ADC11EE0CFF100E52974 /* Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB57ADC01EE0CFF100E52974 /* Environment.swift */; };
-		FB57ADC61EE2D3C900E52974 /* Debug.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB57ADC31EE2D3AF00E52974 /* Debug.swift */; };
-		FB918D441F724B2A00A8ED3E /* Resolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB918D431F724B2A00A8ED3E /* Resolver.swift */; };
-		FB9D62971FADE07F0098B973 /* Interpreter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB9D62931FADE07F0098B973 /* Interpreter.swift */; };
-		FB9D62981FADE07F0098B973 /* LoxCallable.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB9D62941FADE07F0098B973 /* LoxCallable.swift */; };
-		FB9D62991FADE07F0098B973 /* LoxClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB9D62951FADE07F0098B973 /* LoxClass.swift */; };
-		FB9D629A1FADE07F0098B973 /* LoxInstance.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB9D62961FADE07F0098B973 /* LoxInstance.swift */; };
-		OBJ_42 /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_30 /* Result.swift */; };
-		OBJ_43 /* ResultProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_31 /* ResultProtocol.swift */; };
-		OBJ_50 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_11 /* main.swift */; };
-		OBJ_52 /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = OBJ_33 /* Result.framework */; };
-		OBJ_53 /* LoxCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = OBJ_35 /* LoxCore.framework */; };
-		OBJ_61 /* AstPrinter.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_13 /* AstPrinter.swift */; };
-		OBJ_62 /* Expr.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_14 /* Expr.swift */; };
-		OBJ_64 /* Lox.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_16 /* Lox.swift */; };
-		OBJ_65 /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_17 /* Parser.swift */; };
-		OBJ_66 /* Scanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_18 /* Scanner.swift */; };
-		OBJ_67 /* Stmt.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_19 /* Stmt.swift */; };
-		OBJ_68 /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_20 /* Token.swift */; };
-		OBJ_70 /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = OBJ_33 /* Result.framework */; };
-		OBJ_77 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_22 /* main.swift */; };
-		OBJ_78 /* Printer.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_23 /* Printer.swift */; };
-		OBJ_80 /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = OBJ_33 /* Result.framework */; };
+		OBJ_104 /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_38 /* Result.swift */; };
+		OBJ_105 /* ResultProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_39 /* ResultProtocol.swift */; };
+		OBJ_51 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_6 /* Package.swift */; };
+		OBJ_57 /* Package.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_40 /* Package.swift */; };
+		OBJ_63 /* Printer.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_29 /* Printer.swift */; };
+		OBJ_64 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_30 /* main.swift */; };
+		OBJ_71 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_27 /* main.swift */; };
+		OBJ_73 /* LoxCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "slox::LoxCore::Product" /* LoxCore.framework */; };
+		OBJ_74 /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "Result::Result::Product" /* Result.framework */; };
+		OBJ_83 /* AstPrinter.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_11 /* AstPrinter.swift */; };
+		OBJ_84 /* Debug.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_12 /* Debug.swift */; };
+		OBJ_85 /* Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_13 /* Environment.swift */; };
+		OBJ_86 /* Expr.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_14 /* Expr.swift */; };
+		OBJ_87 /* Lox.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_15 /* Lox.swift */; };
+		OBJ_88 /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_16 /* Parser.swift */; };
+		OBJ_89 /* Resolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_17 /* Resolver.swift */; };
+		OBJ_90 /* Interpreter.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_19 /* Interpreter.swift */; };
+		OBJ_91 /* LoxCallable.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_20 /* LoxCallable.swift */; };
+		OBJ_92 /* LoxClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_21 /* LoxClass.swift */; };
+		OBJ_93 /* LoxInstance.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_22 /* LoxInstance.swift */; };
+		OBJ_94 /* Scanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_23 /* Scanner.swift */; };
+		OBJ_95 /* Stmt.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_24 /* Stmt.swift */; };
+		OBJ_96 /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_25 /* Token.swift */; };
+		OBJ_98 /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "Result::Result::Product" /* Result.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		FB57ADBC1EE0BF7E00E52974 /* PBXContainerItemProxy */ = {
+		FB29D6EE20307A550032CB25 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = OBJ_37;
-			remoteInfo = Result;
-		};
-		FB57ADBD1EE0BF7E00E52974 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = OBJ_1 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = OBJ_37;
-			remoteInfo = Result;
-		};
-		FB57ADBE1EE0BF7E00E52974 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = OBJ_1 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = OBJ_56;
+			remoteGlobalIDString = "slox::LoxCore";
 			remoteInfo = LoxCore;
 		};
-		FB57ADBF1EE0BF7E00E52974 /* PBXContainerItemProxy */ = {
+		FB29D6EF20307A550032CB25 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = OBJ_1 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = OBJ_37;
+			remoteGlobalIDString = "Result::Result";
+			remoteInfo = Result;
+		};
+		FB29D6F020307A550032CB25 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = OBJ_1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = "Result::Result";
 			remoteInfo = Result;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		FB57ADC01EE0CFF100E52974 /* Environment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Environment.swift; sourceTree = "<group>"; };
-		FB57ADC31EE2D3AF00E52974 /* Debug.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Debug.swift; sourceTree = "<group>"; };
-		FB918D431F724B2A00A8ED3E /* Resolver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Resolver.swift; sourceTree = "<group>"; };
-		FB9D62931FADE07F0098B973 /* Interpreter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Interpreter.swift; sourceTree = "<group>"; };
-		FB9D62941FADE07F0098B973 /* LoxCallable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoxCallable.swift; sourceTree = "<group>"; };
-		FB9D62951FADE07F0098B973 /* LoxClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoxClass.swift; sourceTree = "<group>"; };
-		FB9D62961FADE07F0098B973 /* LoxInstance.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoxInstance.swift; sourceTree = "<group>"; };
-		OBJ_11 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
-		OBJ_13 /* AstPrinter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AstPrinter.swift; sourceTree = "<group>"; };
+		OBJ_11 /* AstPrinter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AstPrinter.swift; sourceTree = "<group>"; };
+		OBJ_12 /* Debug.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Debug.swift; sourceTree = "<group>"; };
+		OBJ_13 /* Environment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Environment.swift; sourceTree = "<group>"; };
 		OBJ_14 /* Expr.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Expr.swift; sourceTree = "<group>"; };
-		OBJ_16 /* Lox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Lox.swift; sourceTree = "<group>"; };
-		OBJ_17 /* Parser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
-		OBJ_18 /* Scanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scanner.swift; sourceTree = "<group>"; };
-		OBJ_19 /* Stmt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stmt.swift; sourceTree = "<group>"; };
-		OBJ_20 /* Token.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Token.swift; sourceTree = "<group>"; };
-		OBJ_22 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
-		OBJ_23 /* Printer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Printer.swift; sourceTree = "<group>"; };
-		OBJ_25 /* test */ = {isa = PBXFileReference; lastKnownFileType = folder; path = test; sourceTree = SOURCE_ROOT; };
-		OBJ_26 /* tools */ = {isa = PBXFileReference; lastKnownFileType = folder; path = tools; sourceTree = SOURCE_ROOT; };
-		OBJ_30 /* Result.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
-		OBJ_31 /* ResultProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultProtocol.swift; sourceTree = "<group>"; };
-		OBJ_33 /* Result.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Result.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		OBJ_34 /* slox */ = {isa = PBXFileReference; lastKnownFileType = text; path = slox; sourceTree = BUILT_PRODUCTS_DIR; };
-		OBJ_35 /* LoxCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = LoxCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		OBJ_36 /* GenerateAst */ = {isa = PBXFileReference; lastKnownFileType = text; path = GenerateAst; sourceTree = BUILT_PRODUCTS_DIR; };
+		OBJ_15 /* Lox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Lox.swift; sourceTree = "<group>"; };
+		OBJ_16 /* Parser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
+		OBJ_17 /* Resolver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Resolver.swift; sourceTree = "<group>"; };
+		OBJ_19 /* Interpreter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Interpreter.swift; sourceTree = "<group>"; };
+		OBJ_20 /* LoxCallable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoxCallable.swift; sourceTree = "<group>"; };
+		OBJ_21 /* LoxClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoxClass.swift; sourceTree = "<group>"; };
+		OBJ_22 /* LoxInstance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoxInstance.swift; sourceTree = "<group>"; };
+		OBJ_23 /* Scanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scanner.swift; sourceTree = "<group>"; };
+		OBJ_24 /* Stmt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Stmt.swift; sourceTree = "<group>"; };
+		OBJ_25 /* Token.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Token.swift; sourceTree = "<group>"; };
+		OBJ_27 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		OBJ_29 /* Printer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Printer.swift; sourceTree = "<group>"; };
+		OBJ_30 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		OBJ_32 /* tools */ = {isa = PBXFileReference; lastKnownFileType = folder; path = tools; sourceTree = SOURCE_ROOT; };
+		OBJ_33 /* test */ = {isa = PBXFileReference; lastKnownFileType = folder; path = test; sourceTree = SOURCE_ROOT; };
+		OBJ_34 /* test_extra */ = {isa = PBXFileReference; lastKnownFileType = folder; path = test_extra; sourceTree = SOURCE_ROOT; };
+		OBJ_38 /* Result.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
+		OBJ_39 /* ResultProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultProtocol.swift; sourceTree = "<group>"; };
+		OBJ_40 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; name = Package.swift; path = "/Users/alejandromartinez/Dropbox/Projects/craftinginterpreters/.build/checkouts/Result.git-8684547452332391156/Package.swift"; sourceTree = "<group>"; };
 		OBJ_6 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 		OBJ_8 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
+		"Result::Result::Product" /* Result.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Result.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		"slox::GenerateAst::Product" /* GenerateAst */ = {isa = PBXFileReference; lastKnownFileType = text; path = GenerateAst; sourceTree = BUILT_PRODUCTS_DIR; };
+		"slox::LoxCore::Product" /* LoxCore.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = LoxCore.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		"slox::slox::Product" /* slox */ = {isa = PBXFileReference; lastKnownFileType = text; path = slox; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		OBJ_44 /* Frameworks */ = {
+		OBJ_106 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 0;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		OBJ_51 /* Frameworks */ = {
+		OBJ_65 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 0;
 			files = (
-				OBJ_52 /* Result.framework in Frameworks */,
-				OBJ_53 /* LoxCore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		OBJ_69 /* Frameworks */ = {
+		OBJ_72 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 0;
 			files = (
-				OBJ_70 /* Result.framework in Frameworks */,
+				OBJ_73 /* LoxCore.framework in Frameworks */,
+				OBJ_74 /* Result.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		OBJ_79 /* Frameworks */ = {
+		OBJ_97 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 0;
 			files = (
-				OBJ_80 /* Result.framework in Frameworks */,
+				OBJ_98 /* Result.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		FB9D62921FADE07F0098B973 /* Runtime */ = {
+		OBJ_10 /* LoxCore */ = {
 			isa = PBXGroup;
 			children = (
-				FB9D62931FADE07F0098B973 /* Interpreter.swift */,
-				FB9D62941FADE07F0098B973 /* LoxCallable.swift */,
-				FB9D62951FADE07F0098B973 /* LoxClass.swift */,
-				FB9D62961FADE07F0098B973 /* LoxInstance.swift */,
-			);
-			path = Runtime;
-			sourceTree = "<group>";
-		};
-		OBJ_10 /* slox */ = {
-			isa = PBXGroup;
-			children = (
-				OBJ_11 /* main.swift */,
-			);
-			name = slox;
-			path = Sources/slox;
-			sourceTree = SOURCE_ROOT;
-		};
-		OBJ_12 /* LoxCore */ = {
-			isa = PBXGroup;
-			children = (
-				OBJ_13 /* AstPrinter.swift */,
+				OBJ_11 /* AstPrinter.swift */,
+				OBJ_12 /* Debug.swift */,
+				OBJ_13 /* Environment.swift */,
 				OBJ_14 /* Expr.swift */,
-				FB918D431F724B2A00A8ED3E /* Resolver.swift */,
-				OBJ_16 /* Lox.swift */,
-				FB9D62921FADE07F0098B973 /* Runtime */,
-				OBJ_17 /* Parser.swift */,
-				OBJ_18 /* Scanner.swift */,
-				OBJ_19 /* Stmt.swift */,
-				OBJ_20 /* Token.swift */,
-				FB57ADC01EE0CFF100E52974 /* Environment.swift */,
-				FB57ADC31EE2D3AF00E52974 /* Debug.swift */,
+				OBJ_15 /* Lox.swift */,
+				OBJ_16 /* Parser.swift */,
+				OBJ_17 /* Resolver.swift */,
+				OBJ_18 /* Runtime */,
+				OBJ_23 /* Scanner.swift */,
+				OBJ_24 /* Stmt.swift */,
+				OBJ_25 /* Token.swift */,
 			);
 			name = LoxCore;
 			path = Sources/LoxCore;
 			sourceTree = SOURCE_ROOT;
 		};
-		OBJ_21 /* GenerateAst */ = {
+		OBJ_18 /* Runtime */ = {
 			isa = PBXGroup;
 			children = (
-				OBJ_22 /* main.swift */,
-				OBJ_23 /* Printer.swift */,
+				OBJ_19 /* Interpreter.swift */,
+				OBJ_20 /* LoxCallable.swift */,
+				OBJ_21 /* LoxClass.swift */,
+				OBJ_22 /* LoxInstance.swift */,
+			);
+			path = Runtime;
+			sourceTree = "<group>";
+		};
+		OBJ_26 /* slox */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_27 /* main.swift */,
+			);
+			name = slox;
+			path = Sources/slox;
+			sourceTree = SOURCE_ROOT;
+		};
+		OBJ_28 /* GenerateAst */ = {
+			isa = PBXGroup;
+			children = (
+				OBJ_29 /* Printer.swift */,
+				OBJ_30 /* main.swift */,
 			);
 			name = GenerateAst;
 			path = Sources/GenerateAst;
 			sourceTree = SOURCE_ROOT;
 		};
-		OBJ_24 /* Tests */ = {
+		OBJ_31 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
 			);
 			name = Tests;
 			sourceTree = SOURCE_ROOT;
 		};
-		OBJ_27 /* Dependencies */ = {
+		OBJ_35 /* Dependencies */ = {
 			isa = PBXGroup;
 			children = (
-				OBJ_28 /* Result 3.2.3 */,
+				OBJ_36 /* Result 3.2.4 */,
 			);
 			name = Dependencies;
 			sourceTree = "<group>";
 		};
-		OBJ_28 /* Result 3.2.3 */ = {
+		OBJ_36 /* Result 3.2.4 */ = {
 			isa = PBXGroup;
 			children = (
-				OBJ_29 /* Result */,
+				OBJ_37 /* Result */,
+				OBJ_40 /* Package.swift */,
 			);
-			name = "Result 3.2.3";
+			name = "Result 3.2.4";
 			sourceTree = SOURCE_ROOT;
 		};
-		OBJ_29 /* Result */ = {
+		OBJ_37 /* Result */ = {
 			isa = PBXGroup;
 			children = (
-				OBJ_30 /* Result.swift */,
-				OBJ_31 /* ResultProtocol.swift */,
+				OBJ_38 /* Result.swift */,
+				OBJ_39 /* ResultProtocol.swift */,
 			);
 			name = Result;
 			path = ".build/checkouts/Result.git-8684547452332391156/Result";
 			sourceTree = SOURCE_ROOT;
 		};
-		OBJ_32 /* Products */ = {
+		OBJ_41 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				OBJ_33 /* Result.framework */,
-				OBJ_34 /* slox */,
-				OBJ_35 /* LoxCore.framework */,
-				OBJ_36 /* GenerateAst */,
+				"slox::GenerateAst::Product" /* GenerateAst */,
+				"slox::slox::Product" /* slox */,
+				"slox::LoxCore::Product" /* LoxCore.framework */,
+				"Result::Result::Product" /* Result.framework */,
 			);
 			name = Products;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		OBJ_5 = {
+		OBJ_5 /*  */ = {
 			isa = PBXGroup;
 			children = (
 				OBJ_6 /* Package.swift */,
 				OBJ_7 /* Configs */,
 				OBJ_9 /* Sources */,
-				OBJ_24 /* Tests */,
-				OBJ_25 /* test */,
-				OBJ_26 /* tools */,
-				OBJ_27 /* Dependencies */,
-				OBJ_32 /* Products */,
+				OBJ_31 /* Tests */,
+				OBJ_32 /* tools */,
+				OBJ_33 /* test */,
+				OBJ_34 /* test_extra */,
+				OBJ_35 /* Dependencies */,
+				OBJ_41 /* Products */,
 			);
+			name = "";
 			sourceTree = "<group>";
 		};
 		OBJ_7 /* Configs */ = {
@@ -247,9 +245,9 @@
 		OBJ_9 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				OBJ_10 /* slox */,
-				OBJ_12 /* LoxCore */,
-				OBJ_21 /* GenerateAst */,
+				OBJ_10 /* LoxCore */,
+				OBJ_26 /* slox */,
+				OBJ_28 /* GenerateAst */,
 			);
 			name = Sources;
 			sourceTree = SOURCE_ROOT;
@@ -257,12 +255,12 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		OBJ_37 /* Result */ = {
+		"Result::Result" /* Result */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = OBJ_38 /* Build configuration list for PBXNativeTarget "Result" */;
+			buildConfigurationList = OBJ_100 /* Build configuration list for PBXNativeTarget "Result" */;
 			buildPhases = (
-				OBJ_41 /* Sources */,
-				OBJ_44 /* Frameworks */,
+				OBJ_103 /* Sources */,
+				OBJ_106 /* Frameworks */,
 			);
 			buildRules = (
 			);
@@ -270,60 +268,86 @@
 			);
 			name = Result;
 			productName = Result;
-			productReference = OBJ_33 /* Result.framework */;
+			productReference = "Result::Result::Product" /* Result.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		OBJ_45 /* slox */ = {
+		"Result::SwiftPMPackageDescription" /* ResultPackageDescription */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = OBJ_46 /* Build configuration list for PBXNativeTarget "slox" */;
+			buildConfigurationList = OBJ_53 /* Build configuration list for PBXNativeTarget "ResultPackageDescription" */;
 			buildPhases = (
-				FB57ADC21EE2BB9F00E52974 /* ShellScript */,
-				OBJ_49 /* Sources */,
-				OBJ_51 /* Frameworks */,
+				OBJ_56 /* Sources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				OBJ_54 /* PBXTargetDependency */,
-				OBJ_55 /* PBXTargetDependency */,
 			);
-			name = slox;
-			productName = slox;
-			productReference = OBJ_34 /* slox */;
-			productType = "com.apple.product-type.tool";
-		};
-		OBJ_56 /* LoxCore */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = OBJ_57 /* Build configuration list for PBXNativeTarget "LoxCore" */;
-			buildPhases = (
-				OBJ_60 /* Sources */,
-				OBJ_69 /* Frameworks */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				OBJ_71 /* PBXTargetDependency */,
-			);
-			name = LoxCore;
-			productName = LoxCore;
-			productReference = OBJ_35 /* LoxCore.framework */;
+			name = ResultPackageDescription;
+			productName = ResultPackageDescription;
 			productType = "com.apple.product-type.framework";
 		};
-		OBJ_72 /* GenerateAst */ = {
+		"slox::GenerateAst" /* GenerateAst */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = OBJ_73 /* Build configuration list for PBXNativeTarget "GenerateAst" */;
+			buildConfigurationList = OBJ_59 /* Build configuration list for PBXNativeTarget "GenerateAst" */;
 			buildPhases = (
-				OBJ_76 /* Sources */,
-				OBJ_79 /* Frameworks */,
+				OBJ_62 /* Sources */,
+				OBJ_65 /* Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				OBJ_81 /* PBXTargetDependency */,
 			);
 			name = GenerateAst;
 			productName = GenerateAst;
-			productReference = OBJ_36 /* GenerateAst */;
+			productReference = "slox::GenerateAst::Product" /* GenerateAst */;
+			productType = "com.apple.product-type.tool";
+		};
+		"slox::LoxCore" /* LoxCore */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = OBJ_79 /* Build configuration list for PBXNativeTarget "LoxCore" */;
+			buildPhases = (
+				OBJ_82 /* Sources */,
+				OBJ_97 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				OBJ_99 /* PBXTargetDependency */,
+			);
+			name = LoxCore;
+			productName = LoxCore;
+			productReference = "slox::LoxCore::Product" /* LoxCore.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		"slox::SwiftPMPackageDescription" /* sloxPackageDescription */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = OBJ_47 /* Build configuration list for PBXNativeTarget "sloxPackageDescription" */;
+			buildPhases = (
+				OBJ_50 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = sloxPackageDescription;
+			productName = sloxPackageDescription;
+			productType = "com.apple.product-type.framework";
+		};
+		"slox::slox" /* slox */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = OBJ_67 /* Build configuration list for PBXNativeTarget "slox" */;
+			buildPhases = (
+				OBJ_70 /* Sources */,
+				OBJ_72 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				OBJ_75 /* PBXTargetDependency */,
+				OBJ_77 /* PBXTargetDependency */,
+			);
+			name = slox;
+			productName = slox;
+			productReference = "slox::slox::Product" /* slox */;
 			productType = "com.apple.product-type.tool";
 		};
 /* End PBXNativeTarget section */
@@ -341,109 +365,152 @@
 			knownRegions = (
 				en,
 			);
-			mainGroup = OBJ_5;
-			productRefGroup = OBJ_32 /* Products */;
+			mainGroup = OBJ_5 /*  */;
+			productRefGroup = OBJ_41 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				OBJ_37 /* Result */,
-				OBJ_45 /* slox */,
-				OBJ_56 /* LoxCore */,
-				OBJ_72 /* GenerateAst */,
+				"slox::SwiftPMPackageDescription" /* sloxPackageDescription */,
+				"Result::SwiftPMPackageDescription" /* ResultPackageDescription */,
+				"slox::GenerateAst" /* GenerateAst */,
+				"slox::slox" /* slox */,
+				"slox::LoxCore" /* LoxCore */,
+				"Result::Result" /* Result */,
 			);
 		};
 /* End PBXProject section */
 
-/* Begin PBXShellScriptBuildPhase section */
-		FB57ADC21EE2BB9F00E52974 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "sh format.sh";
-		};
-/* End PBXShellScriptBuildPhase section */
-
 /* Begin PBXSourcesBuildPhase section */
-		OBJ_41 /* Sources */ = {
+		OBJ_103 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 0;
 			files = (
-				OBJ_42 /* Result.swift in Sources */,
-				OBJ_43 /* ResultProtocol.swift in Sources */,
+				OBJ_104 /* Result.swift in Sources */,
+				OBJ_105 /* ResultProtocol.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		OBJ_49 /* Sources */ = {
+		OBJ_50 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 0;
 			files = (
-				OBJ_50 /* main.swift in Sources */,
+				OBJ_51 /* Package.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		OBJ_60 /* Sources */ = {
+		OBJ_56 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 0;
 			files = (
-				OBJ_61 /* AstPrinter.swift in Sources */,
-				OBJ_62 /* Expr.swift in Sources */,
-				FB9D629A1FADE07F0098B973 /* LoxInstance.swift in Sources */,
-				FB918D441F724B2A00A8ED3E /* Resolver.swift in Sources */,
-				OBJ_64 /* Lox.swift in Sources */,
-				FB57ADC11EE0CFF100E52974 /* Environment.swift in Sources */,
-				OBJ_65 /* Parser.swift in Sources */,
-				FB9D62991FADE07F0098B973 /* LoxClass.swift in Sources */,
-				FB9D62971FADE07F0098B973 /* Interpreter.swift in Sources */,
-				OBJ_66 /* Scanner.swift in Sources */,
-				FB57ADC61EE2D3C900E52974 /* Debug.swift in Sources */,
-				OBJ_67 /* Stmt.swift in Sources */,
-				OBJ_68 /* Token.swift in Sources */,
-				FB9D62981FADE07F0098B973 /* LoxCallable.swift in Sources */,
+				OBJ_57 /* Package.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		OBJ_76 /* Sources */ = {
+		OBJ_62 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 0;
 			files = (
-				OBJ_77 /* main.swift in Sources */,
-				OBJ_78 /* Printer.swift in Sources */,
+				OBJ_63 /* Printer.swift in Sources */,
+				OBJ_64 /* main.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		OBJ_70 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 0;
+			files = (
+				OBJ_71 /* main.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		OBJ_82 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 0;
+			files = (
+				OBJ_83 /* AstPrinter.swift in Sources */,
+				OBJ_84 /* Debug.swift in Sources */,
+				OBJ_85 /* Environment.swift in Sources */,
+				OBJ_86 /* Expr.swift in Sources */,
+				OBJ_87 /* Lox.swift in Sources */,
+				OBJ_88 /* Parser.swift in Sources */,
+				OBJ_89 /* Resolver.swift in Sources */,
+				OBJ_90 /* Interpreter.swift in Sources */,
+				OBJ_91 /* LoxCallable.swift in Sources */,
+				OBJ_92 /* LoxClass.swift in Sources */,
+				OBJ_93 /* LoxInstance.swift in Sources */,
+				OBJ_94 /* Scanner.swift in Sources */,
+				OBJ_95 /* Stmt.swift in Sources */,
+				OBJ_96 /* Token.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		OBJ_54 /* PBXTargetDependency */ = {
+		OBJ_75 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = OBJ_37 /* Result */;
-			targetProxy = FB57ADBD1EE0BF7E00E52974 /* PBXContainerItemProxy */;
+			target = "slox::LoxCore" /* LoxCore */;
+			targetProxy = FB29D6EE20307A550032CB25 /* PBXContainerItemProxy */;
 		};
-		OBJ_55 /* PBXTargetDependency */ = {
+		OBJ_77 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = OBJ_56 /* LoxCore */;
-			targetProxy = FB57ADBE1EE0BF7E00E52974 /* PBXContainerItemProxy */;
+			target = "Result::Result" /* Result */;
+			targetProxy = FB29D6F020307A550032CB25 /* PBXContainerItemProxy */;
 		};
-		OBJ_71 /* PBXTargetDependency */ = {
+		OBJ_99 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = OBJ_37 /* Result */;
-			targetProxy = FB57ADBF1EE0BF7E00E52974 /* PBXContainerItemProxy */;
-		};
-		OBJ_81 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = OBJ_37 /* Result */;
-			targetProxy = FB57ADBC1EE0BF7E00E52974 /* PBXContainerItemProxy */;
+			target = "Result::Result" /* Result */;
+			targetProxy = FB29D6EF20307A550032CB25 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		OBJ_101 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = OBJ_8 /* Config.xcconfig */;
+			buildSettings = {
+				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_FILE = slox.xcodeproj/Result_Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = Result;
+				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
+				TARGET_NAME = Result;
+			};
+			name = Debug;
+		};
+		OBJ_102 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = OBJ_8 /* Config.xcconfig */;
+			buildSettings = {
+				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_FILE = slox.xcodeproj/Result_Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = Result;
+				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
+				TARGET_NAME = Result;
+			};
+			name = Release;
+		};
 		OBJ_3 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -462,30 +529,7 @@
 				SUPPORTED_PLATFORMS = "macosx iphoneos iphonesimulator appletvos appletvsimulator watchos watchsimulator";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = SWIFT_PACKAGE;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 3.0;
 				USE_HEADERMAP = NO;
-			};
-			name = Debug;
-		};
-		OBJ_39 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = OBJ_8 /* Config.xcconfig */;
-			buildSettings = {
-				ENABLE_TESTABILITY = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
-				);
-				HEADER_SEARCH_PATHS = "$(inherited)";
-				INFOPLIST_FILE = slox.xcodeproj/Result_Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
-				OTHER_LDFLAGS = "$(inherited)";
-				OTHER_SWIFT_FLAGS = "$(inherited)";
-				PRODUCT_BUNDLE_IDENTIFIER = Result;
-				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-				SKIP_INSTALL = YES;
-				TARGET_NAME = Result;
 			};
 			name = Debug;
 		};
@@ -505,34 +549,87 @@
 				SUPPORTED_PLATFORMS = "macosx iphoneos iphonesimulator appletvos appletvsimulator watchos watchsimulator";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = SWIFT_PACKAGE;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
-				SWIFT_VERSION = 3.0;
 				USE_HEADERMAP = NO;
 			};
 			name = Release;
 		};
-		OBJ_40 /* Release */ = {
+		OBJ_48 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				LD = /usr/bin/true;
+				OTHER_SWIFT_FLAGS = "-swift-version 4 -I /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/pm/4 -target x86_64-apple-macosx10.10 -sdk /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk";
+				SWIFT_VERSION = 4.0;
+			};
+			name = Debug;
+		};
+		OBJ_49 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				LD = /usr/bin/true;
+				OTHER_SWIFT_FLAGS = "-swift-version 4 -I /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/pm/4 -target x86_64-apple-macosx10.10 -sdk /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk";
+				SWIFT_VERSION = 4.0;
+			};
+			name = Release;
+		};
+		OBJ_54 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				LD = /usr/bin/true;
+				OTHER_SWIFT_FLAGS = "-swift-version 3 -I /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/pm/3 -target x86_64-apple-macosx10.10 -sdk /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Debug;
+		};
+		OBJ_55 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				LD = /usr/bin/true;
+				OTHER_SWIFT_FLAGS = "-swift-version 3 -I /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/pm/3 -target x86_64-apple-macosx10.10 -sdk /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Release;
+		};
+		OBJ_60 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = OBJ_8 /* Config.xcconfig */;
 			buildSettings = {
-				ENABLE_TESTABILITY = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
 				);
 				HEADER_SEARCH_PATHS = "$(inherited)";
-				INFOPLIST_FILE = slox.xcodeproj/Result_Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx";
+				INFOPLIST_FILE = slox.xcodeproj/GenerateAst_Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx @executable_path";
 				OTHER_LDFLAGS = "$(inherited)";
 				OTHER_SWIFT_FLAGS = "$(inherited)";
-				PRODUCT_BUNDLE_IDENTIFIER = Result;
-				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-				SKIP_INSTALL = YES;
-				TARGET_NAME = Result;
+				SWIFT_FORCE_DYNAMIC_LINK_STDLIB = YES;
+				SWIFT_FORCE_STATIC_LINK_STDLIB = NO;
+				SWIFT_VERSION = 4.0;
+				TARGET_NAME = GenerateAst;
+			};
+			name = Debug;
+		};
+		OBJ_61 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = OBJ_8 /* Config.xcconfig */;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = "$(inherited)";
+				INFOPLIST_FILE = slox.xcodeproj/GenerateAst_Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx @executable_path";
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_SWIFT_FLAGS = "$(inherited)";
+				SWIFT_FORCE_DYNAMIC_LINK_STDLIB = YES;
+				SWIFT_FORCE_STATIC_LINK_STDLIB = NO;
+				SWIFT_VERSION = 4.0;
+				TARGET_NAME = GenerateAst;
 			};
 			name = Release;
 		};
-		OBJ_47 /* Debug */ = {
+		OBJ_68 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = OBJ_8 /* Config.xcconfig */;
 			buildSettings = {
@@ -547,11 +644,12 @@
 				OTHER_SWIFT_FLAGS = "$(inherited)";
 				SWIFT_FORCE_DYNAMIC_LINK_STDLIB = YES;
 				SWIFT_FORCE_STATIC_LINK_STDLIB = NO;
+				SWIFT_VERSION = 4.0;
 				TARGET_NAME = slox;
 			};
 			name = Debug;
 		};
-		OBJ_48 /* Release */ = {
+		OBJ_69 /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = OBJ_8 /* Config.xcconfig */;
 			buildSettings = {
@@ -566,11 +664,12 @@
 				OTHER_SWIFT_FLAGS = "$(inherited)";
 				SWIFT_FORCE_DYNAMIC_LINK_STDLIB = YES;
 				SWIFT_FORCE_STATIC_LINK_STDLIB = NO;
+				SWIFT_VERSION = 4.0;
 				TARGET_NAME = slox;
 			};
 			name = Release;
 		};
-		OBJ_58 /* Debug */ = {
+		OBJ_80 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = OBJ_8 /* Config.xcconfig */;
 			buildSettings = {
@@ -588,11 +687,12 @@
 				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.0;
 				TARGET_NAME = LoxCore;
 			};
 			name = Debug;
 		};
-		OBJ_59 /* Release */ = {
+		OBJ_81 /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = OBJ_8 /* Config.xcconfig */;
 			buildSettings = {
@@ -610,51 +710,23 @@
 				PRODUCT_MODULE_NAME = "$(TARGET_NAME:c99extidentifier)";
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.0;
 				TARGET_NAME = LoxCore;
-			};
-			name = Release;
-		};
-		OBJ_74 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = OBJ_8 /* Config.xcconfig */;
-			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
-				);
-				HEADER_SEARCH_PATHS = "$(inherited)";
-				INFOPLIST_FILE = slox.xcodeproj/GenerateAst_Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx @executable_path";
-				OTHER_LDFLAGS = "$(inherited)";
-				OTHER_SWIFT_FLAGS = "$(inherited)";
-				SWIFT_FORCE_DYNAMIC_LINK_STDLIB = YES;
-				SWIFT_FORCE_STATIC_LINK_STDLIB = NO;
-				TARGET_NAME = GenerateAst;
-			};
-			name = Debug;
-		};
-		OBJ_75 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = OBJ_8 /* Config.xcconfig */;
-			buildSettings = {
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PLATFORM_DIR)/Developer/Library/Frameworks",
-				);
-				HEADER_SEARCH_PATHS = "$(inherited)";
-				INFOPLIST_FILE = slox.xcodeproj/GenerateAst_Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(TOOLCHAIN_DIR)/usr/lib/swift/macosx @executable_path";
-				OTHER_LDFLAGS = "$(inherited)";
-				OTHER_SWIFT_FLAGS = "$(inherited)";
-				SWIFT_FORCE_DYNAMIC_LINK_STDLIB = YES;
-				SWIFT_FORCE_STATIC_LINK_STDLIB = NO;
-				TARGET_NAME = GenerateAst;
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		OBJ_100 /* Build configuration list for PBXNativeTarget "Result" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				OBJ_101 /* Debug */,
+				OBJ_102 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
 		OBJ_2 /* Build configuration list for PBXProject "slox" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -664,38 +736,47 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
 		};
-		OBJ_38 /* Build configuration list for PBXNativeTarget "Result" */ = {
+		OBJ_47 /* Build configuration list for PBXNativeTarget "sloxPackageDescription" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				OBJ_39 /* Debug */,
-				OBJ_40 /* Release */,
+				OBJ_48 /* Debug */,
+				OBJ_49 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
 		};
-		OBJ_46 /* Build configuration list for PBXNativeTarget "slox" */ = {
+		OBJ_53 /* Build configuration list for PBXNativeTarget "ResultPackageDescription" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				OBJ_47 /* Debug */,
-				OBJ_48 /* Release */,
+				OBJ_54 /* Debug */,
+				OBJ_55 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
 		};
-		OBJ_57 /* Build configuration list for PBXNativeTarget "LoxCore" */ = {
+		OBJ_59 /* Build configuration list for PBXNativeTarget "GenerateAst" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				OBJ_58 /* Debug */,
-				OBJ_59 /* Release */,
+				OBJ_60 /* Debug */,
+				OBJ_61 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
 		};
-		OBJ_73 /* Build configuration list for PBXNativeTarget "GenerateAst" */ = {
+		OBJ_67 /* Build configuration list for PBXNativeTarget "slox" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				OBJ_74 /* Debug */,
-				OBJ_75 /* Release */,
+				OBJ_68 /* Debug */,
+				OBJ_69 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		OBJ_79 /* Build configuration list for PBXNativeTarget "LoxCore" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				OBJ_80 /* Debug */,
+				OBJ_81 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;

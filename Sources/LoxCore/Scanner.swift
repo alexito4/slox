@@ -9,23 +9,21 @@
 import Foundation
 
 final class Scanner {
-
     private let source: String
     private var tokens = [Token]()
 
-    private var start: String.CharacterView.Index
-    private var current: String.CharacterView.Index
+    private var start: String.Index
+    private var current: String.Index
     private var line = 1
 
     init(source: String) {
         self.source = source
 
-        start = source.characters.startIndex
+        start = source.startIndex
         current = start
     }
 
     func scanTokens() -> [Token] {
-
         while isAtEnd() == false {
             // We are at the beginning of the next lexeme.
             start = current
@@ -142,7 +140,7 @@ final class Scanner {
         }
 
         // See if the identifier is a reserver word
-        let text = source.substring(with: start ..< current)
+        let text = String(source[start ..< current])
 
         let type = Scanner.keywords[text] ?? .identifier
         addToken(type: type)
@@ -163,7 +161,7 @@ final class Scanner {
             _ = advance()
         }
 
-        let numberString = source.substring(with: start ..< current)
+        let numberString = String(source[start ..< current])
         // FIXME: Robustness
         let number = Double(numberString)!
         addToken(type: .number, literal: number)
@@ -187,23 +185,23 @@ final class Scanner {
         _ = advance()
 
         // Trim the surrounding quotes.
-        let afterStart = source.characters.index(after: start)
-        let beforeCurrent = source.characters.index(before: current)
-        let value = source.substring(with: afterStart ..< beforeCurrent)
+        let afterStart = source.index(after: start)
+        let beforeCurrent = source.index(before: current)
+        let value = String(source[afterStart ..< beforeCurrent])
         addToken(type: .string, literal: value)
     }
 
     private func match(_ expected: Character) -> Bool {
         guard isAtEnd() == false else { return false }
-        guard source.characters[current] == expected else { return false }
+        guard source[current] == expected else { return false }
 
         current = source.index(after: current)
         return true
     }
 
     private func peek() -> Character {
-        guard current != source.characters.endIndex else { return "\0" }
-        return source.characters[current]
+        guard current != source.endIndex else { return "\0" }
+        return source[current]
     }
 
     private func peekNext() -> Character {
@@ -212,7 +210,7 @@ final class Scanner {
         let next = source.index(after: current)
         guard next != source.endIndex else { return "\0" }
 
-        return source.characters[next]
+        return source[next]
     }
 
     private func isDigit(_ c: Character) -> Bool {
@@ -237,19 +235,18 @@ final class Scanner {
     private func advance() -> Character {
         let prev = current
         current = source.index(after: current)
-        let char = source.characters[prev]
+        let char = source[prev]
         return char
     }
 
     private func addToken(type: TokenType, literal: Any? = nil) {
-        let text = source.substring(with: start ..< current)
+        let text = String(source[start ..< current])
         let token = Token(type: type, lexeme: text, literal: literal, line: line)
         tokens.append(token)
     }
 }
 
 extension Scanner {
-
     static let keywords: Dictionary<String, TokenType> = [
         "and": .and,
         "class": .Class,

@@ -9,7 +9,6 @@
 import Foundation
 
 final class Parser {
-
     enum Error: Swift.Error {
         case parseFailure
     }
@@ -24,7 +23,6 @@ final class Parser {
     }
 
     func parse() -> Array<Stmt> {
-
         var statements = Array<Stmt>()
 
         while !isAtEnd() {
@@ -424,8 +422,8 @@ final class Parser {
 }
 
 // MARK: Parsing infrastructure
-extension Parser {
 
+extension Parser {
     // Can't pass variadics around so this overload with array is needed :(
     func match(_ types: [TokenType]) -> Bool {
         for type in types {
@@ -486,7 +484,6 @@ extension Parser {
 }
 
 extension Parser {
-
     func synchronize() {
         _ = advance()
 

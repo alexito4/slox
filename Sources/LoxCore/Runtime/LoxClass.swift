@@ -12,7 +12,6 @@ import Foundation
 // on the class.
 
 final class LoxClass: LoxCallable {
-
     let name: String
     private let methods: Dictionary<String, LoxFunction>
 

@@ -9,7 +9,6 @@
 import Foundation
 
 class Printer {
-
     private var output = ""
     private var indent = 0
 

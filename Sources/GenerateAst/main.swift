@@ -89,7 +89,6 @@ func defineVisitor(baseName: String, types: [String]) {
 }
 
 func defineAst(outputDir: String, baseName: String, types: [String]) throws {
-
     p.emptyline()
 
     // The Visitor protocol.

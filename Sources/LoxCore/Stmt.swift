@@ -1,6 +1,5 @@
 
 protocol StmtVisitor {
-
     associatedtype StmtVisitorReturn
 
     func visitBlockStmt(_ stmt: Stmt.Block) -> StmtVisitorReturn
@@ -16,7 +15,6 @@ protocol StmtVisitor {
 }
 
 class Stmt {
-
     func accept<V: StmtVisitor, R>(visitor: V) -> R where R == V.StmtVisitorReturn {
         fatalError()
     }
@@ -48,7 +46,6 @@ class Stmt {
     }
 
     class Break: Stmt {
-
         override func accept<V: StmtVisitor, R>(visitor: V) -> R where R == V.StmtVisitorReturn {
             return visitor.visitBreakStmt(self)
         }

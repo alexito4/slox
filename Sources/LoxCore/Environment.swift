@@ -18,7 +18,6 @@ import Result
 let NilAny: Any = Optional<Any>.none as Any
 
 final class Environment: CustomDebugStringConvertible {
-
     var enclosing: Environment?
 
     // Any is optional because uninitialized variables are nil.

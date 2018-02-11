@@ -10,7 +10,6 @@ import Foundation
 
 // Creates an unambiguous, if ugly, string representation of AST nodes.
 class AstPrinter: ExprVisitor, StmtVisitor {
-
     func print(expr: Expr) -> String {
         return expr.accept(visitor: self)
     }
@@ -197,7 +196,6 @@ class AstPrinter: ExprVisitor, StmtVisitor {
 
 // Chapter 5. Extra 3. In Reverse Polish Notation
 class AstRPNPrinter: ExprVisitor {
-
     func print(expr: Expr) -> String {
         return expr.accept(visitor: self)
     }

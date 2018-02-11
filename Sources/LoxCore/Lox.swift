@@ -9,7 +9,6 @@
 import Foundation
 
 public final class Lox {
-
     public final class Logger {
         public var output: (String) -> Void
         public var error: (String) -> Void

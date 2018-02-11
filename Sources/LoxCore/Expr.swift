@@ -1,6 +1,5 @@
 
 protocol ExprVisitor {
-
     associatedtype ExprVisitorReturn
 
     func visitAssignExpr(_ expr: Expr.Assign) -> ExprVisitorReturn
@@ -17,7 +16,6 @@ protocol ExprVisitor {
 }
 
 class Expr {
-
     func accept<V: ExprVisitor, R>(visitor: V) -> R where R == V.ExprVisitorReturn {
         fatalError()
     }

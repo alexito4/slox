@@ -1,3 +1,15 @@
+/////// Inheritance
+
+class Doughnut {
+  // General doughnut stuff...
+}
+
+class BostonCream < Doughnut {
+  // Boston Cream-specific stuff...
+}
+
+///////
+
 // class Foo {
 //   init() {
 //     return "something else";

@@ -23,13 +23,12 @@ extension Expr: Hashable {
         return ObjectIdentifier(self).hashValue
     }
 
-    static func ==(lhs: Expr, rhs: Expr) -> Bool {
+    static func == (lhs: Expr, rhs: Expr) -> Bool {
         return ObjectIdentifier(lhs) == ObjectIdentifier(rhs)
     }
 }
 
 final class Interpreter: ExprVisitor, StmtVisitor {
-
     //    typealias ExprVisitorReturn = Result<Any, InterpreterError>?
     //    typealias StmtVisitorReturn = Result<Void, InterpreterError>
 
@@ -80,7 +79,7 @@ final class Interpreter: ExprVisitor, StmtVisitor {
         if value is Double {
             var text = String(describing: value)
             if text.hasSuffix(".0") {
-                text = text.substring(to: text.index(text.endIndex, offsetBy: -2))
+                text = String(text[..<text.index(text.endIndex, offsetBy: -2)])
             }
             return text
         }
@@ -255,6 +254,9 @@ final class Interpreter: ExprVisitor, StmtVisitor {
 
             // I'm not a fan of automatically casting things to String but the dynamism of the
             // language asks for it.
+            //
+            // Swift 4 introduced String/Substring, make sure the Lexer creates String
+            // when getting a substring. If not this will fail.
             if ls is String || rs is String {
                 let lString = stringify(value: ls)
                 let rString = stringify(value: rs)
@@ -491,7 +493,7 @@ final class Interpreter: ExprVisitor, StmtVisitor {
         }
 
         if let l = ls as? Double, let r = rs as? Double {
-            return .success(l, r)
+            return .success((l, r))
         }
 
         return .failure(InterpreterError.runtime(op, "Operands must be numbers."))
@@ -516,14 +518,13 @@ final class Interpreter: ExprVisitor, StmtVisitor {
     // MARK: StmtVisitor
 
     func visitBlockStmt(_ stmt: Stmt.Block) -> Result<Void, InterpreterError> {
-
         do {
             try executeBlock(stmt.statements, newEnvironment: Environment(enclosing: environment))
         } catch {
             return .failure(error as! InterpreterError) // Compiler doesn't know but it should always be InterpreterError
         }
 
-        return .success()
+        return .success(())
     }
 
     func visitClassStmt(_ stmt: Stmt.Class) -> Result<Void, InterpreterError> {
@@ -539,7 +540,7 @@ final class Interpreter: ExprVisitor, StmtVisitor {
         let klass = LoxClass(name: stmt.name.lexeme, methods: methods)
         do {
             try environment.assign(name: stmt.name, value: klass)
-            return .success()
+            return .success(())
         } catch {
             return .failure(error as! InterpreterError) // Compiler doesn't know but it should always be InterpreterError
         }
@@ -554,13 +555,13 @@ final class Interpreter: ExprVisitor, StmtVisitor {
             return .failure(error)
         }
 
-        return .success()
+        return .success(())
     }
 
     func visitFunctionStmt(_ stmt: Stmt.Function) -> Result<Void, InterpreterError> {
         let function = LoxFunction(name: stmt.name.lexeme, declaration: stmt, closure: environment, isInitializer: false)
         environment.define(name: stmt.name.lexeme, value: function)
-        return .success()
+        return .success(())
     }
 
     func visitIfStmt(_ stmt: Stmt.If) -> Result<Void, InterpreterError> {
@@ -578,19 +579,19 @@ final class Interpreter: ExprVisitor, StmtVisitor {
             }
         }
 
-        return .success()
+        return .success(())
     }
 
     func visitPrintStmt(_ stmt: Stmt.Print) -> Result<Void, InterpreterError> {
         switch evaluate(expr: stmt.expression) {
         case .success(let value)?:
             Lox.logger.print(stringify(value: value))
-            return .success()
+            return .success(())
         case .failure(let error)?:
             return .failure(error)
         case nil:
             Lox.logger.print(stringify(value: nil))
-            return .success()
+            return .success(())
         }
     }
 
@@ -629,7 +630,7 @@ final class Interpreter: ExprVisitor, StmtVisitor {
 
         environment.define(name: stmt.name.lexeme, value: value)
 
-        return .success()
+        return .success(())
     }
 
     func visitWhileStmt(_ stmt: Stmt.While) -> Result<Void, InterpreterError> {
@@ -642,6 +643,6 @@ final class Interpreter: ExprVisitor, StmtVisitor {
                 return .failure(error as! InterpreterError) // Compiler doesn't know but it should always be InterpreterError
             }
         }
-        return .success()
+        return .success(())
     }
 }
