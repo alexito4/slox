@@ -47,6 +47,10 @@ final class LoxClass: LoxCallable {
             return method.bind(instance)
         }
 
+        if let superclass = superclass {
+            return superclass.findMethod(instance: instance, name: name)
+        }
+
         return nil
     }
 }
