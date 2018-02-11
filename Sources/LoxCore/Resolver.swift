@@ -120,6 +120,10 @@ final class Resolver: ExprVisitor, StmtVisitor {
         defer { currentClass = enclosingClass }
         currentClass = .Class
 
+        if let superclass = stmt.superclass {
+            resolve(superclass)
+        }
+
         beginScope()
         scopes[scopes.count - 1]["this"] = true
 

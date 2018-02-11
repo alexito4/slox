@@ -33,10 +33,12 @@ class Stmt {
 
     class Class: Stmt {
         let name: Token
+        let superclass: Expr?
         let methods: Array<Stmt.Function>
 
-        init(name: Token, methods: Array<Stmt.Function>) {
+        init(name: Token, superclass: Expr?, methods: Array<Stmt.Function>) {
             self.name = name
+            self.superclass = superclass
             self.methods = methods
         }
 

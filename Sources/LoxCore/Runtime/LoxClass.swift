@@ -13,11 +13,13 @@ import Foundation
 
 final class LoxClass: LoxCallable {
     let name: String
+    let superclass: LoxClass?
     private let methods: Dictionary<String, LoxFunction>
 
-    init(name: String, methods: Dictionary<String, LoxFunction>) {
+    init(name: String, superclass: LoxClass?, methods: Dictionary<String, LoxFunction>) {
         self.name = name
         self.methods = methods
+        self.superclass = superclass
     }
 
     // LoxCallable

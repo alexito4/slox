@@ -530,6 +530,24 @@ final class Interpreter: ExprVisitor, StmtVisitor {
     func visitClassStmt(_ stmt: Stmt.Class) -> Result<Void, InterpreterError> {
         environment.define(name: stmt.name.lexeme, value: NilAny)
 
+        let superclass: LoxClass?
+        if let sp = stmt.superclass {
+            let superclassResult = evaluate(expr: sp)
+
+            if let resultError = superclassResult?.error {
+                // If superclassResult already has an error, propagate this one instead of creating a new one in the next lines.
+                return .failure(resultError)
+            }
+
+            guard let object = superclassResult?.value, let klass = object as? LoxClass else {
+                return .failure(InterpreterError.runtime(stmt.name, "Superclass must be a class."))
+            }
+
+            superclass = klass
+        } else {
+            superclass = nil
+        }
+
         var methods = Dictionary<String, LoxFunction>()
         for method in stmt.methods {
             let isInitializer = method.name.lexeme == "init"
@@ -537,7 +555,7 @@ final class Interpreter: ExprVisitor, StmtVisitor {
             methods[method.name.lexeme] = function
         }
 
-        let klass = LoxClass(name: stmt.name.lexeme, methods: methods)
+        let klass = LoxClass(name: stmt.name.lexeme, superclass: superclass, methods: methods)
         do {
             try environment.assign(name: stmt.name, value: klass)
             return .success(())
