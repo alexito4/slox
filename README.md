@@ -1,6 +1,8 @@
 # slox
 Swift implementation of a **Lox** interpreter
 
+> 11/02/2018: Implementation of the interpreter has been completed. 🎉
+
 This project contains a Swift implementation of the **Lox** language following the book [Crafting Interpreters](http://www.craftinginterpreters.com) written by [Bob Nystrom](https://twitter.com/munificentbob). [Crafting Interpreters in GitHub](https://github.com/munificent/craftinginterpreters)
 
 Programming languages and compilers are one of my biggest interests, following the Swift evolution list and watching Jonathan Blow develop his new language are two of my hobbies. I've played with parsers in the past, and tried to mess around with the missing metaprogramming features in Swift but I've never tried to implement a complete language. Although I understand the theory behind it I was missing the motivation to get my hands dirty, motivation that Bob's book seems to have given me!
@@ -11,7 +13,7 @@ One thing to note is that I'm trying to write a mix between idiomatic Swift (wha
 
 # Implementation
 
-*as of 04/11/2017*
+*as of 11/02/2018*
 
 ## A TREE-WALK INTERPRETER
 
@@ -63,7 +65,7 @@ One thing to note is that I'm trying to write a mix between idiomatic Swift (wha
   - [ ] Challenge 2: Support getter methods.
   - Challenge 3: Nothing to implement.
 
-- [ ] 13. [**Inheritance**](http://www.craftinginterpreters.com/inheritance.html)
+- [x] 13. [**Inheritance**](http://www.craftinginterpreters.com/inheritance.html)
   - [ ] Challenge 1: Multiple inheritance. *Nothing to implement...?*
   - [ ] Challenge 2: Reverse method lookup order in class hierarchy.
   - Challenge 3: Add your own features!
@@ -72,7 +74,7 @@ One thing to note is that I'm trying to write a mix between idiomatic Swift (wha
 
 I integrated Bob tests in order to be able to make sure this implementation behaves in the same way as the original implementation. You can find the [test](https://github.com/alexito4/slox/tree/master/test) in this project with the `test.py` [script modified](https://github.com/alexito4/slox/blob/master/tools/test.py) to work with this project. You can also find a [diff](https://github.com/alexito4/slox/blob/master/tools/test_patch.diff) with the main modifications.
 
-Example of usage: `sh build.sh; ./tools/test.py chap12_classes`
+Example of usage: `sh build.sh; ./tools/test.py chap13_inheritance`
 
 # Project structure
 
