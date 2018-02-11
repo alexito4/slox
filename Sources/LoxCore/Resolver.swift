@@ -28,6 +28,7 @@ final class Resolver: ExprVisitor, StmtVisitor {
     private enum ClassType {
         case none
         case Class
+        case subclass
     }
 
     private var currentClass: ClassType = .none
@@ -121,7 +122,12 @@ final class Resolver: ExprVisitor, StmtVisitor {
         currentClass = .Class
 
         if let superclass = stmt.superclass {
+            currentClass = .subclass
+            
             resolve(superclass)
+            
+            beginScope()
+            scopes[scopes.count - 1]["super"] = true
         }
 
         beginScope()
@@ -140,6 +146,10 @@ final class Resolver: ExprVisitor, StmtVisitor {
         }
 
         endScope()
+
+        if stmt.superclass != nil {
+            endScope()
+        }
     }
 
     func visitExpressionStmt(_ stmt: Stmt.Expression) {
@@ -229,6 +239,15 @@ final class Resolver: ExprVisitor, StmtVisitor {
     func visitSetExpr(_ expr: Expr.Set) {
         resolve(expr.value)
         resolve(expr.object)
+    }
+
+    func visitSuperExpr(_ expr: Expr.Super) {
+        if currentClass == .none {
+            Lox.error(token: expr.keyword, message: "Cannot use 'super' outside of a class.");
+        } else if currentClass != .subclass {
+            Lox.error(token: expr.keyword, message: "Cannot use 'super' in a class with no superclass.");
+        }
+        resolveLocal(expr, expr.keyword)
     }
 
     func visitThisExpr(_ expr: Expr.This) {

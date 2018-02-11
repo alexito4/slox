@@ -147,6 +147,24 @@ final class Interpreter: ExprVisitor, StmtVisitor {
         //        }
     }
 
+    func visitSuperExpr(_ expr: Expr.Super) -> Result<Any, InterpreterError>? {
+        let distance = locals[expr]!
+        do {
+            let superclass = try environment.valueFor(name: "super", atDistance: distance) as! LoxClass
+
+            // "this" is always one level nearer than "super"'s environment.
+            let object = try environment.valueFor(name: "this", atDistance: distance - 1) as! LoxInstance
+
+            guard let method = superclass.findMethod(instance: object, name: expr.method.lexeme) else {
+                return .failure(InterpreterError.runtime(expr.method, "Undefined property '\(expr.method.lexeme)'."))
+            }
+
+            return .success(method)
+        } catch {
+            return .failure(error as! InterpreterError) // Compiler doesn't know but it should always be InterpreterError
+        }
+    }
+
     func visitThisExpr(_ expr: Expr.This) -> Result<Any, InterpreterError>? {
         do {
             let value = try lookUpVariable(name: expr.keyword, expr: expr)
@@ -544,6 +562,10 @@ final class Interpreter: ExprVisitor, StmtVisitor {
             }
 
             superclass = klass
+
+            environment = Environment(enclosing: environment)
+            environment.define(name: "super", value: superclass!)
+
         } else {
             superclass = nil
         }
@@ -558,6 +580,11 @@ final class Interpreter: ExprVisitor, StmtVisitor {
         let klass = LoxClass(name: stmt.name.lexeme, superclass: superclass, methods: methods)
         do {
             try environment.assign(name: stmt.name, value: klass)
+
+            if superclass != nil {
+                environment = environment.enclosing!
+            }
+
             return .success(())
         } catch {
             return .failure(error as! InterpreterError) // Compiler doesn't know but it should always be InterpreterError
@@ -634,13 +661,14 @@ final class Interpreter: ExprVisitor, StmtVisitor {
     func visitVarStmt(_ stmt: Stmt.Var) -> Result<Void, InterpreterError> {
         let value: Any
         if let initializer = stmt.initializer {
-            switch evaluate(expr: initializer) {
+            let r = evaluate(expr: initializer)
+            switch r {
             case .success(let res)?:
                 value = res
             case .failure(let error)?:
                 return .failure(error)
-            default:
-                fatalError()
+            case .none:
+                value = NilAny
             }
         } else {
             value = NilAny

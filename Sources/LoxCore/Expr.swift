@@ -10,6 +10,7 @@ protocol ExprVisitor {
     func visitLiteralExpr(_ expr: Expr.Literal) -> ExprVisitorReturn
     func visitLogicalExpr(_ expr: Expr.Logical) -> ExprVisitorReturn
     func visitSetExpr(_ expr: Expr.Set) -> ExprVisitorReturn
+    func visitSuperExpr(_ expr: Expr.Super) -> ExprVisitorReturn
     func visitThisExpr(_ expr: Expr.This) -> ExprVisitorReturn
     func visitUnaryExpr(_ expr: Expr.Unary) -> ExprVisitorReturn
     func visitVariableExpr(_ expr: Expr.Variable) -> ExprVisitorReturn
@@ -133,6 +134,20 @@ class Expr {
 
         override func accept<V: ExprVisitor, R>(visitor: V) -> R where R == V.ExprVisitorReturn {
             return visitor.visitSetExpr(self)
+        }
+    }
+
+    class Super: Expr {
+        let keyword: Token
+        let method: Token
+
+        init(keyword: Token, method: Token) {
+            self.keyword = keyword
+            self.method = method
+        }
+
+        override func accept<V: ExprVisitor, R>(visitor: V) -> R where R == V.ExprVisitorReturn {
+            return visitor.visitSuperExpr(self)
         }
     }
 

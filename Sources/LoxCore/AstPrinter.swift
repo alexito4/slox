@@ -55,6 +55,10 @@ class AstPrinter: ExprVisitor, StmtVisitor {
         return parenthesize(name: "=", parts: expr.object, expr.name.lexeme, expr.value)
     }
 
+    func visitSuperExpr(_ expr: Expr.Super) -> String {
+        return parenthesize(name: "super", parts: expr.method)
+    }
+
     func visitThisExpr(_ expr: Expr.This) -> String {
         return "this"
     }
@@ -229,6 +233,10 @@ class AstRPNPrinter: ExprVisitor {
     }
 
     func visitSetExpr(_ expr: Expr.Set) -> String {
+        fatalError("unimplemented")
+    }
+
+    func visitSuperExpr(_ expr: Expr.Super) -> String {
         fatalError("unimplemented")
     }
 

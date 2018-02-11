@@ -2,7 +2,7 @@
 fetch: 
 	swift package --enable-prefetching update
 
-build: fetch	
+build:	
 	swift build -Xswiftc -target -Xswiftc x86_64-apple-macosx10.11
 
 astgen: build
@@ -12,7 +12,7 @@ format:
 	sh format.sh
 
 test: build
-	./tools/test.py chap12_classes
+	./tools/test.py chap13_inheritance
 
 clean:
 	rm -rf .build

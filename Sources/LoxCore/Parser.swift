@@ -397,6 +397,13 @@ final class Parser {
             return Expr.Literal(value: previous().literal)
         }
 
+        if match(.Super) {
+            let keyword = previous()
+            try consume(.dot, message: "Expect '.' after 'super'.")
+            let method = try consume(.identifier, message: "Expect superclass method name.")
+            return Expr.Super(keyword: keyword, method: method)
+        }
+
         if match(.this) {
             return Expr.This(keyword: previous())
         }

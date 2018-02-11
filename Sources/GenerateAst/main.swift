@@ -137,6 +137,7 @@ try defineAst(outputDir: outputDir, baseName: "Expr", types: [
     "Literal  / value: Any?",
     "Logical  / left: Expr, op: Token, right: Expr",
     "Set      / object: Expr, name: Token, value: Expr",
+    "Super    / keyword: Token, method: Token",
     "This     / keyword: Token",
     "Unary    / op: Token, right: Expr",
     "Variable / name: Token",
