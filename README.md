@@ -63,13 +63,16 @@ One thing to note is that I'm trying to write a mix between idiomatic Swift (wha
   - [ ] Challenge 2: Support getter methods.
   - Challenge 3: Nothing to implement.
 
-- [ ] 13. [**Inheritance**](http://www.craftinginterpreters.com/inheritance.html) (COMING SOON)
+- [ ] 13. [**Inheritance**](http://www.craftinginterpreters.com/inheritance.html)
+  - [ ] Challenge 1: Multiple inheritance. *Nothing to implement...?*
+  - [ ] Challenge 2: Reverse method lookup order in class hierarchy.
+  - Challenge 3: Add your own features!
 
 # Tests
 
 I integrated Bob tests in order to be able to make sure this implementation behaves in the same way as the original implementation. You can find the [test](https://github.com/alexito4/slox/tree/master/test) in this project with the `test.py` [script modified](https://github.com/alexito4/slox/blob/master/tools/test.py) to work with this project. You can also find a [diff](https://github.com/alexito4/slox/blob/master/tools/test_patch.diff) with the main modifications.
 
-Example of usage: `sh build.sh; ./tools/test.py chap08_statements`
+Example of usage: `sh build.sh; ./tools/test.py chap12_classes`
 
 # Project structure
 
